@@ -1,0 +1,14 @@
+{% extends "../base.html" %}
+
+
+{% block "head" append %}
+<link rel="canonical" href="{% url 'showpost' base .site.url with blog=post.blog.slug, slug=post.slug %}" />
+{% end-block %}
+
+{% block "body" %}
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1" >
+        {% render sections.content %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,10 @@
+
+<ul>
+{% for draft in drafts %}
+    <li>
+        <a href="{% url 'editpost' with blog=draft.post.blog.slug, slug=draft.post.slug %}">${draft.post.title}</a>
+    </li>
+{% endfor %}
+</ul>
+
+

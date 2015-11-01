@@ -1,0 +1,23 @@
+"path","md5","auth md5"
+"/__init__.py",e54925e1ed3818adfd6c00bffa62f89d,07f2dead3bac69c65db162b2f4aba71c
+"/lib.ini",de2e198ea4fbbeba97f235baf88d692e,d7b3b2131cd6341f37d4990844942f2b
+"/templates/moya.widgets.extra/base.html",c1b899c16cba897d3c784615565ada5d,5233bf13d4a3e007fc7d6d8336d45cb0
+"/templates/moya.widgets.extra/widgets/option.html",7f4370b412c47ed7038546989488e56d,1357589cd16d6f967a4d391c99b5d937
+"/templates/moya.widgets.extra/widgets/readme.txt",3dbbc17a918596cb8b229d7d55bb33b9,e155f352f63950a54b4ac0bfa6bd35a8
+"/templates/moya.widgets.extra/widgets/select-drop.html",245dc143bd8bb9155849634e43b2fe6f,322444c0964dcf15d9d97ee030e91870
+"/templates/moya.widgets.extra/widgets/select.html",a25fb00c223060ca45f03f07ecd3fc71,9abdd05e4dddd61f63f96730e239f978
+"/media/readme.txt",ca958e537f29bc260e179537ce151dba,77e93fe2d9cd8aa606d603a8dbe35e93
+"/media/js/widgetsextra.js",ca3e2b7996f52bf96aeed00b02996161,e4c6b4fc898bd81634ba5e2c99849bc5
+"/media/css/widgetsextra.css",710c57b90ac9c6384ddc73f87656c7cd,e33b8d4057d06842f1e1bd5ce609d04e
+"/logic/content.xml",bd37bd718ddc4f838205b547cbf9bc99,d1bd5ea77d462248f73a1ed8dbf9123f
+"/logic/forms.xml",291092bfcc128aae063f1ea974c21cc5,45707742181ca26591caec1b3b2b3ad5
+"/logic/models.xml",790e476f895f35ac44578bc4d726ab46,72f47ec38da5ef07af86805c412c9723
+"/logic/mountpoints.xml",3691a4def0b78c0676a390e30c6443ad,32d62ff8c338f32b0b13eecc979d4fb4
+"/logic/readme.txt",c9b6ae3a72d38bce525f828d88a29f78,6c8d877e335ec732a80091f9f7990aa9
+"/logic/signals.xml",b4bd529963cd7022f1c19af0060f1632,cb5ef45fdca0ef9471b8e950f07d298c
+"/logic/tags.xml",0e11b0ce2f7190bb982d19ab3e16f2f1,3debb8c9dc093d7013cce880abb812d6
+"/logic/views.xml",0c83e921235f59881913a520dce80714,52632a4329d0f54e4151acbd83fcfc7f
+"/logic/widgets.xml",7137963b1b9d0ffc818cbf2c7bfae7fd,8f96096111a84890621f0f8ea8309147
+"/locale/readme.txt",06c4fce01453459edb43d2857ebcc873,c44a09c4f28517782589988dd758c62e
+"/docs/index.txt",d095cc258282eaf936b3553d7cc76323,c964693a0969994b1a6120af46df6235
+"/docs/introduction.txt",6e757242abcd892c46a7cd0e5a664b31,c9fd815572b2543c78022bbe4fc917b4

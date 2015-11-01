@@ -1,0 +1,98 @@
+.moya-widgets-select,.moya-widgets-select-current
+{
+    border:1px solid #ccc;
+    z-index:10;
+    background-color:#fff;
+    /*margin-top:4px;*/
+    border-radius:3px;
+    padding:0px 0px;
+    overflow:auto;
+    max-height:300px;
+    /*display:inline-block;*/
+}
+
+.moya-widgets-option
+{
+    padding:5px 10px;
+}
+
+.moya-widgets-select-container[disabled=disabled]
+{
+    opacity: 0.5;
+    cursor:auto;
+}
+
+.moya-widgets-option:hover
+{
+    background-color:#f4f4f4;
+    cursor:pointer;
+}
+
+.moya-widgets-select-container[disabled=disabled] .moya-widgets-option:hover
+{
+    cursor:auto;
+    background-color:inherit;
+}
+
+.moya-widgets-select .moya-widgets-option.active
+{
+    background-color:#428bca;
+    opacity:.7;
+}
+
+.moya-widgets-select .moya-widgets-option.active *
+{
+    color:#fff !important;
+}
+
+.moya-widgets-select-container.focused .moya-widgets-option.active
+{
+    opacity:1;
+}
+
+.moya-widgets-select-current
+{
+    position:relative;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+}
+
+.moya-widgets-select-current:before
+{
+    content:'\25bc';
+    position:absolute;
+    right:0.6em;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.moya-widgets-select-container
+{
+    position:relative;
+    margin:0px;
+    padding:0px;
+}
+
+.moya-widgets-select-container .moya-widgets-select-current
+{
+}
+
+.moya-widgets-select-container .moya-widgets-select
+{
+    display:none;
+}
+
+.moya-widgets-select-container.focused .moya-widgets-select-current
+{
+    /*display:none;*/
+    visibility: hidden;
+}
+
+.moya-widgets-select-container.focused .moya-widgets-select
+{
+    display:block;
+    position:absolute;
+    z-index:5;
+    top:0px;
+}

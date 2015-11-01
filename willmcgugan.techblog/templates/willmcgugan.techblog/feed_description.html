@@ -1,0 +1,3 @@
+{%- cache for 24h key [post.id, post.updated_date, post.published_date] %}
+{% markup-block as 'moya' set post=post %}{% markup post.content as post.markup %}{% end-markup-block %}
+{%- endcache %}

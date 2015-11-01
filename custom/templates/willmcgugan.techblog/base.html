@@ -1,0 +1,135 @@
+<!doctype HTML>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!--<link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>-->
+        <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <title>{% block "title" %}${title}{% end %}</title>
+
+        <style>
+          .moya-admin-menu
+          {
+            position:fixed;
+            float:left;
+            left:8px;
+            margin-right:16px;
+            z-index:10000;
+            margin-top:10px;
+          }
+          .moya-admin-menu:hover
+          {
+            opacity:1;
+          }
+          .navbar-fixed-top + .container
+          {
+            margin-top:70px;
+          }
+        </style>
+
+        {%- if blog.image %}
+        {% cache for 1d key [blog.updated_date, blog.image.updated_time] %}
+        <style>
+        @media (min-device-height:1200px)
+        {
+            .techblog-post-image
+            {
+                background-image:url(${blog.image.file|'thumbnail'(processor='title.xlg')});
+                background-position: ${blog.image.position or 'center center'} !important;
+            }
+        }
+
+        @media (max-device-height:1200px)
+        {
+            .techblog-post-image
+            {
+                background-image:url(${blog.image.file|'thumbnail'(processor='title.lg')});
+                background-position: ${blog.image.position or 'center center'} !important;
+            }
+        }
+
+        @media (max-device-height:960px)
+        {
+            .techblog-post-image
+            {
+                background-image:url(${blog.image.file|'thumbnail'(processor='title.md')});
+                background-position: ${blog.image.position or 'center center'} !important;
+            }
+        }
+
+        @media (max-device-height:600px)
+        {
+            .techblog-post-image
+            {
+                background-image:url(${blog.image.file|'thumbnail'(processor='title.sm')});
+                background-position: ${blog.image.position or 'center center'} !important;
+            }
+        }
+        </style>
+        {% end-cache %}
+        {%- endif %}
+
+        <script src="{% media 'js/jquery.js' from 'moya.twitter.bootstrap' %}"></script>
+
+{% block "includecss" %}{% render include.css %}{% end %}
+{% block "css" %}{% render sections.css %}{% end %}
+{% block "jshead" %}{% render sections.jshead %}{% end %}
+{% block "head" %}{% render sections.head %}{% end %}
+    </head>
+
+    <body>{% include "fb.html" %}
+        <input type="hidden" name="techblog_rpc" value="{% url 'rpc' from 'willmcgugan.techblog' %}" />
+        {% include "/navbar.html" %}
+
+        <div id="techblog-expanded-image" class="frame-container">
+            <div class="image-wait">
+                <div class="loader"></div>
+            </div>
+            <div class="frame">
+            </div>
+            <div class="image-details"></div>
+            <div class="image-author"></div>
+        </div>
+
+        {% emptyblock "titles" %}
+
+        <div class="techblog-main">
+            <div class="container clearfix">
+            <div class="alert alert-info" style="position:fixed;top:60px;z-index:5000;">
+                {% markup-block as 'markdown' %}
+**This is an example of site customization**
+
+Files in **/custom** in will be used in preference to the files in **/site**.
+
+You can use this to cusomize templates, media, and even code.
+                {% end-markup-block %}
+            </div>
+
+                {% block "body" %}
+                <div class="row margin-top clearfix">
+                    {% if sections.body %}
+                    <div class="col-lg-12">
+                        {% render sections.body %}
+                    </div>
+                    {%- else %}
+                    <div class="col-md-9">
+                        {% render sections.header %}
+                        {% render sections.content %}
+                    </div>
+                    <div class="col-md-3">
+                        {% render sections.side %}
+                    </div>
+                    {% endif %}
+                </div>
+                {% endblock %}
+
+            </div>
+            {% include "/footer.html" %}
+        </div>
+
+{% block "includejs" %}{% render include.js %}{% endblock %}
+{% block "js" %}{% render sections.js unique %}{% endblock %}
+{% block "jsfoot" %}{% render sections.jsfoot unique%}{% endblock %}
+
+    </body>
+</body>

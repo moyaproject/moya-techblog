@@ -1,0 +1,21 @@
+<moya xmlns="http://moyaproject.com"
+    xmlns:db="http://moyaproject.com/db"
+    xmlns:imglib="http://moyaproject.com/imagelib"
+    xmlns:let="http://moyaproject.com/let">
+
+    <tag name="clone-collection" synopsis="clone a image collection">
+        <doc>Clone an existing collection with new image objects referencing the original files</doc>
+        <signature>
+            <attribute name="collection" type="expression" required="yes"/>
+        </signature>
+        <db:atomic>
+            <db:create model="#Collection" dst="new_collection"
+                let:owner="collection.owner"/>
+            <for src="collection.images" dst="image">
+                <db:create model="#Image" obj="image" let:collection="new_collection"/>
+            </for>
+        </db:atomic>
+        <return value="new_collection" />
+    </tag>
+
+</moya>

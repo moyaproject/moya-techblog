@@ -1,0 +1,13 @@
+{%- if posts %}
+<div class="list-group margin-top-20">
+{%- for post in posts %}
+    <a href="{% url 'showpost' with slug=post.slug, blog=post.blog.slug %}" class="list-group-item">
+        {% if post.published_date %}<em>${localize:(.now - post.published_date)} ago</em>{% endif %}
+        {% if .user and post.published and (.user.previous_login is None or .user.previous_login lt post.published_date) %}
+        <span class="label label-info pull-right">new!</span>
+        {% endif %}
+        <h4 class="list-group-item-heading">${post.title}</h4>
+    </a>
+{%- endfor %}
+</div>
+{%- endif %}

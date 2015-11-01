@@ -1,0 +1,151 @@
+<moya xmlns="http://moyaproject.com"
+    xmlns:let="http://moyaproject.com/let"
+    xmlns:db="http://moyaproject.com/db"
+    xmlns:soup="http://moyaproject.com/soup">
+
+    <tag name="get-recent">
+        <signature>
+            <attribute name="count" default="10" type="integer"/>
+        </signature>
+        <db:query model="#Post" dst="posts" orderby="-published_date" let:published="yes" maxresults="count"/>
+        <return value="posts" />
+    </tag>
+
+    <tag name="get-tags">
+        <signature>
+            <attribute name="post" required="yes"/>
+        </signature>
+        <map src="commasplit:post.tags" value="slug:$$" dst="tagslugs"/>
+        <db:query model="#Tag" filter="#Tag.slug in tagslugs" orderby="name" dst="tags"/>
+        <return value="tags"/>
+    </tag>
+
+    <tag name="update-tags">
+        <signature>
+            <attribute name="post" required="yes"/>
+            <attribute name="tags" required="no" default="None"/>
+        </signature>
+        <if test="not tags">
+            <for src="post.tags" dst="tag">
+                <dec dst="tag.count"/>
+            </for>
+            <db:query model="#Tag" filter="#Tag.count lte 0" action="delete" />
+        </if>
+        <else>
+            <map src="commasplit:tags" value="[$$,slug:$$]" dst="tagslugs"/>
+            <db:atomic>
+                <for src="post.tags" dst="tag">
+                    <dec dst="tag.count"/>
+                </for>
+                <for src="tagslugs" dst="name,slug">
+                    <db:get-or-create model="#Tag" dst="tag"
+                        let:slug="slug"
+                        initial="{'name': name}"/>
+                    <append src="tag.posts" value="post" />
+                    <inc dst="tag.count" />
+                </for>
+                <db:query model="#Tag" filter="#Tag.count lte 0" action="delete" />
+            </db:atomic>
+        </else>
+    </tag>
+
+    <tag name="get-related-posts">
+        <doc>
+            Get's the IDs of related posts
+        </doc>
+        <signature>
+            <attribute name="post" required="yes"/>
+            <attribute name="blog" default="None"/>
+            <attribute name="blogs" default="None"/>
+            <attribute name="count" default="5" />
+        </signature>
+
+        <cache-return keydata="[3,post.id, post.slug, post.updated_time, count]" for="1d">
+            <let this_post="post" />
+
+            <db:query model="#Post" dst="posts"
+                filter="#Post.blog == post.blog and #Post.published == yes" />
+
+            <db:query src="posts" filter="#Post.blog in blogs" if="blogs"/>
+            <db:query src="posts" filter="#Post.blog == blog" if="blog"/>
+
+            <list dst="matches"/>
+            <map src="commasplit:post.tagtext" value="slug:$$" dst="posttags"/>
+            <let posttags="set:posttags"/>
+
+            <for src="posts" dst="post" filter="this_post is not post">
+                <map src="commasplit:post.tagtext" value="slug:$$" dst="tags"/>
+                <append src="matches" value="[len:(posttags bitand set:tags), post.published_date, post]"/>
+            </for>
+            <list dst="results"/>
+            <for src="reversesorted:matches" dst="_count,time,post" filter="count gt 0">
+                <append src="results" value="post.id"/>
+                <break if="len:results gte count" />
+            </for>
+            <return value="results" />
+        </cache-return>
+    </tag>
+
+    <filter name="summary" value="html">
+        <doc>
+            Makes a summary from an html fragment.
+
+            This filter extracts paragraphs from HTML up to (but not over) a given number of characters.
+
+            It also removes img tags
+        </doc>
+        <signature>
+            <argument name="post" required="yes"/>
+            <argument name="chars" default="400" required="yes"/>
+        </signature>
+        <soup:extract-list src="html" select="p" dst="paragraphs"/>
+
+        <!-- <echo>${1/0}</echo> -->
+        <return-str if="not paragraphs"/>
+        <pop src="paragraphs" dst="p" key="0"/>
+        <let length="len:strip:striptags:p" summary_paragraphs="[p]"/>
+        <while test="paragraphs">
+            <pop src="paragraphs" dst="p" key="0"/>
+            <let text="strip:striptags:p"/>
+            <let length="length + len:text"/>
+            <break if="length gt chars and text" />
+            <append src="summary_paragraphs" value="p"/>
+        </while>
+
+        <let summary="join:summary_paragraphs"/>
+        <if test="paragraphs">
+            <render-template template="read_more.html" let:post="post" dst="read_more" />
+            <soup:strain src="summary" select="p:last-child" append="read_more" dst="summary"/>
+        </if>
+        <soup:strain src="summary" select="img" remove="yes" dst="summary"/>
+        <return value="html:summary"/>
+    </filter>
+
+    <filter name="leadp" value="html">
+        <soup:strain src="html" select="p" max="1" let:class="'lead'" dst="leadp"/>
+        <return value="html:leadp"/>
+    </filter>
+
+    <filter name="imgsrc" value="html">
+        <soup:extract-attrs src="html" select="img" max="5" dst="attrs"/>
+        <for src="attrs" dst="tag">
+            <return value="tag.src" if="not tag.width or int:tag.width gt 1" />
+        </for>
+    </filter>
+
+    <filter name="imgblur" value="html">
+        <soup:extract-attrs src="html" select="img" max="1" dst="attrs"/>
+        <return value="attrs.0['data-blur']" />
+    </filter>
+
+    <filter name="imgsquare" value="html">
+        <soup:extract-attrs src="html" select="img" max="1" dst="attrs"/>
+        <return value="attrs.0['data-square']" />
+    </filter>
+
+    <filter name="imgdata" value="html">
+        <soup:extract-data src="html" select="img" dst="data"/>
+        <return value="data.0 or {}"/>
+    </filter>
+
+</moya>

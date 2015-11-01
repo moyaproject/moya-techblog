@@ -1,0 +1,25 @@
+<moya xmlns="http://moyaproject.com"
+      xmlns:let="http://moyaproject.com/let"
+      xmlns:db="http://moyaproject.com/db">
+
+    <markup-insert libname="insert.image">
+        <let slug="image"/>
+        <db:get model="moya.imagelib#Image" dst="image"
+            let:slug="slug" let:collection="post.images" />
+        <return>
+            <render-template template="inserts/post_image.html" let:slug="slug" let:image="image"/>
+        </return>
+    </markup-insert>
+
+    <markup-insert libname="insert.comment.time">
+        <!-- Generate a human readable time delta, or 'just now' for deltas less than 15 seconds -->
+        <let age=".now.utc - epoch:timestamp"/>
+        <return if="age.seconds lt 35">
+            <wrap-tag tag="span">just now</wrap-tag>
+        </return>
+        <return>
+            <wrap-tag tag="span">${localize:age} ago</wrap-tag>
+        </return>
+    </markup-insert>
+
+</moya>

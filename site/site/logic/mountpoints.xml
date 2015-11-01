@@ -1,0 +1,21 @@
+<moya xmlns="http://moyaproject.com"
+      xmlns:let="http://moyaproject.com/let"
+      xmlns:db="http://moyaproject.com/db">
+
+    <mountpoint name="main">
+        <!-- Use a blog called 'pages' as a CMS -->
+        <url route="/{slug:page}/">
+            <db:get model="willmcgugan.techblog#Post" let:slug=".url.page" dst="post"
+                 filter="willmcgugan.techblog#Post.blog.slug=='pages'" />
+            <rewrite name="showpost" from="willmcgugan.techblog"
+                let:blog="'pages'" let:slug=".url.page"
+                if="post"/>
+        </url>
+        <!-- Replicate a URL structure from old Techblog -->
+        <url route="/blog/rootblog/feeds/posts/">
+            <rewrite name="channel_feed" from="willmcgugan.techblog"
+                let:channel="root"/>
+        </url>
+    </mountpoint>
+
+</moya>

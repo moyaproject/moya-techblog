@@ -1,0 +1,38 @@
+{% with token=token:8 %}
+<div class="moya-comment-form-editor" data-markup="${commentobject.markup}">
+
+    <ul class="nav nav-tabs" role="tablist">
+      <li role="presentation" class="active"><a href="#comment_edit${token}" aria-controls="comment" role="tab" data-toggle="tab">{% if reply %}Reply{% else %}Comment{% end %}</a></li>
+      <li role="presentation"><a href="#comment_preview${token}" aria-controls="profile" role="tab" data-toggle="tab">Preview</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active fade in" id="comment_edit${token}">
+
+            <textarea class="form-control input-block-level" name="text" rows="8"></textarea>
+
+            <small class="text-muted">
+                Use <a class="btn-link" role="button" data-toggle="collapse" data-target="#markuphelp${token}" target="_blank" expanded="false" title="formatting help">Markdown</a> for formatting
+            </small>
+
+                <pre class="collapse" id="markuphelp${token}">*Italic* **Bold** `inline code`
+
+Links to [Google](http://www.google.com)
+
+> This is a quote
+>
+
+```python
+import this
+```
+</pre>
+
+
+        </div>
+        <div role="tabpanel" class="tab-pane preview-comment fade" id="comment_preview${token}">
+            <em>your comment will be previewed here</em>
+        </div>
+    </div>
+
+</div>
+{% endwith %}

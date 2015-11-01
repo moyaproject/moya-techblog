@@ -1,0 +1,13 @@
+<moya xmlns="http://moyaproject.com"
+    xmlns:let="http://moyaproject.com/let">
+
+    <!-- Libraries will typically define a mountpoint to add URLs -->
+    <mountpoint name="main">
+        <!-- A simple default view to start you off -->
+        <url route="/with/{provider}/" methods="GET" view="#view.login" name="login" />
+        <url route="/callback/{provider}/" methods="GET" view="#view.callback" name="callback" />
+        <url route="/pick-username/{provider}/" methods="GET,POST" view="#view.pick_username" name="pick_username" />
+
+    </mountpoint>
+
+</moya>

@@ -1,0 +1,40 @@
+<moya xmlns="http://moyaproject.com"
+    xmlns:moya="http://moyaproject.com"
+    xmlns:let="http://moyaproject.com/let"
+    xmlns:admin="http://moyaproject.com/admin"
+    xmlns:html="http://moyaproject.com/html">
+
+
+    <module xmlns="http://moyaproject.com/admin"
+        content="#content.admin"
+        slug="moya-logins" title="External Logins" description="Manage External Logins">
+
+        <link to="#admintable.oauth2credentials" />
+        <link slug="credentials" title="Edit Credentials" view="#view.admin.custom.credentials"/>
+        <link to="#admintable.connectedaccount"/>
+        <!-- <admin:table title="Pages" description="Users of the site"/> -->
+        <!--
+        <link to="#admintable.topics"/>
+        <link to="#admintable.links" />
+    -->
+
+    </module>
+
+
+    <table xmlns="http://moyaproject.com/admin"
+        model="#OAuth2Credentials"
+        libname="admintable.oauth2credentials" title="OAuth2 Credentials" slug="oauth2-credentials">
+        <column title="Provider" link="yes" sort="provider">${object.provider}</column>
+
+    </table>
+
+    <table xmlns="http://moyaproject.com/admin"
+        model="#ConnectedAccount"
+        libname="admintable.connectedaccount" title="Connected Accounts" slug="connected-accounts">
+        <column title="Account" link="yes" sort="#ConnectedAccount.user.username,#ConnectedAccount.provider">${object.user.username}/${object.provider}</column>
+        <column title="User" sort="#ConnectedAccount.user.username">${object.user.username}</column>
+        <column title="Provider" sort="provider">${object.provider}</column>
+    </table>
+
+
+</moya>

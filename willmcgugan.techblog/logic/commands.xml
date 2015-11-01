@@ -1,0 +1,184 @@
+<moya xmlns="http://moyaproject.com"
+      xmlns:db="http://moyaproject.com/db"
+      xmlns:let="http://moyaproject.com/let">
+
+    <command libname="cmd.import.techblog" synopsis="import from django techblog">
+        <doc>
+            Import a blog exported from Django Techblog
+        </doc>
+        <signature>
+            <arg name="file" metavar="PATH" type="file"
+                help="a JSON file exported from django techblog" />
+            <option name="username" metavar="USERNAME"
+                help="user to own posts" default="superuser"/>
+            <option name="exclude" metavar="SLUG1,SLUG2"
+                help="blogs to exclude from import"/>
+        </signature>
+
+        <echo style="bold">This will delete existing Posts / Comments</echo>
+        <ask dst="continue">Continue?</ask>
+        <exit if="not continue"/>
+
+        <let exclude="set:commasplit:args.exclude"/>
+
+        <let import="parsejson:args.file.text"/>
+        <db:get model="auth#User" let:username="args.username" dst="user" />
+        <db:query model="comments#Comment" action="delete"/>
+        <db:query model="comments#CommentObject" action="delete"/>
+        <db:commit/>
+
+        <echo>Importing posts...</echo>
+        <db:query model="#Post" action="delete"/>
+        <progress src="import.posts" dst="post_obj"
+            msg="importing posts..."
+            filter="post_obj.published and post_obj.version=='live'">
+
+            <continue if="post_obj.blog in exclude"/>
+            <db:get-or-create model="#Blog" let:slug="post_obj.blog" dst="blog"
+                initial="{'title': title:post_obj.blog, 'promoted': yes, 'owner': user}"/>
+            <db:if-not-exists model="#Post" let:slug="post_obj.slug" let:blog="blog">
+                <db:create model="#Post" dst="post"
+                    let:blog="blog"
+                    let:owner="user"
+                    let:title="post_obj.title"
+                    let:slug="post_obj.slug"
+                    let:published="post_obj.published"
+                    let:published_date="ctime:post_obj.display_time"
+                    let:tagtext="post_obj.tags"
+                    let:markup="'html'"
+                    let:content="post_obj.content"/>
+            </db:if-not-exists>
+
+            <get-url name="showpost" let:blog="post.blog.slug" let:slug="post.slug" dst="post_url"/>
+            <call macro="comments#get_comment_object" dst="commentobject"
+                        let:object="sub:'post-${post.id}'"
+                        let:markup="'markdown'"
+                        let:namespace="'app-techblog'"
+                        let:object_url="post_url"/>
+            <let commentobject.count="0"/>
+            <db:query model="comments#Comment" let:commentobject="commentobject" action="delete" />
+            <for src="post_obj.comments" dst="comment">
+                <let markup="comment.markup or 'bbcode'"/>
+                <let-str markup="bbcode" if="markup=='postmarkup'"/>
+                <db:create model="comments#Comment" dst="comment"
+                    let:time="ctime:comment.created_time"
+                    let:commentobject="commentobject"
+                    let:format="markup"
+                    let:text="comment.content_source"
+                    let:commenter_name="comment.name"
+                    let:commenter_url="comment.url"
+                    let:commenter_email="comment.email" />
+                <inc dst="commentobject.count"/>
+            </for>
+            <progress-msg>${post}</progress-msg>
+
+        </progress>
+
+        <echo>Importing pages...</echo>
+
+        <db:get-or-create model="#Blog" let:slug="'pages'" dst="pages_blog"
+            initial="{'title': 'Pages', 'promoted': no, 'owner': user}"/>
+
+        <let blog="pages_blog"/>
+        <progress src="import.pages" dst="page_obj"
+            msg="importing poages..."
+            filter="page_obj.published and page_obj.version=='live'">
+
+            <db:if-not-exists model="#Post" let:slug="page_obj.slug" let:blog="blog">
+                <db:create model="#Post" dst="post"
+                    let:blog="blog"
+                    let:owner="user"
+                    let:title="page_obj.title"
+                    let:slug="page_obj.slug"
+                    let:type="'page'"
+                    let:markup="'html'"
+                    let:content="page_obj.content_html"
+                    let:published="yes"
+                    let:published_date="ctime:page_obj.created_time"/>
+            </db:if-not-exists>
+
+            <get-url name="showpost" let:blog="post.blog.slug" let:slug="post.slug" dst="post_url"/>
+            <call macro="comments#get_comment_object" dst="commentobject"
+                        let:object="sub:'post-${post.id}'"
+                        let:markup="'markdown'"
+                        let:namespace="'app-techblog'"
+                        let:object_url="post_url"/>
+            <let commentobject.count="0"/>
+            <db:query model="comments#Comment" let:commentobject="commentobject" action="delete" />
+            <for src="page_obj.comments" dst="comment">
+                <let markup="comment.markup or 'bbcode'"/>
+                <let-str markup="bbcode" if="markup=='postmarkup'"/>
+                <db:create model="comments#Comment" dst="comment"
+                    let:time="ctime:comment.created_time"
+                    let:commentobject="commentobject"
+                    let:format="markup"
+                    let:text="comment.content_source"
+                    let:commenter_name="comment.name"
+                    let:commenter_url="comment.url"
+                    let:commenter_email="comment.email" />
+                <inc dst="commentobject.count"/>
+            </for>
+            <progress-msg>${post}</progress-msg>
+        </progress>
+
+        <call macro="#cmd.build.tags"/>
+        <echo style="bold green">Done</echo>
+    </command>
+
+    <command libname="cmd.build.tags" synopsis="build tag database">
+        <db:query model="#Tag" action="delete" />
+        <db:query model="#Post" filter="#Post.blog.promoted==yes" dst="posts" />
+        <progress src="posts" dst="post" msg="building tags...">
+            <for src="commasplit:post.tagtext" dst="name">
+                <let slug="slug:name"/>
+                <if test="slug">
+                    <db:get-or-create model="#Tag" dst="tag"
+                        let:slug="slug:name" initial="{'name':slug}"/>
+                    <inc dst="tag.count" />
+                    <append src="tag.posts" value="post" />
+                </if>
+            </for>
+        </progress>
+    </command>
+
+    <command libname="cmd.init" synopsis="Initialise Blog(s)" init="yes">
+        <if test="not .init">
+            <ask dst="continue">This will initialize your blog for first use. Continue?</ask>
+            <exit if="not continue"/>
+        </if>
+        <db:get model="moya.auth#User" dst="user" orderby="date_joined"/>
+        <db:get-or-create model="#Channel" dst="channel"
+            let:slug="'root'" initial="{'title': 'Root', 'owner': user, 'headline': 'Edit me!'}">
+            <str dst="channel.tagline">
+Welcome to your new *Tech Blog*! See the 'About' page for instructions.
+            </str>
+            <echo>Created ${channel}</echo>
+        </db:get-or-create>
+
+        <db:get-or-create model="#Blog" let:slug="'pages'" dst="pages_blog"
+            initial="{'title': 'Pages', 'promoted': no, 'owner': user}">
+            <echo>Created ${pages_blog}</echo>
+        </db:get-or-create>
+
+        <db:get-or-create model="#Blog" let:slug="'posts'" dst="posts_blog"
+            initial="{'title': 'Posts', 'promoted': no, 'owner': user}">
+            <echo>Created ${posts_blog}</echo>
+            <append src="channel.blogs" value="posts_blog" if="posts_blog not in channel.blogs"/>
+        </db:get-or-create>
+
+        <db:get-or-create model="#Post" let:slug="'about'" let:blog="pages_blog" dst="about"
+            initial="{'title': 'About', 'markup': 'markdown', 'published': yes, 'type': 'page', 'published_date': .now}">
+            <str dst="about.content">
+Welcome to your new Tech Blog!
+
+To start using your blog, first *sign in* (the default theme has a link at the bottom, right of your page). You can then use the Tools menu on the top left of most pages to edit content and settings.
+
+The first thing you will probably want to do is edit this About page!
+            </str>
+            <echo>Created ${about}</echo>
+        </db:get-or-create>
+
+        <echo>Tech Blog was initialized successfully</echo>
+    </command>
+
+</moya>

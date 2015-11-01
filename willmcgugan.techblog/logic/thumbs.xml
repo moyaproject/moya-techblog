@@ -1,0 +1,55 @@
+
+<moya xmlns="http://moyaproject.com"
+    xmlns:tn="http://moyaproject.com/thumbnail"
+    xmlns:image="http://moyaproject.com/image">
+
+    <tn:thumbnails libname="thumbnails.blog.titles" name="title_images">
+
+        <tn:processor name="title.sm" quality="80" version="7">
+            <image:resize-to-fit height="600"/>
+        </tn:processor>
+
+        <tn:processor name="title.md" quality="80" version="8">
+            <image:resize-to-fit height="960"/>
+        </tn:processor>
+
+        <tn:processor name="title.lg" quality="80" version="11">
+            <image:resize-to-fit height="1080"/>
+        </tn:processor>
+
+        <tn:processor name="title.xlg" quality="85" version="11">
+            <image:resize-to-fit height="1200"/>
+        </tn:processor>
+
+    </tn:thumbnails>
+
+    <tn:thumbnails libname="thumbnails.blog.content" name="post_images">
+
+        <tn:processor name="blur" version="6" quality="70">
+            <image:resize-to-fit width="800" height="800" resample="nearest"/>
+            <image:gaussian-blur radius="6"/>
+        </tn:processor>
+
+        <tn:processor name="square" version="4" quality="70">
+            <image:zoom-to-fit width="360" height="360"/>
+        </tn:processor>
+
+        <tn:processor name="sm" quality="75" version="2">
+            <image:resize-to-fit width="750"/>
+        </tn:processor>
+
+        <tn:processor name="md" quality="75" version="2">
+            <image:resize-to-fit width="970"/>
+        </tn:processor>
+
+        <tn:processor name="lg" quality="80" version="2">
+            <image:resize-to-fit width="1170"/>
+        </tn:processor>
+
+        <tn:processor name="xlg" quality="90" version="7">
+            <image:resize-to-fit width="1920"/>
+        </tn:processor>
+
+    </tn:thumbnails>
+
+</moya>

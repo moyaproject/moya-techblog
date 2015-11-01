@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<moya xmlns="http://moyaproject.com"
+      xmlns:let="http://moyaproject.com/let">
+    <!-- define your widgets here -->
+
+    <widget name="select" template="widgets/select-drop.html" synopsis="an alternative form select widget" container="yes" text="no">
+        <signature>
+            <attribute name="field" required="no" default="field" />
+            <attribute name="multiple" required="no" type="boolean" default="no" />
+            <attribute name="width" required="no" default="None" />
+            <attribute name="disabled" required="no" default="no"/>
+        </signature>
+        <make-token dst="id" />
+
+        <include-css path="css/widgetsextra.css"/>
+        <include-js path="js/widgetsextra.js"/>
+
+        <css>
+            .moya-widgets-select,.moya-widgets-select-current
+            {
+                border-color: ${.theme.colors.border.normal};
+            }
+            .moya-widgets-option:hover
+            {
+                background-color:${.theme.colors.highlight.bg};
+                color:${.theme.colors.highlight.fg};
+            }
+            .moya-widgets-select .moya-widgets-option.active
+            {
+                background-color:${.theme.colors.selected.bg};
+                color:${.theme.colors.selected.fg};
+            }
+            .moya-widgets-select-container.focused .moya-widgets-select
+            {
+                border-color:${.theme.colors.border.focused};
+            }
+        </css>
+        <dict dst="options"/>
+        <js>$("#${id}").moyaSelect(${json:options});</js>
+    </widget>
+
+    <widget name="option" template="widgets/option.html" synopsis="option in a select">
+        <signature>
+            <attribute name="value"/>
+        </signature>
+    </widget>
+
+
+</moya>

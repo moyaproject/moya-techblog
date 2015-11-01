@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<moya xmlns="http://moyaproject.com">
+
+    <model libname="OAuth2Credentials" xmlns="http://moyaproject.com/db">
+        <boolean name="enabled" default="yes"/>
+        <string name="provider" length="30" unique="yes"/>
+        <string label="Client ID" name="client_id" length="300" default=""/>
+        <string name="client_secret" label="Client Secret" length="300" default=""/>
+        <text name="notes" default="" />
+    </model>
+
+    <model libname="ConnectedAccount" xmlns="http://moyaproject.com/db"
+        title="Connected Account"
+        repr="${user.username}/${provider}">
+        <datetime name="created" auto="yes"/>
+        <foreign-key name="user" model="moya.auth#User" null="no" picker="moya.auth#admintable.users" />
+        <string name="provider" length="100" />
+        <string name="provider_id" length="100" label="Provider ID" null="yes" />
+        <string name="provider_email" length="300" label="Provider Email" null="yes"/>
+        <text name="notes" default="" />
+        <text name="info_json" label="Info JSON" default="{}"/>
+    </model>
+
+    <model libname="ProviderCounter" xmlns="http://moyaproject.com/db">
+        <string name="provider" length="30"/>
+        <integer name="count" default="1" />
+    </model>
+
+</moya>

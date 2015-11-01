@@ -1,0 +1,9 @@
+[title Moya Logins]
+
+Moya Logins adds the ability to log in to your Moya web application with external providers such as Google, Facebook and Twitter.
+
+[index]
+    introduction
+    configuration
+    development
+[/index]

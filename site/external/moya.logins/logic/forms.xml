@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<moya xmlns="http://moyaproject.com"
+    xmlns:html="http://moyaproject.com/html"
+    xmlns:moya="http://moyaproject.com"
+    xmlns:logins="http://moyaproject.com/logins"
+    xmlns:let="http://moyaproject.com/let"
+    xmlns:w="http://moyaproject.com/widgets">
+
+    <form xmlns="http://moyaproject.com/forms"
+        libname="form.provider.credentials" style="horizontal">
+        <checkbox name="enabled" label="Enabled?" src="enabled" adapt="bool:value"/>
+
+        <hidden-input name="provider" initial="provider_name" />
+        <input name="client_id" src="client_id" label="Client ID" type="text" maxlength="300" required="no"/>
+        <input name="client_secret" src="client_secret" label="Client Secret" type="text" maxlength="300" required="no" />
+        <submit-button text="Update" help="don't forget to check 'enabled' above" visual="primary"/>
+
+        <field label="OAuth Version">
+            <html:p class="form-control-static">
+                <html:tt>${provider.oauth}</html:tt>
+            </html:p>
+        </field>
+        <field label="Login URL">
+            <html:p class="form-control-static">
+                <html:tt>${.request.host_url}${.appurls.login(provider=provider_name)}</html:tt>
+            </html:p>
+        </field>
+        <field label="Callback URL">
+            <html:p class="form-control-static">
+                <html:tt>${.request.host_url}${.appurls.callback(provider=provider_name)}</html:tt>
+            </html:p>
+        </field>
+        <field label="Button HTML"><w:show-code><logins:login-button provider="${provider_name}" forward="/"/></w:show-code></field>
+    </form>
+
+
+    <form libname="moya.auth#form.login" xmlns="http://moyaproject.com/forms"
+        legend="Sign In" style="basic" action="${.urls.auth.login}" class="moya-auth-signin">
+
+        <moya:get-url name="forgot_password" dst="forgot_password_url" />
+        <moya:get-url name="signup" from="moya.signup" dst="signup_url" if=".libs['moya.signup']"/>
+
+        <hidden-input name="fwd" required="no" initial="fwd or .request.GET.fwd" />
+        <moya:include-css path="css/auth.css" from="moya.auth" />
+
+        <w:error if=".request.GET.error and .request.GET.provider">
+            Sign in with ${title:.request.GET.provider} failed
+        </w:error>
+
+        <html:div class="row">
+
+            <html:div class="col-sm-8">
+                <w:well>
+                    <group>
+                        <input name="username" label="Username or Email" hidelabel="yes" type="text" maxlength="30" required="yes" placeholder="username or email"/>
+                        <password name="password" label="Password" hidelabel="yes" maxlength="30" required="yes" placeholder="password"/>
+                        <submit-button name="login" text="Sign In" visual="primary" block="yes"/>
+                    </group>
+                </w:well>
+                <field>
+                    <moya:if test="signup_url">
+                        <moya:markdown>
+                            [I've forgotten my password](${forgot_password_url}) | [Create new account](${signup_url})
+                        </moya:markdown>
+                    </moya:if>
+                    <moya:else>
+                        <moya:markdown>
+                            [I've forgotten my password](${forgot_password_url})
+                        </moya:markdown>
+                    </moya:else>
+                </field>
+            </html:div>
+
+            <html:div class="col-sm-4">
+                <logins:get-available-providers dst="providers" />
+                <field if="providers">
+                    <moya:for src="providers" dst="provider">
+                        <logins:login-button provider="${provider}" forward="${.request.GET.fwd or '/'}" class="btn-block"/>
+                    </moya:for>
+                </field>
+            </html:div>
+
+        </html:div>
+
+    </form>
+
+    <form libname="form.pick_username" xmlns="http://moyaproject.com/forms" style="horizontal" class="moya-logins-pick-username well">
+        <moya:include-css path="css/logins.css"/>
+        <input label="Username" name="username" initial="username" required="yes" adapt="strip:value"/>
+        <submit-button text="Create Account" visual="success" block="yes"/>
+    </form>
+
+</moya>

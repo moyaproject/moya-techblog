@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<moya xmlns="http://moyaproject.com"
+      xmlns:let="http://moyaproject.com/let"
+      xmlns:db="http://moyaproject.com/db"
+      xmlns:w="http://moyaproject.com/widgets">
+    <!-- define your widgets here -->
+
+    <widget name="manager" template="widgets/manager/manager.html">
+        <signature>
+            <attribute name="collection" type="expression"/>
+            <attribute name="fullsize" type="boolean" default="no"/>
+            <attribute name="picker" type="boolean" default="no"/>
+            <attribute name="picker_text" type="text" default="Pick"/>
+            <attribute name="on_pick" type="text" default="">Javascript method to call when images are 'picked'</attribute>
+        </signature>
+        <include-css path="css/imglib.css"/>
+        <include-js path="js/jsonrpc.js" from="moya.jsonrpc" />
+        <include-js path="js/imglib.js"/>
+
+        <css>
+            .moya-imglib-image.selected:after
+            {
+                color:${.theme.colors.selected.fg};
+                background-color:${.theme.colors.selected.bg};
+            }
+        </css>
+
+        <let managerid=".content.id" />
+
+        <if test="on_pick">
+            <js>$("#${managerid}").imgmanager({on_pick:${on_pick}});</js>
+        </if>
+        <else>
+            <js>$("#${managerid}").imgmanager({});</js>
+        </else>
+        <!-- <js>$("#${managerid} [data-toggle='tooltip']").tooltip({html:true, placement:'top', delay:500});</js> -->
+        <get-url name="picker_upload" dst="upload_url" let:collection="collection.uuid" />
+        <db:query src="collection.images" model="#Image" orderby="-uploaded_time" dst="images" />
+    </widget>
+
+    <widget name="select-image">
+        <signature>
+            <attribute name="collection" type="expression"/>
+            <attribute name="blank" type="boolean" default=""/>
+            <attribute name="text" type="text" default=""/>
+            <attribute name="field" type="expression" default="field"/>
+            <attribute name="key" type="text" default="id">The key on the Image object to write in the input</attribute>
+        </signature>
+        <include-css path="css/imglib.css"/>
+        <w:select field="field">
+            <w:option value="''">
+                <node template="emptyoption.html" let:text="text"/>
+            </w:option>
+            <for src="sortedkey:[collection.images, 'title']" dst="image">
+                <w:option value="image[key]">
+                    <node template="option.html" let:img="image"/>
+                </w:option>
+            </for>
+        </w:select>
+    </widget>
+
+
+</moya>

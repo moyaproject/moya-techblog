@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<moya xmlns="http://moyaproject.com"
+      xmlns:let="http://moyaproject.com/let"
+      xmlns:db="http://moyaproject.com/db"
+      xmlns:forms="http://moyaproject.com/forms"
+      xmlns:html="http://moyaproject.com/html"
+      xmlns:w="http://moyaproject.com/widgets"
+      xmlns:admin="http://moyaproject.com/admin"
+      xmlns:logins="http://moyaproject.com/logins">
+
+    <!-- Content is a high level description of a page -->
+    <content libname="content.front" template="base.html">
+        <section name="body">
+            <html:div class="well" if="name">Hello, ${name}!</html:div>
+            <render src="form" />
+        </section>
+    </content>
+
+    <macro libname="macro.get_provider_forms">
+        <list dst="forms" />
+        <call macro="moya.logins#get_providers" dst="providers" />
+        <db:query model="#OAuth2Credentials" collect="dict" collectkey="provider" dst="credentials_map"/>
+        <for src="items:providers" dst="provider_name, provider">
+            <let credentials="credentials_map[provider_name]"/>
+            <forms:get form="#form.provider.credentials" dst="form"
+                bind="None" src="credentials"
+                let:provider="provider" let:provider_name="provider_name"/>
+            <append src="forms" value="[provider_name, provider, form]"/>
+        </for>
+        <return value="sorted:forms" />
+    </macro>
+
+    <content libname="content.admin" extends="moya.admin#content.cover">
+        <section name="content" merge="append">
+            <w:info>
+                <markdown>
+                    External Logins allow users to Log in to your site using their accounts with providers such as Google, Twitter, Facebook etc.
+                </markdown>
+            </w:info>
+        </section>
+    </content>
+
+    <content libname="content.admin.credentials" extends="moya.admin#content.custom">
+        <call macro="moya.logins#get_providers" dst="providers" />
+        <call macro="#macro.get_provider_forms" dst="forms" />
+
+        <section name="content">
+            <w:success if="success">
+                <markdown>OAuth2 Credentials were updated</markdown>
+            </w:success>
+
+            <markdown>
+            ## Enter your OAuth Credentials here
+
+            Enter the required details for each provider you would like to enable a 'Sign in with ...' button.
+            </markdown>
+
+            <w:tab-panel id="providers" active="${.request.POST.provider}" class="voffset-md">
+                <for src="forms" dst="name,provider,form">
+                    <w:tab id="${lower:name}" title="${title:provider.title}" icon="fa fa-${lower:name}">
+                        <w:info if="provider.help">
+                            <markdown>${provider.help}</markdown>
+                        </w:info>
+                        <if test="post_form and post_form.data.provider == lower:name">
+                            <render src="post_form"/>
+                        </if>
+                        <else>
+                            <render src="form" />
+                        </else>
+                    </w:tab>
+                </for>
+            </w:tab-panel>
+        </section>
+
+    </content>
+
+    <content libname="moya.auth#content.login">
+        <title>Log In</title>
+
+        <section name="body">
+            <node template="login_container.html">
+                <w:info if=".user">
+                    <markdown>
+                        You are currently signed in as **${.user.username}**
+                    </markdown>
+                </w:info>
+                <if test=".libs['moya.signup'] and validate_email">
+                    <w:well>
+                        <markdown>
+                            We sent you an email with a link to verify your email address.
+
+                            If you didn't receive the email, please check your spam folder, or click the button below to re-send.
+                        </markdown>
+                        <w:button-link name="send_validate_email" app="moya.signup" let:username="form.data.username">
+                            Send Again
+                        </w:button-link>
+                    </w:well>
+                </if>
+                <render src="form" />
+            </node>
+        </section>
+    </content>
+
+    <content libname="content.pick_username">
+        <title>Pick a Username</title>
+
+        <section name="body">
+            <node template="login_container.html" from="moya.auth">
+                <w:info if="not form.fail">
+                    <markdown>
+                        **Final step!**
+
+                        Please enter a username to create an account.
+                    </markdown>
+                </w:info>
+                <render src="form"/>
+            </node>
+        </section>
+
+    </content>
+</moya>

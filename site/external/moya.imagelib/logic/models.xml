@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<moya xmlns="http://moyaproject.com"
+    xmlns:let="http://moyaproject.com/let">
+
+    <enum libname="enum.image.type">
+        <value id="0" name="photo">Photo</value>
+        <value name="graphic">Graphic</value>
+        <value name="screenshot">Screenshot</value>
+    </enum>
+
+    <enum libname="enum.image.maturity_rating">
+        <value id="0" name="G">General (suitable for everyone)</value>
+        <value id="1" name="M">Moderate (may be unsuitable for younger children)</value>
+        <value id="2" name="A">Adult (over 18s only)</value>
+    </enum>
+
+    <model libname="Collection" xmlns="http://moyaproject.com/db">
+        <uuid name="uuid"/>
+        <string name="slug" length="100" null="yes" />
+        <foreign-key name="owner" model="auth#User" blank="yes" null="yes" picker="auth#admintable.users"/>
+        <generic-key name="parent" null="yes" />
+    </model>
+
+    <model name="CollectionMembership" libname="CollectionMembership" xmlns="http://moyaproject.com/db" repr="${image} in ${collection}">
+        <foreign-key model="#Collection" name="collection" null="no"/>
+        <foreign-key model="#Image" name="image" null="no"/>
+    </model>
+
+    <macro libname="get_image_path">
+        <return-str>${path:object.uuid}.${lower:ext:field.filename or 'jpeg'}</return-str>
+    </macro>
+
+    <macro libname="get_image_url">
+        <return>
+            <get-url name="serve" from="${.app.settings.app_serve}" let:path="object.file" />
+        </return>
+    </macro>
+
+    <macro libname="get_fs">
+        <return-str>${.app.settings.imagefs}</return-str>
+    </macro>
+
+    <model libname="Image" xmlns="http://moyaproject.com/db" repr="image '${slug or uuid}'">
+        <foreign-key name="collection" model="#Collection" null="yes" blank="yes" backref="images" cascade="delete"/>
+        <foreign-key name="owner" model="auth#User" blank="yes" null="yes" picker="auth#admintable.users"/>
+        <upload name="file" getfs="#get_fs" getpath="#get_image_path" geturl="#get_image_url" null="yes"/>
+        <uuid name="uuid"/>
+        <integer name="type" default="0" choices="#enum.image.type" />
+        <datetime label="Created Time" name="created_time" auto="yes" null="yes"/>
+        <datetime label="Uploaded Time" name="uploaded_time" null="yes"/>
+        <datetime label="Updated Time" name="updated_time" null="yes"/>
+        <string name="title" length="100" null="yes"/>
+        <string name="slug" length="100" null="yes"/>
+        <string name="extension" length="10" null="no" default="jpg"/>
+        <string name="original_filename" length="100" null="yes"/>
+        <string name="filename" length="100" null="yes"/>
+        <string name="creator" null="yes" length="100"/>
+        <string name="copyright" null="yes" length="100"/>
+        <string name="license" null="yes" length="100" default="all rights reserved"/>
+        <string name="markup" length="20" default="text" />
+        <text name="description" null="yes"/>
+        <integer name="filesize" null="yes" default="None" />
+        <integer name="width" null="yes" default="None"/>
+        <integer name="height" null="yes" default="None" />
+        <string name="keywords" length="300" null="yes"/>
+        <string name="cssclass" length="100" null="yes"/>
+        <string name="position" length="100" null="yes"/>
+        <integer name="maturity_rating" default="0" null="no" choices="#enum.image.maturity_rating"/>
+        <text name="props_json" null="yes" />
+        <text name="exif" null="yes"/>
+
+        <property name="type_name" expression="str:(enum:'moya.imagelib#enum.image.type')[type]" />
+        <property name="copyright_license" expression="sub:'${copyright}, ${license}'"/>
+        <property name="data" expression="(title=title,slug=slug,copyright=copyright,description=description,uuid=uuid,width=width,height=height)"/>
+        <property name="props" expression="props_json ? parsejson:props_json or {} : {}"/>
+    </model>
+
+</moya>

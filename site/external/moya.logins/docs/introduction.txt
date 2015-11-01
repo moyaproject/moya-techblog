@@ -1,0 +1,7 @@
+[title Introduction]
+
+Moya Logins enables external Sign In buttons, which allow a user to log in with credentials from one of a number of popular services, such as Google and Facebook.
+
+This means that a user can create a new account and login without having to fill in a sign up form, which can increase the number of Sign Ups you get.
+
+The technology behind this feature is known as OAuth and comes in two versions; OAuth 1 and OAuth 2. Moya Logins supports both.

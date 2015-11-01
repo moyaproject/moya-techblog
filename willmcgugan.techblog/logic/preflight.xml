@@ -1,0 +1,12 @@
+<moya xmlns="http://moyaproject.com"
+      xmlns:let="http://moyaproject.com/let"
+      xmlns:db="http://moyaproject.com/db"
+      xmlns:preflight="http://moyaproject.com/preflight">
+
+    <preflight:check>
+        <db:query model="#Blog" action="count" dst="count"/>
+        <preflight:warning if="not count">
+            No blogs created -- add a blog in admin, or run 'moya init'
+        </preflight:warning>
+    </preflight:check>
+</moya>

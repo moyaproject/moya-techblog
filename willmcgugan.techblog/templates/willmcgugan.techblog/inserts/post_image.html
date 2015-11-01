@@ -1,0 +1,49 @@
+{% if not image %}
+<div class="alert alert-warning" role="alert">
+    Image '${slug}' not found
+</div>
+{%- else %}
+
+{%- let exif=parsejson:image.exif %}
+
+{%- let square=image.file|'thumbnail'(processor='square') %}
+{%- let blur=image.file|'thumbnail'(processor='blur') %}
+{%- let sm=image.file|'thumbnail'(processor='sm') %}
+{%- let md=image.file|'thumbnail'(processor='md') %}
+{%- let lg=image.file|'thumbnail'(processor='lg') %}
+{%- let xlg=image.file|'thumbnail'(processor='xlg') %}
+
+{%- let fnumber=exif.FNumber ? (exif.FNumber.0 / exif.FNumber.1)::'g' : None %}
+{%- let focal_length=exif.FocalLength ? (exif.FocalLength.0 / exif.FocalLength.1)::'g' : None %}
+{%- let exposure=exif.ExposureTime ? sub:'${exif.ExposureTime.0}/${exif.ExposureTime.1}' : None %}
+{%- let iso=exif.ISO or exif.ISOSpeedRatings or exif.PhotographicSensitivity %}
+
+{%- if image.type_name == 'photo' and exposure and fnumber and focal_length %}
+    {% let details=sub:'${exposure} sec at f${fnumber}; ISO${iso}.<br>${exif.Model} + ${exif.LensModel} at ${focal_length}mm' %}
+{%- endif -%}
+
+{%- if image.slug %}<a name="${image.slug}"></a>{% end-if %}
+<figure class="techblog-image-insert">
+{% spaceless %}
+{% compact %}
+<img
+    width="${image.width}" height="${image.height}"
+    {% attrib class=['img-responsive', 'techblog-image', 'techblog-image-type-' + image.type_name], title=image.title %}
+    {% data-attrib slug=image.slug, square=square, blur=blur, sm=sm, md=md, lg=lg, xlg=xlg, details=(details or ' '), author=sub:'${image.copyright}<br>${image.license}', toggle="tooltip" %}
+    sizes="(min-width: 1200px) 1170px,
+           (min-width: 992px) 970px,
+           (min-width: 768px) 750px"
+    srcset="${lg} 1170w,
+            ${md} 970w,
+            ${sm} 750w"
+    src="${image.file|'thumbnail'(processor='lg')}">
+
+{% end-compact %}
+{% end-spaceless %}
+{% if image.description %}
+<figcaption class="techblog-image-caption text-muted">{% markup image.description as 'markdown' %}</figcaption>
+{% endif %}
+</figure>
+
+
+{%- end-if %}

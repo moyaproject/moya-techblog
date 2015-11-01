@@ -1,0 +1,1 @@
+{% sanitize rules data:'/willmcgugan.techblog/sanitize_rules.json' if comment.format != 'bbcode' %}{% markup comment.text as (comment.format or commentobject.markup or 'text') %}{% end-sanitize %}

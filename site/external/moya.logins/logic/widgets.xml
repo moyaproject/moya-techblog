@@ -1,0 +1,25 @@
+<moya xmlns="http://moyaproject.com"
+    xmlns:let="http://moyaproject.com/let"
+    xmlns:w="http://moyaproject.com/w"
+    xmlns:logins="http://moyaproject.com/logins">
+
+    <widget name="login-button" template="widgets/login-button.html">
+        <doc>A login button</doc>
+        <signature>
+            <attribute name="provider" required="yes" type="text">
+                Name of a registered provider
+            </attribute>
+            <attribute name="forward" required="no" type="text">
+                URL to redirect to if login is successful
+            </attribute>
+            <attribute name="class" required="no" type="text">
+                Extra class(es) for button
+            </attribute>
+        </signature>
+        <include-css path="css/font-awesome.min.css" from="moya.fontawesome" if=".libs['moya.fontawesome']"/>
+        <include-css path="css/bootstrap-social.css" />
+        <logins:get-provider name="${provider}" dst="provider"/>
+        <get-url name="login" let:provider="provider.name" dst="login_url" query="fwd=forward or '/'" />
+    </widget>
+
+</moya>

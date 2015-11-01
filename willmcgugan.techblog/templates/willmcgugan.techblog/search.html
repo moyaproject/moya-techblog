@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block "body" %}
+<div class="row margin-top">
+    <div class="col-sm-9">
+        {% render sections.results %}
+    </div>
+    <div class="col-sm-3">
+        {% render sections.side %}
+    </div>
+</div>
+{% endblock %}

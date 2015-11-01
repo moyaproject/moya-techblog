@@ -1,0 +1,108 @@
+<moya xmlns="http://moyaproject.com"
+    xmlns:auth="http://moyaproject.com/auth"
+    xmlns:let="http://moyaproject.com/let"
+    xmlns:db="http://moyaproject.com/db">
+
+    <macro libname="login_profile">
+        <signature>
+            <argument name="profile"/>
+            <argument name="info"/>
+        </signature>
+
+        <let provider=".session.oauth_provider.name" />
+
+        <!-- Check for connected accounts -->
+        <if test="profile.id">
+            <!-- match by provider ID -->
+            <db:get model="#ConnectedAccount" let:provider_id="profile.id" dst="account" />
+        </if>
+        <else if="profile.email">
+            <!-- match by email -->
+            <db:get-one model="#ConnectedAccount" let:provider_id="profile.email" dst="account" />
+            <catch/>
+        </else>
+        <if test="account">
+            <log-info>logged in ${provider} user ${account.user}</log-info>
+            <auth:login-user user="account.user" />
+            <return value="account.user"/>
+        </if>
+
+        <!-- No user, connect by email -->
+        <if test="profile.email">
+            <db:get-one model="moya.auth#User" let:email="profile.email" dst="user"/>
+            <catch/> <!-- multiple users with same email -->
+            <if test="user">
+                <log-info>matched ${provider} user ${user} by email</log-info>
+                <db:create model="#ConnectedAccount"
+                    let:user="user"
+                    let:provider=".session.oauth_provider.name"
+                    let:provider_id="profile.id or None"
+                    let:provider_email="profile.email"
+                    let:info_json="json:info"
+                    dst="account"/>
+                <str dst="account.notes">${provider} user, matched by email</str>
+                <db:commit />
+                <auth:login-user user="user" />
+                <return value="user"/>
+            </if>
+        </if>
+        <return value="None" />
+    </macro>
+
+    <macro libname="new_user">
+        <signature>
+            <argument name="provider"/>
+            <argument name="profile"/>
+            <argument name="info"/>
+            <argument name="username"/>
+        </signature>
+        <db:get-or-create model="#ProviderCounter" let:provider="provider" dst="provider_counter"/>
+        <!-- No user, auto-create one... -->
+
+        <let auto_user="not bool:username" />
+        <let username="username or profile.username" />
+        <str dst="username" if="auto_user and not username">${provider}user${provider_counter.count::"02n"}</str>
+        <repeat times="auto_user ? 100 : 1">
+            <auth:new-user
+                username="username"
+                email="profile.email"
+                email_validated="yes"
+                first_name="profile.first_name or None"
+                last_name="profile.last_name or None"
+                password="None"
+                dst="user" />
+            <catch exception="moya.auth.duplicate-user" dst="error">
+                <echo obj="error"/>
+                <log-debug>duplicate username ${username}</log-debug>
+                <inc dst="provider_counter.count" />
+                <str dst="username">${provider}user${provider_counter.count::"02n"}</str>
+                <continue/>
+            </catch>
+            <str dst="user.notes">${provider} user</str>
+            <break/>
+        </repeat>
+
+        <!-- unable to create user due to running out of usernames -->
+        <if test="not user">
+            <log-warn>unable to create oauth user from ${debug:profile}</log-warn>
+            <return/>
+        </if>
+
+        <!-- connect account -->
+        <db:create model="#ConnectedAccount"
+            let:user="user"
+            let:provider=".session.oauth_provider.name"
+            let:provider_id="profile.id or None"
+            let:provider_email="profile.email or None"
+            let:info_json="json:info"
+            dst="account"/>
+        <log-info>created ${provider} user ${user}</log-info>
+
+        <auth:login-user user="user"/>
+        <var dst=".session.oauth_profile" value="None"/>
+        <db:commit/>
+        <return value="user"/>
+
+    </macro>
+
+</moya>

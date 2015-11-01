@@ -1,0 +1,8 @@
+[title Documentation Index]
+Welcome to Moya Extra Widgets documentation
+
+This library adds additional widgets to Moya's built-in widgets library
+
+[index]
+    introduction
+[/index]

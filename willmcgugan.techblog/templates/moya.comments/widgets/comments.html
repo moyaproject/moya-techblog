@@ -1,0 +1,116 @@
+{%- def "comment" %}
+<a id="comment${comment.id}" style="margin-top:-50px;position:absolute;"></a>
+<div class="moya-comment clearfix level-${comment.level}{% if comment.level > 0 %} reply{% endif %}">
+    <div class="moya-comment-body{% if comment.user %} user{% endif %} moya-comment-${comment.id}">
+        <a href="#comment${comment.id}">
+            <img class="gravatar" alt="gravatar" src="//www.gravatar.com/avatar/${md5:lower:(comment.user.email or comment.commenter_email)}?s=36&amp;d=identicon"/>
+        </a>
+        <div class="text">
+            <div class="comment-header">
+                {%- if comment.commenter_url %}
+                <a href="${comment.commenter_url}" class="name">${comment.user.display_name or comment.commenter_name}</a>
+                {%- else %}
+                <span class="name">${comment.user.display_name or comment.commenter_name}</span>
+                {%- endif %}
+
+                <span class="time"> &mdash; <moya insert="willmcgugan.techblog#insert.comment.time" app="techblog" data-timestamp="${comment.time.epoch}"></moya></span>
+            </div>
+
+                {% include "widgets/comment_markup.html" %}
+                {%- if commentobject.allow_new %}
+                <div class="moya-comment-actions">
+                    <a href="#" data-commentid="${comment.id}" class="reply">
+                        <i class="fa fa-comments"></i>
+                        {% trans %}Reply to ${comment.user.display_name or comment.commenter_name}{% end %}
+                    </a>
+                </div>
+                {%- endif %}
+
+        </div>
+    </div>
+    {%- if commentobject.allow_new %}
+    {% include "widgets/comment_form_reply.html" %}
+    {%- endif %}
+    {%- if commentgraph[comment.id] %}
+    <div class="moya-comments">
+        {%- for comment in commentgraph[comment.id] %}
+        {%- call "comment" %}
+        {%- endfor %}
+    </div>
+    {%- endif %}
+</div>
+{%- enddef %}
+
+<div id="techblog-comments">
+
+<div class="moya-comments-container" id="${id}">
+<a id="comments"></a>
+{%- if .permissions.admin %}
+<div class="moya-comments-admin">
+    <div class="btn-group">
+        <a class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" data-target="#" title="Comment admin">
+            <i class="glyphicon glyphicon-wrench"></i> {% trans %}Comments{% end %}
+            <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+            <li {% if commentobject.hide %}class="disabled"{% endif %}>
+                <a href="{% url "commentaction" %}?{% urlencode namespace=commentobject.namespace, object=commentobject.object, url=.request.path, action=(commentobject.allow_new ? 'disable' : 'enable') %}">
+                <i class="glyphicon glyphicon-edit"></i>
+                {% if commentobject.allow_new %}{% trans %}Disable new comments{% end %}{% else %}Enable new comments{% endif %}
+                </a>
+            </li>
+            <li>
+                <a href="{% url "commentaction" %}?{% urlencode namespace=commentobject.namespace, object=commentobject.object, url=.request.path, action=(commentobject.hide ? 'show' : 'hide') %}">
+                <i class="glyphicon glyphicon-edit"></i>
+                {% if commentobject.hide %}{% trans %}Show comments{% end %}{% else %}{% trans %}Hide comments{% end %}{% endif %}
+                </a>
+            </li>
+            <li class="divider"></li>
+            <li>
+                {% if subscribed %}
+                <a href="{% url "subscription" with comment_object_id=commentobject.id %}?{% urlencode action='unsubscribe', url=.request.path %}">
+                    <i class="glyphicon glyphicon-envelope"></i>
+                    {% trans %}Unsubscribe{% end %}
+                </a>
+                {% else %}
+                <a href="{% url "subscription" with comment_object_id=commentobject.id %}?{% urlencode action='subscribe', url=.request.path %}">
+                    <i class="glyphicon glyphicon-envelope"></i>
+                    {% trans %}Subscribe{% end %}
+                </a>
+                {% endif %}
+            </li>
+        </ul>
+    </div>
+</div>
+{%- endif %}
+
+{%- if commentobject.allow_new and not commentobject.hide %}
+{% include "widgets/comment_form_new.html" %}
+{%- endif %}
+
+{%- if not commentobject.hide %}
+{%- with numcomments=len:comments %}
+    <div class="text-muted moya-comment-count clear-fix">
+    {% if not commentobject.allow_new %}
+    {% trans %}Comments disabled{% end %}
+    {% endif %}
+    </div>
+{%- endwith %}
+
+{%- if comments %}
+{% markup-block as 'moya' %}
+{% cache for 1d key [commentobject.id, commentobject.updates, bool:.user] %}
+<div class="moya-comments root">
+{%- for comment in commentgraph.root %}
+{%- call "comment"  %}
+{%- endfor %}
+</div>
+{% endcache %}
+{% end-markup-block %}
+{%- endif %}
+
+{%- endif %}
+</div>
+
+
+</div>

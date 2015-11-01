@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block "titles" %}
+<div class="techblog-post-image">
+
+    <div class="techblog-post-titles">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-md-12">
+
+                    {%- with home_url=blog.userlinks.home.link %}
+                    <p>
+                    {%- if home_url %}
+                    <a href="${home_url}" class="techblog-social" title="Go to ${blog.owner.username}'s home page">
+                        <i class="fa fa-user"></i> ${blog.owner.username}
+                    </a>
+                    {%- endif %}
+                    {% for userlink in blog.owner.userlinks if userlink.promoted and userlink.name != 'home' %}
+                        {% if userlink.html %}
+                            ${html:userlink.html}
+                        {% else %}
+                            <a href="${userlink.link}" class="techblog-social"><i class="fa fa-${userlink.fa_icon}"></i>&nbsp;${userlink.label}</a>
+                        {% endif %}
+                    {% endfor %}
+                    </p>
+                    {%- endwith %}
+
+                    <h1>${blog.headline or blog.title}</h1>
+                    <p class="techblog-post-info">
+                        {%- for tag in (post.tags) sort (name) reverse %}
+                        <a class="techblog-tag" href="{% url 'tag' with tagslug=tag.slug %}">
+                            <i class="fa fa-tag"></i>&nbsp;
+                            ${tag.name}
+                        </a>
+                        {%- endfor %}
+                    </p>
+
+                    <div class="lead tagline">
+                        {% markup blog.tagline as blog.markup %}
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+
+{% block "body" %}
+<div class="row margin-top clearfix">
+    {% if sections.body %}
+    <div class="col-lg-12">
+        {% render sections.body %}
+    </div>
+    {%- else %}
+    <div class="col-md-9">
+        {% render sections.header %}
+        {% render sections.content %}
+    </div>
+    <div class="col-md-3">
+        {% render sections.side %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

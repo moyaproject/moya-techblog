@@ -1,0 +1,83 @@
+<moya xmlns="http://moyaproject.com"
+    xmlns:rpc="http://moyaproject.com/jsonrpc"
+    xmlns:let="http://moyaproject.com/let"
+    xmlns:db="http://moyaproject.com/db"
+    xmlns:forms="http://moyaproject.com/forms">
+
+    <enum libname="enum.jsonrpc.errors">
+        <value id="1" name="unknown_collection" description="Collection was not found"/>
+        <value id="2" name="unknown_image" description="Image was not found"/>
+
+    </enum>
+
+    <rpc:interface libname="jsonrpc.interface" errors="#enum.jsonrpc.errors">
+
+        <rpc:method name="greet" description="Renders a greeting">
+            <doc>This method will greet you, using the name of your choice</doc>
+            <rpc:parameter name="who" type="string" default="'World'" required="no">
+                This parameter should be the name of the person you wish to greet. If not given, the name will default to "World"
+            </rpc:parameter>
+            <return-str>Hello, ${who}!</return-str>
+        </rpc:method>
+
+        <rpc:method name="delete" group="image" description="Delete an image">
+            <doc>Delete image(s)</doc>
+            <rpc:parameter name="collection" type="string" required="yes">
+                UUID of collection
+            </rpc:parameter>
+            <rpc:parameter name="images" type="list" required="yes">
+                Image UUIDs to delete
+            </rpc:parameter>
+
+            <db:get model="#Collection" let:uuid="collection" dst="collection"/>
+            <rpc:error code="unknown_collection" if="not collection">
+                No collection with UUID ${colletion}
+            </rpc:error>
+
+            <db:query model="#Image"
+                filter="#Image.uuid in images and #Image.collection == collection"
+                dst="images"/>
+            <dict dst="result" let:deleted="collect:[images, 'uuid']"/>
+            <db:delete src="images" />
+            <return value="result"/>
+
+        </rpc:method>
+
+        <rpc:method name="manager_form" group="image" description="Get's the form for an image">
+            <rpc:parameter name="collection" type="string" required="yes">UUID of collection</rpc:parameter>
+            <rpc:parameter name="image" type="string" required="yes">Image UUID</rpc:parameter>
+            <rpc:parameter name="bind" type="object" default="None">Form data to submit</rpc:parameter>
+
+            <db:get model="#Collection" let:uuid="collection" dst="collection"/>
+            <rpc:error code="unknown_collection" if="not collection">
+                No collection with UUID ${collection}
+            </rpc:error>
+
+            <dict dst="result" let:image="image"/>
+
+            <db:get model="#Image"
+                filter="#Image.uuid == image and #Image.collection == collection"
+                dst="image"/>
+
+            <forms:get form="#form.image.edit.remote" src="image" bind="bind" dst="form"
+                let:collection="collection" let:image="image"/>
+            <forms:validate src="form" if="bind">
+                <forms:apply src="form" dst="image"/>
+                <let image.updated_time=".now" result.valid="yes"/>
+            </forms:validate>
+
+            <render-template template="widgets/manager/image_form.html" dst="result.html"
+                let:image="image"
+                let:form="form"/>
+
+            <render-template template="widgets/manager/manager_image.html" dst="result.tile_html"
+                let:image="image" />
+
+            <let result.replace="image.uuid"/>
+            <return value="result"/>
+        </rpc:method>
+
+    </rpc:interface>
+
+
+</moya>

@@ -1,0 +1,26 @@
+<moya xmlns="http://moyaproject.com">
+
+
+    <mountpoint name="main">
+        <url route="/img/{image}" methods="GET" view="#view.image.serve" name="serve_image"/>
+        <url route="/collection/{collection}/{filename}" methods="GET" view="#view.collection.image.serve" name="serve_collection_image"/>
+
+        <url route="/" mount="#mountpoint.edit" name="edit"/>
+
+    </mountpoint>
+
+    <mountpoint libname="mountpoint.edit">
+        <url route="*">
+            <forbidden if="not permission:.app.settings.edit_permission.list" />
+        </url>
+        <url route="/upload/" methods="GET,POST" view="#view.upload" name="upload" />
+        <url route="/manage/{collection_name}/" methods="GET,POST" view="#view.collection.manage" name="manage" />
+        <url route="/picker-upload/{collection}/" methods="POST" view="#view.picker.upload" name="picker_upload" />
+        <url route="/jsonrpc/" view="#jsonrpc.interface" name="jsonrpc"/>
+    </mountpoint>
+
+    <mountpoint name="tests">
+        <url route="/tests/" view="#view.tests" name="tests" />
+    </mountpoint>
+
+</moya>

@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<moya xmlns="http://moyaproject.com"
+    xmlns:let="http://moyaproject.com/let"
+    xmlns:db="http://moyaproject.com/db"
+    xmlns:forms="http://moyaproject.com/forms"
+    xmlns:logins="http://moyaproject.com/logins">
+
+    <!--
+    https://requests-oauthlib.readthedocs.org/en/latest/examples/real_world_example.html#real-example
+    -->
+
+    <view libname="view.login">
+        <logins:get-provider name="${url.provider}" dst="provider" />
+        <logins:get-credentials name="${url.provider}" dst="credentials" />
+        <not-found if="not provider or not credentials" />
+        <var dst=".session.login_fwd" value=".request.GET.fwd or '/'"/>
+
+        <if test="provider.oauth == 1">
+            <call macro="#get_oauth_resource_owner"
+                let:credentials="credentials"
+                let:provider="provider"
+                dst="resource_owner" />
+
+            <dict dst=".session.oauth1"/>
+            <var dst=".session.oauth1.resource_owner" value="resource_owner" />
+            <db:commit/>
+
+            <call macro="#get_oauth_authorize_url"
+                let:provider="provider"
+                let:credentials="credentials"
+                dst="authorize_url" />
+
+            <redirect-to url="${authorize_url}" />
+        </if>
+        <else>
+            <get-fq-url name="callback" let:provider="url.provider" dst="redirect_uri"/>
+            <call macro="#get_oauth2_session" dst="state"
+                let:credentials="credentials"
+                let:provider="provider"
+                let:redirect_uri="redirect_uri" />
+
+            <dict dst=".session.oauth2"/>
+            <var dst=".session.oauth2.state" value="state.state"/>
+            <db:commit/>
+
+            <redirect-to url="${state.authorization_url}" />
+        </else>
+
+    </view>
+
+    <view libname="view.callback">
+        <logins:get-provider name="${url.provider}" dst="provider" />
+        <logins:get-credentials name="${url.provider}" dst="credentials" />
+        <not-found if="not provider or not credentials" />
+        <var dst=".session.oauth_provider" value="provider"/>
+        <db:commit/>
+
+        <let error="'error' in .request.GET or 'denied' in .request.GET" />
+        <redirect name="login" from="moya.auth"
+            query="fwd=.session.login_fwd or '/',error='fail',provider=.url.provider"
+            if="error" />
+
+        <switch on="provider.oauth">
+            <case value="1"/> <defer to="#oauth1_callback"/>
+            <case value="2"/> <defer to="#oauth2_callback"/>
+            <default-case/> <not-found/>
+        </switch>
+    </view>
+
+    <macro libname="oauth1_callback">
+        <try>
+            <let oauth_response="dict:.request.GET" />
+
+            <call macro="#get_oauth_profile"
+                    let:credentials="credentials"
+                    let:provider="provider"
+                    let:verifier="oauth_response.oauth_verifier"
+                    dst="oauth_profile" />
+
+            <call macro="#login_profile"
+                let:profile="oauth_profile.profile"
+                let:info="oauth_profile.info"
+                dst="user" />
+
+            <if test="not user and .app.settings.pick_username.bool">
+                <var dst=".session.oauth_profile" value="oauth_profile"/>
+                <redirect name="pick_username"
+                    let:provider=".url.provider"
+                    query="username=oauth_profile.profile.username or ''" />
+            </if>
+
+            <call macro="#new_user" if="not user"
+                let:profile="oauth_profle.profile"
+                let:info=".session.oauth_profile.info"
+                let:provider=".url.provider"
+                dst="user"/>
+        </try>
+        <catch dst="e">
+            <log-warn>oauth1 login failed (${e.msg})</log-warn>
+        </catch>
+        <redirect name="login" from="moya.auth"
+            query="fwd=.session.login_fwd or '/',error='nouser',provider=.url.provider" if="not user"/>
+        <redirect-to url="${.session.login_fwd or '/'}"/>
+
+    </macro>
+
+    <macro libname="oauth2_callback">
+        <get-fq-url name="callback" let:provider="url.provider" dst="redirect_uri"/>
+
+        <try>
+            <call macro="#fetch_oauth2_token"
+                let:credentials="credentials"
+                let:redirect_uri="redirect_uri"
+                let:provider="provider"
+                dst="token"/>
+
+            <var dst=".session.oauth_token" value="token"/>
+
+            <call macro="#get_oauth2_profile"
+                let:credentials="credentials"
+                let:provider="provider"
+                let:token="token"
+                dst="oauth_profile" />
+
+            <call macro="#login_profile"
+                let:profile="oauth_profile.profile"
+                let:info="oauth_profile.info"
+                dst="user" />
+
+            <if test="not user and .app.settings.pick_username.bool">
+                <var dst=".session.oauth_profile" value="oauth_profile"/>
+                <redirect name="pick_username"
+                    let:provider=".url.provider"
+                    query="username=oauth_profile.profile.username or ''" />
+            </if>
+
+            <call macro="#new_user" if="not user"
+                let:profile="oauth_profle.profile"
+                let:info=".session.oauth_profile.info"
+                let:provider=".url.provider"
+                dst="user"/>
+        </try>
+        <catch exception="moya.logins.insecure-transport" dst="e">
+            <log-warn>OAuth2 login failed (${e.msg})</log-warn>
+            <log-warn>OAuth2 requires HTTPS</log-warn>
+            <log-warn>During development do 'export OAUTHLIB_INSECURE_TRANSPORT=1'</log-warn>
+        </catch>
+        <catch dst="e">
+            <log-warn>OAuth2 login failed (${e.msg})</log-warn>
+        </catch>
+
+        <redirect name="login" from="moya.auth"
+            query="fwd=.session.login_fwd or '/',error='nouser',provider=.url.provider" if="not user"/>
+        <get-url name="login" dst="login_url" let:provider=".url.provider"/>
+        <redirect-to url="/" if=".session.login_fwd==login_url" />
+        <redirect-to url="${.session.login_fwd or '/'}"/>
+
+    </macro>
+
+    <view libname="view.admin.custom.credentials" content="#content.admin.credentials">
+        <if-post>
+            <forms:get form="#form.provider.credentials" dst="post_form"
+                let:provider_name=".request.POST.provider"/>
+            <forms:validate src="post_form">
+                <db:get-or-create model="#OAuth2Credentials" let:provider="post_form.data.provider" dst="credentials"/>
+                <forms:apply src="post_form" dst="credentials"/>
+                <let success="True"/>
+            </forms:validate>
+        </if-post>
+    </view>
+
+    <view libname="view.pick_username" content="#content.pick_username">
+        <not-found if="not .session.oauth_profile" />
+        <forms:get form="#form.pick_username" dst="form" let:username=".request.GET.username"/>
+        <forms:validate src="form">
+            <db:get model="moya.auth#User" let:username="form.data.username" dst="user" />
+            <if test="user">
+                <forms:error>Sorry, that username is taken. Please pick another.</forms:error>
+                <done/>
+            </if>
+
+            <call macro="#new_user"
+                let:profile=".session.oauth_profile.profile"
+                let:info=".session.oauth_profile.info"
+                let:provider=".url.provider"
+                let:username="form.data.username"
+                dst="user"/>
+            <redirect name="login" from="moya.auth"
+                query="fwd=.session.login_fwd or '/',error='nouser',provider=.url.provider" if="not user"/>
+            <redirect-to url="${.session.login_fwd or '/'}"/>
+        </forms:validate>
+    </view>
+
+    <view libname="view.login2">
+
+    </view>
+
+</moya>

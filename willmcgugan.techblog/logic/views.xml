@@ -1,0 +1,352 @@
+<moya xmlns="http://moyaproject.com"
+      xmlns:let="http://moyaproject.com/let"
+      xmlns:db="http://moyaproject.com/db"
+      xmlns:forms="http://moyaproject.com/forms"
+      xmlns:techblog="http://willmcgugan.com/techblog"
+      xmlns:moya="http://moyaproject.com"
+      xmlns:imglib="http://moyaproject.com/imagelib">
+
+    <mountpoint name="main">
+        <url route="/" mount="#mountpoint.channel" let:channel="'root'" />
+        <url route="/blog/{slug:blog}/" name="blogs" mount="#mountpoint.blog"/>
+        <url route="/jsonrpc/" methods="GET,POST" name="rpc" view="#jsonrpc.interface"/>
+    </mountpoint>
+
+    <mountpoint name="channel" libname="mountpoint.channel">
+        <!-- public urls -->
+        <url route="/" view="#view.channel.list" name="channel_list" />
+        <url route="/new-blog/" view="#view.blog.new" name="new_blog" />
+        <url route="/feeds/posts/" methods="GET" view="#view.channel.feed" name="channel_feed"/>
+        <url route="/{posinteger:year}/{posinteger:month}/" name="channel_month" methods="GET" view="#view.channel.posts-by-month"/>
+        <url route="/{integer:year}/{integer:month}/{integer:day}/{slug:slug}/" methods="GET" view="#view.channel.showpost_dated"/>
+        <url route="/search/" methods="GET" view="#view.search" name="search"/>
+        <url route="/tag/{slug:tagslug}/" methods="GET" view="#view.tag" name="tag"/>
+
+        <!-- admin urls -->
+        <url route="/settings/" methods="GET,POST" view="#view.channel.settings" name="channel_settings"/>
+        <url route="/images/" methods="GET" view="#view.channel.images" name="channel_images"/>
+    </mountpoint>
+
+    <mountpoint name="blog" libname="mountpoint.blog">
+        <!-- public urls -->
+        <url route="/" methods="GET" view="#view.blog.list" name="list"/>
+        <url route="/post/{slug:slug}/" methods="GET" view="#view.showpost" name="showpost" />
+        <url route="/feeds/posts/" methods="GET" view="#view.feed" name="feed"/>
+        <url route="/{integer:year}/{integer:month}/{integer:day}/{slug:slug}/" methods="GET" view="#view.showpost_dated" name="showpost_dated" />
+        <url route="/{posinteger:year}/{posinteger:month}/" methods="GET" view="#view.posts-by-month" name="month"/>
+
+        <!-- admin urls -->
+        <url route="/settings/" methods="GET,POST" view="#view.blog.settings" name="settings"/>
+        <url route="/images/" methods="GET" view="#view.blog.images" name="images"/>
+        <url route="/write/" methods="GET,POST" view="#view.new-post" name="newpost"/>
+        <url route="/edit/{slug:slug}/" methods="GET,POST" view="#view.edit-post" name="editpost" />
+        <url route="/delete/{slug:slug}/" methods="GET" view="#view.delete-post" name="deletepost" />
+        <url route="/delete/{slug:slug}/" methods="POST" view="#view.delete-post.post" />
+        <url route="/publish/{posinteger:id}/" methods="GET" view="#view.publish" name="publish" />
+        <url route="/publish/{posinteger:id}/" methods="POST" view="#view.publish.post" />
+        <url route="/hide/{posinteger:id}/" methods="GET,POST" view="#view.hide" name="hide" />
+        <url route="/drafts/" methods="GET" view="#view.drafts" name="drafts" />
+    </mountpoint>
+
+    <handle signal="db.pre-update,db.pre-insert" sender="#Post">
+        <let post="signal.data.object"
+            post.updated_date=".now"
+            post.blog.updated_date=".now"/>
+        <process-markup src="post.content" type="${post.markup}" dst="html"/>
+        <let post.content_text="striptags:html" />
+    </handle>
+
+    <view libname="view.blog.new" content="#content.blog.new" requires="permission:'admin'">
+        <forms:get form="#form.blog.new" dst="form"/>
+        <forms:validate src="form" >
+            <let slug="form.data.slug or slug:form.data.title"/>
+            <db:get-or-create model="#Blog" dst="blog"
+                let:slug="slug" initial="{'title': form.data.title, 'owner': .user}" />
+            <redirect name="settings" let:blog="blog.slug" />
+        </forms:validate>
+    </view>
+
+    <view libname="view.channel.list" content="#content.channel.posts">
+        <db:get-required model="#Channel" let:slug=".url.channel" dst="channel"/>
+
+        <not-found if="exists:.request.GET.page and not int:.request.GET.page" />
+        <let page="int:.request.GET.page or 1" pagesize=".app.settings.page_size.int"/>
+
+        <db:query model="#Post" src="channel.posts" dst="posts"
+            orderby="published,-published_date" />
+
+        <let blogs="channel.blogs"/>
+    </view>
+
+    <view libname="view.blog.settings" content="#content.blog.settings" requires="permission:'admin'">
+        <db:get-required model="#Blog" let:slug=".url.blog" dst="blog" />
+        <forms:get form="#form.blog.settings" dst="form" src="blog" let:blog="blog"/>
+        <let success="'success' in .request.GET"/>
+        <forms:validate src="form">
+            <forms:apply src="form" dst="blog" />
+            <let blog.updated_date=".now"/>
+            <redirect name="settings" let:blog="blog.slug" query="{'success': ''}"/> <!-- in case the slug changes -->
+        </forms:validate>
+    </view>
+
+    <view libname="view.channel.settings" content="#content.channel.settings" requires="permission:'admin'">
+        <db:get-required model="#Channel" let:slug=".url.channel" dst="channel" />
+        <forms:get form="#form.channel.settings" dst="form" src="channel" let:channel="channel"/>
+        <let success="'success' in .request.GET"/>
+        <forms:validate src="form">
+            <forms:apply src="form" dst="channel" />
+            <let channel.updated_date=".now"/>
+            <redirect name="channel_settings" let:blog="blog.slug" query="{'success': ''}"/> <!-- in case the slug changes -->
+        </forms:validate>
+    </view>
+
+    <view libname="view.blog.images" content="#content.blog.images" requires="permission:'admin'">
+        <db:get-required model="#Blog" let:slug=".url.blog" dst="blog" />
+    </view>
+
+    <view libname="view.channel.images" content="#content.channel.images" requires="permission:'admin'">
+        <db:get-required model="#Channel" let:slug=".url.channel" dst="channel" />
+    </view>
+
+    <view libname="view.blog.list" content="#content.blog.posts">
+        <db:get-required model="#Blog" let:slug=".url.blog" dst="blog" />
+        <not-found if="exists:.request.GET.page and not int:.request.GET.page" />
+        <let page="int:.request.GET.page or 1" pagesize=".app.settings.page_size.int"/>
+        <db:query model="#Post" src="blog.display_posts" dst="posts"
+            orderby="published,-published_date"/>
+    </view>
+
+    <view libname="view.posts-by-month" content="#content.list-posts-by-month">
+        <db:get-required model="#Blog" let:slug=".url.blog" dst="blog" />
+        <not-found if="exists:.request.GET.page and not int:.request.GET.page" />
+        <let page="int:.request.GET.page or 1" pagesize=".app.settings.page_size.int"/>
+        <datetime dst="start" year="${url.year}" month="${url.month}"/>
+        <catch exception="datetime.*">
+            <not-found />
+        </catch>
+        <db:query model="#Post" src="blog.display_posts" dst="posts" orderby="-published_date"
+            filter="#Post.published_date gte start and #Post.published_date lt start.next_month"/>
+    </view>
+
+    <view libname="view.channel.posts-by-month" content="#content.channel.list-posts-by-month">
+        <db:get-required model="#Channel" let:slug=".url.channel" dst="channel" />
+        <not-found if="exists:.request.GET.page and not int:.request.GET.page" />
+        <let page="int:.request.GET.page or 1" pagesize=".app.settings.page_size.int"/>
+        <datetime dst="start" year="${url.year}" month="${url.month}"/>
+        <catch exception="datetime.*">
+            <not-found />
+        </catch>
+        <db:query model="#Post" dst="posts"
+            filter="#Post.blog.id in channel.blogs"
+            orderby="published,-published_date" />
+        <db:query model="#Post" src="channel.display_posts" dst="posts" orderby="-published_date"
+            filter="#Post.published_date gte start and #Post.published_date lt start.next_month"/>
+    </view>
+
+    <view libname="view.new-post" content="#content.new-post" requires="permission:'admin'">
+        <db:get-required model="#Blog" let:slug=".url.blog" dst="blog" />
+        <forms:get form="#form.post.new" dst="form" let:blog="blog"/>
+        <forms:validate src="form">
+            <let slug="form.data.slug or slug:form.data.title"/>
+            <try>
+                <db:create model="#Post" obj="form.data" dst="post"
+                    let:blog="blog"
+                    let:owner=".user"
+                    let:slug="slug"
+                    let:updated_date=".now"/>
+                <db:create model="moya.imagelib#Collection" dst="post.images"/>
+                <redirect name="editpost" let:blog="blog.slug" let:slug="post.slug"/>
+            </try>
+            <catch exception="db.integrity-error">
+                <forms:error field="slug" src="form">A post with slug '${slug}' exists</forms:error>
+                <break/>
+            </catch>
+        </forms:validate>
+    </view>
+
+    <view libname="view.edit-post" content="#content.edit-post" requires="permission:'admin'">
+        <db:get-required model="#Post" dst="post" let:slug="url.slug"/>
+        <db:create model="moya.imagelib#Collection" dst="post.images" if="not post.images"/>
+
+        <db:get-or-create model="#Draft" let:post="post" dst="draft"
+            initial="{'slug': post.slug, 'title': post.title}">
+            <let draft.tagline="post.tagline"
+                draft.type="post.type"
+                draft.markup="post.markup"
+                draft.content="post.content"
+                draft.tagtext="post.tagtext"/>
+            <!-- We want to create a clone of the original image info so we can edit in the draft -->
+            <imglib:clone-collection collection="post.images" dst="draft.images" />
+        </db:get-or-create>
+
+        <forms:get form="#form.post.edit" src="draft" dst="form"
+            let:post="post" let:blog="post.blog" />
+
+        <forms:validate-post src="form">
+            <if test="form.data.action == 'cancel'">
+                <db:delete src="draft"/>
+                <redirect name="showpost" let:blog="post.blog.slug" let:slug="post.slug" />
+            </if>
+            <forms:apply src="form" dst="post"/>
+            <db:commit />
+            <catch exception="db.integrity-error">
+                <forms:error field="slug" src="form">Slug exists, please edit</forms:error>
+                <break/>
+            </catch>
+            <let post.images="draft.images" draft.images="None"/>
+            <let post.updated_date=".now" />
+            <techblog:update-tags post="post" tags="post.tagtext" />
+            <db:delete src="draft"/>
+            <redirect name="showpost" let:blog="post.blog.slug" let:slug="post.slug" />
+        </forms:validate-post>
+    </view>
+
+    <view libname="view.delete-post" content="#content.delete-post" requires="permission:'admin'">
+        <db:get-required model="#Blog" let:slug=".url.blog" dst="blog" />
+        <db:get-required model="#Post" dst="post" let:blog="blog" let:slug="url.slug"/>
+        <forms:get form="#form.post.delete" dst="form" let:post="post" />
+    </view>
+
+    <view libname="view.delete-post.post" content="#content.delete-post" requires="permission:'admin'">
+        <db:get-required model="#Blog" let:slug=".url.blog" dst="blog" />
+        <db:get-required model="#Post" dst="post" let:blog="blog" let:slug="url.slug"/>
+        <forms:get form="#form.post.delete" dst="form" let:post="post" />
+        <forms:validate src="form">
+            <redirect name="showpost" let:slug="post.slug" let:blog="post.blog.slug" if="not form.data.delete" />
+            <techblog:update-tags post="post" />
+            <db:delete src="post" />
+            <let deleted="post.title" />
+        </forms:validate>
+    </view>
+
+    <view libname="view.showpost" content="#content.post">
+        <db:get-required model="#Blog" let:slug=".url.blog" dst="blog" />
+        <db:get-required model="#Post" dst="post" let:blog="blog" let:slug="url.slug" />
+        <not-found if="not .permissions.admin and not post.published" />
+        <db:query model="#Post" let:published="yes" dst="posts"/>
+        <if test="post.published_date">
+            <db:query dst="newer_posts" src="posts" let:blog="blog"
+                filter="#Post.published_date gt post.published_date" orderby="published_date"/>
+            <let newer="newer_posts.first"/>
+            <db:query dst="older_posts" src="posts" let:blog="blog"
+                filter="#Post.published_date lt post.published_date" orderby="-published_date"/>
+            <let older="older_posts.first"/>
+        </if>
+        <let post_url=".request.path" />
+    </view>
+
+    <view libname="view.showpost_dated">
+        <!--
+        Previous Techblog had posts on more than one URL.
+        This is a regrettable design decision, which we can fix by permanently redirecting to a single canonical URL.
+        -->
+        <db:get-required model="#Blog" let:slug=".url.blog" dst="blog" />
+        <db:get-required model="#Post" dst="post" let:blog="blog" let:slug="url.slug" />
+        <let date="post.published_date"/>
+        <not-found if="date.year != .url.year or date.month != .url.month or date.day != .url.day" />
+        <redirect code="moved_permanently" name="showpost" let:blog="blog.slug" let:slug="post.slug" />
+    </view>
+
+    <view libname="view.channel.showpost_dated">
+        <db:get-required model="#Channel" let:slug=".url.channel" dst="channel" />
+        <db:get-required model="#Post" dst="post" filter="#Post.blog.id in channel.blogs" let:slug="url.slug" />
+        <let date="post.published_date"/>
+        <not-found if="date.year != .url.year or date.month != .url.month or date.day != .url.day" />
+        <redirect code="moved_permanently" name="showpost" let:blog="post.blog.slug" let:slug="post.slug" />
+    </view>
+
+    <view libname="view.publish" content="#content.publish-post" requires="permission:'admin'">
+        <db:get-required model="#Post" dst="post" let:id="url.id" />
+        <forms:get form="#form.post.publish" dst="form" let:post="post" />
+    </view>
+
+    <view libname="view.publish.post" requires="permission:'admin'">
+        <db:get-required model="#Post" dst="post" let:id="url.id" />
+        <let post.published="yes" post.published_date=".now" if="not .request.POST.cancel"/>
+        <redirect name="showpost" let:blog="post.blog.slug" let:slug="post.slug" />
+    </view>
+
+    <view libname="view.hide" content="#content.hide-post" requires="permission:'admin'">
+        <db:get-required model="#Post" dst="post" let:id="url.id" />
+        <forms:get form="#form.post.hide" dst="form" let:post="post" />
+        <if-post>
+            <let post.published="no" if="not .request.POST.cancel"/>
+            <redirect name="showpost" let:blog="post.blog.slug" let:slug="post.slug" />
+        </if-post>
+    </view>
+
+    <view libname="view.feed">
+        <db:get-required model="#Blog" let:slug=".url.blog" dst="blog" />
+        <get-fq-url let:blog="blog.slug" name="list" dst="blog_url" />
+
+        <feed title="${blog.title}"
+            description="${blog.description}"
+            link="${blog_url}" dst="feed"/>
+
+        <db:query model="#Post" dst="posts"
+            let:blog="blog"
+            filter="#Post.published==True"
+            orderby="-published_date"
+            maxresults="25"/>
+
+        <for src="posts" dst="post">
+            <get-fq-url name="showpost" let:blog="post.blog.slug" let:slug="post.slug" dst="post_url"/>
+            <render-template template="feed_description.html" let:post="post" dst="description"/>
+            <add-feed-item src="feed"
+                title="post.title" link="post_url" description="description"
+                pub_date="post.published_date"/>
+        </for>
+        <serve-xml content_type="application/rss+xml" obj="feed"/>
+    </view>
+
+    <view libname="view.channel.feed">
+        <db:get-required model="#Channel" let:slug=".url.channel" dst="channel" />
+        <get-fq-url let:channel="channel.slug" name="channel_list" dst="channel_url" />
+
+        <feed title="${channel.title}"
+            description="channel feed"
+            link="${channel_url}" dst="feed"/>
+
+        <db:query model="#Post" dst="posts"
+            filter="#Post.blog.id in channel.blogs and #Post.published==True"
+            orderby="-published_date"
+            maxresults="25"/>
+
+        <for src="posts" dst="post">
+            <get-fq-url name="showpost" let:blog="post.blog.slug" let:slug="post.slug" dst="post_url"/>
+            <render-template template="feed_description.html" let:post="post" dst="description"/>
+            <add-feed-item src="feed"
+                title="post.title" link="post_url" description="description"
+                pub_date="post.published_date"/>
+        </for>
+        <serve-xml content_type="application/rss+xml" obj="feed"/>
+    </view>
+
+    <view libname="view.search" content="#content.search">
+        <let search=".request.GET.s" />
+        <list dst="posts"/>
+        <if test="search">
+            <db:query model="#Post" dst="posts"
+                filter="#Post.title contains search or #Post.content_text contains search"
+                orderby="-published_date"/>
+            <db:query src="posts" dst="posts"
+                if="not .permssions.admin" let:published="yes"/>
+        </if>
+    </view>
+
+    <view libname="view.tag" content="#content.tag">
+        <db:get-required model="#Tag" let:slug=".url.tagslug" dst="tag" />
+        <db:query model="#Post" src="tag.posts" dst="posts"
+            filter="#Post.blog.promoted == yes"
+            orderby="-published_date"/>
+        <db:query src="posts" dst="posts"
+            if="not .permssions.admin" let:published="yes"/>
+    </view>
+
+
+    <view libname="view.drafts" content="#content.drafts" requires="permission:'admin'">
+        <db:get-required model="#Blog" let:slug=".url.blog" dst="blog" />
+        <db:query model="#Draft" filter="#Draft.post.blog==blog" orderby="title" dst="drafts"/>
+    </view>
+
+</moya>

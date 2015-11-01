@@ -1,0 +1,28 @@
+{%- let active_index=0, disabled=disabled or not bool:self.children -%}
+{%- for index, child in enumerate:self.children %}
+    {%- if field.value == str:child.value %}{% let active_index=index %}{% end-if %}
+{%- end-for %}
+
+<div class="moya-widgets-select-container" {% if disabled %}disabled="disabled"{% endif %} id="${id}" {% data-attrib count=len:self.children, active=active_index %}>
+    <div class="moya-widgets-select moya-colors-text">
+    {%- for index, child in enumerate:self.children -%}
+        {%- render child with index=index, field=field, active=index==active_index -%}
+    {%- empty %}
+        <p>empty</p>
+    {%- endfor %}
+    </div>
+
+    {% with child=self.children[active_index], index=active_index %}
+    <div class="moya-widgets-select-current">
+    {%- if not missing:child %}
+    {% render child with index=index, field=field %}
+    {%- else %}
+    <div class="moya-widgets-option moya-widgets-disabled">
+        &hellip;
+    </div>
+    {%- end-if -%}
+    </div>
+    {% end-with %}
+
+    <input style="position:absolute;margin-left:-9999px;" {% attrib class=field.class, name=(name or field.name), value=(field.value or '') %}/>
+</div>

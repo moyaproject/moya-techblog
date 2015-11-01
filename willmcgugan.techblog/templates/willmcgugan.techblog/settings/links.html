@@ -1,0 +1,12 @@
+
+<div class="list-group">
+    {%- if .url.blog %}
+    <a href="{% url 'settings' with blog=.url.blog %}" {% attrib class=['list-group-item', .urlname=='settings' ? 'active' : None] %}>Settings</a>
+    <a href="{% url 'images' with blog=.url.blog %}" {% attrib class=['list-group-item', .urlname=='images' ? 'active' : None] %}>Images</a>
+    <a href="{% url 'drafts' with blog=.url.blog %}" {% attrib class=['list-group-item', .urlname=='drafts' ? 'active' : None] %}>Drafts</a>
+    {%- end %}
+    {%- if .url.channel %}
+    <a href="{% url 'channel_settings' with blog=.url.channel %}" {% attrib class=['list-group-item', .urlname=='channel_settings' ? 'active' : None] %}>Settings</a>
+    <a href="{% url 'channel_images' with blog=.url.channel %}" {% attrib class=['list-group-item', .urlname=='channel_images' ? 'active' : None] %}>Images</a>
+    {%- end %}
+</div>

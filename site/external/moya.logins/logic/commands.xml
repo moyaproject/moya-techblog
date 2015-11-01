@@ -1,0 +1,10 @@
+<moya>
+    <command libname="cmd.list.providers">
+        <call macro="#get_providers" dst="providers"/>
+        <for src="items:providers" dst="name,provider">
+            <echo style="green">[provider=${name}]</echo>
+            <echo obj="provider"/>
+        </for>
+    </command>
+
+</moya>

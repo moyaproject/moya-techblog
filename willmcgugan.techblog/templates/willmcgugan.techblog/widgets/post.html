@@ -1,0 +1,21 @@
+<article class="techblog-post full">
+
+    <header class="page-header">
+        <h1>
+        {%- if linktitle %}
+        <a href="{% url "showpost" with slug=post.slug, blog=post.blog.slug %}">${post.title}</a>
+        {%- else %}
+        ${post.title}
+        </h1>
+    </header>
+
+    {%- if .user and not post.published %}
+    <div class="alert alert-info">
+        <p class="clearfix">
+            This post is currently only visible to admin &mdash; <a class="alert-link" href="{% url "publish" with blog=post.blog.slug, id=post.id %}">Publish this post?</a>
+        </p>
+    </div>
+    {%- endif %}
+
+    {% include "widgets/post_content.html" %}
+</article>

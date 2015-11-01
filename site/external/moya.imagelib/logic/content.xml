@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<moya xmlns="http://moyaproject.com"
+      xmlns:let="http://moyaproject.com/let"
+      xmlns:db="http://moyaproject.com/db"
+      xmlns:forms="http://moyaproject.com/forms"
+      xmlns:html="http://moyaproject.com/html"
+      xmlns:imglib="http://moyaproject.com/imagelib"
+      xmlns:w="http://moyaproject.com/widgets">
+
+    <!-- Content is a high level description of a page -->
+    <content libname="content.front" template="base.html">
+        <section name="body">
+            <html:div class="well" if="name">Hello, ${name}!</html:div>
+            <render src="form" />
+        </section>
+    </content>
+
+    <content libname="content.test.form">
+        <section name="body">
+            <render src="form"/>
+        </section>
+    </content>
+
+    <content libname="content.upload">
+        <section name="body">
+            <render src="form"/>
+        </section>
+    </content>
+
+    <content libname="content.collection.manage" template="managerbase.html">
+        <section name="body">
+            <imglib:manager collection="collection" fullsize="yes"/>
+        </section>
+    </content>
+
+    <content libname="content.tests">
+        <section name="body">
+            <w:select>
+                <for src="collection.images" dst="image">
+                    <w:option value="image.pk">
+                        <node template="option.html" let:img="image"/>
+                    </w:option>
+                </for>
+            </w:select>
+            <imglib:manager collection="collection" picker="yes"/>
+        </section>
+    </content>
+</moya>

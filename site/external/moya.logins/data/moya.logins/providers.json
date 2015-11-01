@@ -1,0 +1,99 @@
+{
+    "google": {
+        "title": "Google",
+        "name": "google",
+        "oauth": 2,
+
+        "help":"Go to [Google developers console](https://console.developers.google.com) and **click APIs &amp; auth / Credentials**. Add a new application.",
+
+        "authorization_base_url": "https://accounts.google.com/o/oauth2/auth",
+        "token_url": "https://accounts.google.com/o/oauth2/token",
+
+        "scope": ["email", "profile"],
+
+        "resources": {
+            "profile": "https://www.googleapis.com/oauth2/v1/userinfo?alt=json"
+        },
+
+        "profile": {
+            "username": "first:partition:[profile.email, '@'] or 'googleuser'",
+            "first_name": "profile.given_name",
+            "last_name": "profile.family_name",
+            "email": "profile.verified_email ? profile.email : ''",
+            "id": "profile.id"
+        }
+
+    },
+    "github": {
+        "title": "GitHub",
+        "name": "github",
+        "oauth": 2,
+
+        "help": "Add a new *Developer application* [here](https://github.com/settings/applications).",
+
+        "authorization_base_url": "https://github.com/login/oauth/authorize",
+        "token_url": "https://github.com/login/oauth/access_token",
+        "scope": ["user"],
+
+        "resources": {
+            "profile": "https://api.github.com/user"
+        },
+
+        "profile": {
+            "username": "profile.login",
+            "first_name": "first:partition:profile.name",
+            "last_name": "last:partition:profile.name",
+            "email": "profile.email",
+            "id": "profile.id"
+        }
+    },
+    "facebook": {
+        "title": "Facebook",
+        "name": "facebook",
+        "oauth": 2,
+
+        "help": "Create a new Facebook app [here](https://developers.facebook.com/).",
+
+        "authorization_base_url": "https://www.facebook.com/dialog/oauth",
+        "token_url": "https://graph.facebook.com/oauth/access_token",
+
+        "scope": ["email", "public_profile"],
+
+        "resources": {
+            "profile": "https://graph.facebook.com/me?"
+        },
+
+        "profile": {
+            "first_name": "profile.first_name",
+            "last_name": "profile.last_name",
+            "email": "profile.email",
+            "id": "str:profile.id"
+        }
+
+    },
+    "twitter": {
+        "title": "Twitter",
+        "name": "twitter",
+        "oauth": 1,
+
+        "help": "Manage your twitter apps [here](https://apps.twitter.com/).",
+
+        "authorization_base_url": "https://api.twitter.com/oauth/authorize",
+        "request_token_url": "https://api.twitter.com/oauth/request_token",
+        "access_token_url": "https://api.twitter.com/oauth/access_token",
+
+        "scope": [],
+
+        "resources": {
+            "profile": "https://api.twitter.com/1.1/account/verify_credentials.json"
+        },
+
+        "profile": {
+            "username": "profile.screen_name",
+            "first_name": "first:partition:profile.name",
+            "last_name": "last:partition:profile.name",
+            "id": "profile.id"
+        }
+
+    }
+}

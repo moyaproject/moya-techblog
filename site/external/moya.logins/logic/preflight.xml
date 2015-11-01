@@ -1,0 +1,13 @@
+<moya xmlns="http://moyaproject.com"
+      xmlns:let="http://moyaproject.com/let"
+      xmlns:db="http://moyaproject.com/db"
+      xmlns:preflight="http://moyaproject.com/preflight">
+
+    <preflight:check>
+        <preflight:fail if="not .app.mounts">
+            moya.logins is not mounted.
+            Add a &lt;mount&gt; tag to your sever.xml, or set the 'mount' attribute on the &lt;install&gt; tag.
+        </preflight:fail>
+    </preflight:check>
+
+</moya>

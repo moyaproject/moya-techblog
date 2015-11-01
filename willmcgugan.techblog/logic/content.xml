@@ -1,0 +1,294 @@
+<moya xmlns="http://moyaproject.com"
+      xmlns:moya="http://moyaproject.com"
+      xmlns:blog="http://willmcgugan.com/techblog"
+      xmlns:let="http://moyaproject.com/let"
+      xmlns:html="http://moyaproject.com/html"
+      xmlns:comments="http://moyaproject.com/comments"
+      xmlns:db="http://moyaproject.com/db"
+      xmlns:w="http://moyaproject.com/widgets"
+      xmlns:techblog="http://willmcgugan.com/techblog"
+      xmlns:imagelib="http://moyaproject.com/imagelib">
+
+    <content libname="content.base" template="base.html" final="yes">
+        <include-css path="css/bootstrap.min.css" from="moya.twitter.bootstrap"/>
+        <include-css path="css/blog.css" from="willmcgugan.techblog"/>
+        <include-css path="highlight/styles/github-gist.css" />
+
+        <include-js path="js/bootstrap.js" from="moya.twitter.bootstrap"/>
+        <include-js path="highlight/highlight.pack.js" />
+        <include-js path="js/techblog.js"/>
+        <include-js path="js/jsonrpc.js" from="moya.jsonrpc" />
+
+        <db:query model="#Blog" let:promoted="yes" orderby="title" dst="promoted_blogs" />
+    </content>
+
+    <content libname="content.blog.base" extends="#content.base">
+        <db:query model="#Blog" orderby="title" dst="list_blogs"/>
+        <section name="admin_links" merge="append">
+            <if test=".url.blog">
+                <w:link icon="edit" name="settings" let:blog=".url.blog">Blog Settings</w:link>
+                <w:link icon="picture" name="images" let:blog=".url.blog">Blog Images</w:link>
+                <w:link icon="pencil" name="drafts" let:blog=".url.blog">Drafts</w:link>
+            </if>
+            <if test=".url.channel">
+                <w:link icon="edit" name="channel_settings" let:blog=".url.channel">Channel Settings</w:link>
+                <w:link icon="picture" name="channel_images" let:channel=".url.channel">Channel Images</w:link>
+                <w:link/>
+                <w:link icon="plus" name="new_blog">New Blog</w:link>
+            </if>
+            <w:link if="list_blogs.count"/>
+            <for src="list_blogs" dst="b">
+                <w:link icon="${.url.blog==b.slug ? 'star' : 'star-empty'}" name="list" let:blog="b.slug">${b.title}</w:link>
+            </for>
+        </section>
+    </content>
+
+    <content libname="content.blog.new" extends="#content.blog.base">
+        <title>New Blog</title>
+        <section name="content">
+            <render src="form"/>
+        </section>
+    </content>
+
+    <content libname="content.list-posts" extends="#content.blog.base" template="list.html">
+        <title>${channel.title}</title>
+        <section name="content">
+            <not-found if="page lt 1" />
+            <map src="posts" value="sub:'post-${id}'" dst="comment_objects" />
+            <comments:get-counts dst="comment_counts" namespace="app-${.app.name}"
+                topics="comment_objects" />
+            <w:paginate src="posts" dst="post" pagesize="pagesize">
+                <blog:post template="widgets/post_summary.html" post="post" numcomments="comment_counts[sub:'post-${post.id}']"/>
+            </w:paginate>
+            <html:div if="not posts" class="alert">No posts yet!</html:div>
+        </section>
+        <section name="side">
+            <techblog:posts-by-month blog="blog"/>
+        </section>
+    </content>
+
+    <content libname="content.blog.posts" extends="#content.list-posts" template="blog_list.html">
+        <title>${blog.title}</title>
+        <section name="head">
+            <w:feed-link name="feed" let:blog="blog.slug"/>
+        </section>
+        <section name="admin_links" if=".permissions.admin">
+            <w:link/>
+            <w:link name="newpost" let:blog=".url.blog" icon="plus" if=".url.blog">New post</w:link>
+        </section>
+        <section name="side">
+            <techblog:posts-by-month blog="blog"/>
+        </section>
+    </content>
+
+    <content libname="content.channel.posts" extends="#content.list-posts" template="channel_list.html">
+        <title>${channel.title}</title>
+        <let blog="channel"/>
+        <section name="head">
+            <w:feed-link name="channel_feed" let:channel="channel.slug" rel="alternate" />
+        </section>
+        <section name="side">
+            <techblog:posts-by-month blog="blog" urlname="channel_month"/>
+        </section>
+    </content>
+
+    <content libname="content.recent-posts" extends="#content.channel.posts">
+        <title>${channel.title} Recent Posts</title>
+    </content>
+
+    <content libname="content.list-posts-by-month" extends="#content.list-posts">
+        <title>Posts by Month</title>
+        <section name="header">
+            <html:h3>Posts in ${start % "MMMM, YYYY"}</html:h3>
+        </section>
+        <section name="side">
+            <techblog:posts-by-month blog="blog" year="start.year"/>
+        </section>
+    </content>
+
+    <content libname="content.channel.list-posts-by-month" extends="#content.list-posts">
+        <title>Posts by Month</title>
+        <section name="header">
+            <html:h3>Posts in ${start % "MMMM, YYYY"}</html:h3>
+        </section>
+        <section name="side">
+            <techblog:posts-by-month blog="channel" year="start.year" urlname="channel_month"/>
+        </section>
+    </content>
+
+    <content libname="content.new-post" extends="#content.base">
+        <title>New Post</title>
+        <section name="body">
+            <render src="form"/>
+        </section>
+    </content>
+
+    <content libname="content.edit-post" extends="#content.base">
+        <title>Edit Post</title>
+        <include-js path="js/editpost.js"/>
+        <section name="body">
+            <moya:node template="editor/draft.html" />
+            <w:tab-panel active="edit" id="postedit">
+                <w:tab title="Edit Post" id="edit">
+                    <render src="form"/>
+                </w:tab>
+                <w:tab title="Attatch Images" id="images" if="draft.images">
+                    <imagelib:manager collection="draft.images" picker="yes" picker_text="insert"
+                        on_pick="on_pick_post_images"/>
+                </w:tab>
+                <w:tab title="Preview" id="preview">
+                    <html:div id="post-preview"/>
+                </w:tab>
+            </w:tab-panel>
+        </section>
+    </content>
+
+    <content libname="content.delete-post" extends="#content.base">
+        <title>Delete Post</title>
+        <section name="body">
+            <if test="deleted">
+                <w:success>
+                    <html:p>Post '${deleted}' has been deleted</html:p>
+                </w:success>
+                <w:button-link name="list" let:blog=".url.blog">Return to Posts</w:button-link>
+            </if>
+            <else>
+                <render src="form"/>
+            </else>
+        </section>
+    </content>
+
+    <content libname="content.post" extends="#content.blog.base" template="posts/${post.type}.html,posts/text.html">
+        <title>${post.title}</title>
+        <section name="head">
+            <w:feed-link name="feed" let:blog="post.blog.slug" rel="home"/>
+        </section>
+        <section name="content">
+            <comments:get-count namespace="app-${.app.name}" topic="post-${post.id}" dst="numcomments"/>
+            <blog:post newer="newer" older="older" post="post" slug="url.slug" linktitle="no" solo="yes" numcomments="numcomments"/>
+            <comments:comments markup="markdown" namespace="app-${.app.name}" topic="post-${post.id}" url="${post_url}" />
+        </section>
+        <section name="side">
+            <blog:related-posts post="post" count="6"/>
+        </section>
+        <section name="admin_links" merge="append" if=".permissions.admin and post">
+            <let slug="post.slug" />
+            <let id="post.id"/>
+            <w:link/>
+            <w:link name="newpost" app="${.app.name}" let:blog=".url.blog" icon="plus">New Post</w:link>
+            <w:link />
+            <w:link name="publish" let:blog=".url.blog" let:id="post.id" icon="share" if="not post.published">Publish post</w:link>
+            <w:link name="hide" let:blog=".url.blog" let:id="post.id" icon="eye-close" if="post.published">Hide post</w:link>
+            <w:link name="editpost" let:blog=".url.blog" let:slug="post.slug" icon="edit">Edit post</w:link>
+            <w:link name="deletepost" let:blog=".url.blog" let:slug="post.slug" icon="remove">Delete post</w:link>
+        </section>
+    </content>
+
+    <content libname="content.publish-post" extends="#content.base" >
+        <title>Publish post</title>
+        <section name="body">
+            <render src="form" />
+        </section>
+    </content>
+
+    <content libname="content.hide-post" extends="#content.base">
+        <title>Hide post</title>
+        <section name="body">
+            <render src="form" />
+        </section>
+    </content>
+
+    <content libname="content.search" extends="#content.base" template="search.html">
+        <title>Search</title>
+        <section name="results">
+            <node template="search_header.html" let:search="search"/>
+            <w:paginate src="posts" dst="post" auto="no">
+                <node template="results.html" let:posts="pagination.objects" let:search="search"/>
+            </w:paginate>
+        </section>
+        <section name="side">
+            <blog:popular-tags count="20"/>
+        </section>
+    </content>
+
+    <content libname="content.tag" extends="#content.base" template="search.html">
+        <title>Tag ${tag.name}</title>
+        <section name="results">
+            <node template="tag_header.html" let:tag="tag"/>
+            <w:paginate src="posts" dst="post" auto="no">
+                <node template="results.html" let:posts="pagination.objects" let:search="search"/>
+            </w:paginate>
+        </section>
+        <section name="side">
+            <blog:popular-tags active="tag"/>
+        </section>
+    </content>
+
+    <content libname="content.base.settings" extends="#content.base" template="settings/base.html">
+        <section name="side">
+            <node template="settings/links.html"/>
+        </section>
+    </content>
+
+    <content libname="content.blog.settings" extends="#content.base.settings">
+        <title>Settings</title>
+        <section name="links">
+            <w:link name="list" let:blog="blog.slug">${blog.title}</w:link>
+        </section>
+        <section name="content">
+            <w:success if="success">Blog Settings were updated</w:success>
+            <render src="form" />
+        </section>
+    </content>
+
+    <content libname="content.blog.images" extends="#content.blog.settings">
+        <title>Images</title>
+        <section name="content">
+            <imagelib:manager collection="blog.images" />
+        </section>
+    </content>
+
+    <content libname="content.channel.settings" extends="#content.base.settings">
+        <title>Channel Settings</title>
+        <section name="links">
+            <w:link name="channel_list" let:channel="channel.slug">${channel.title}</w:link>
+        </section>
+        <section name="content">
+            <w:success if="success">Blog Settings were updated</w:success>
+            <render src="form" />
+        </section>
+    </content>
+
+    <content libname="content.channel.images" extends="#content.channel.settings">
+        <title>Channel Images</title>
+        <section name="content">
+            <imagelib:manager collection="channel.images" />
+        </section>
+    </content>
+
+    <content libname="content.drafts" extends="#content.base.settings">
+        <title>Drafts</title>
+
+        <section name="links">
+            <w:link name="list" let:blog="blog.slug">${blog.title}</w:link>
+        </section>
+        <section name="content">
+            <if test="not drafts">
+                <w:info>
+                    <markdown>
+**Drafts will appear here**
+
+To edit a post, navigate to the post then click 'Edit' from the admin menu.
+                    </markdown>
+                </w:info>
+            </if>
+            <else>
+                <w:paginate src="drafts" dst="draft" auto="no">
+                    <node template="settings/drafts.html" let:drafts="pagination.objects"/>
+                </w:paginate>
+            </else>
+        </section>
+
+    </content>
+
+</moya>

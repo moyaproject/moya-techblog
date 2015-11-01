@@ -1,0 +1,63 @@
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+
+            {%- if .permissions.admin %}
+            <div class="btn-group moya-admin-menu">
+              <button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="#" title="Admin menu">
+                <i class="glyphicon glyphicon-wrench"></i>
+            </button>
+              <ul class="dropdown-menu">
+                {%- for renderable in sections.admin_links %}
+                {%- if renderable.url -%}
+                <li>{% render renderable %}</li>
+                {%- else %}
+                <li class="divider"/>
+                {%- endif %}
+                {%- endfor %}
+                {% if .apps.admin %}
+                {%- if sections.admin_links %}
+                <li class="divider"/>
+                {%- endif %}
+                <li><a href="{% url 'front' from 'admin' %}">Moya Admin</a></li>
+                {% endif %}
+              </ul>
+            </div>
+            {%- endif %}
+
+          <a class="navbar-brand" href="/">${.settings.project_title}</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            {%- for blog in promoted_blogs %}
+            <li{% if blog and blog.slug == .url.blog %} class="active"{% endif %}>
+                <a href="{% url 'list' with blog=blog.slug %}">
+                    ${blog.title} {% if blog and blog.slug == .url.blog %}<span class="sr-only">(current)</span>{% endif %}
+                </a>
+            </li>
+            {%- endfor %}
+            <li{% if post.slug == 'about' and post.blog.slug=='pages' %} class="active"{% endif %}>
+                <a href="/about/">
+                    About
+                </a>
+            </li>
+          </ul>
+          <form action="{% url 'search' from "techblog" %}" class="navbar-form navbar-right" role="search" method="get">
+            <div class="form-group">
+              <input type="text" name="s" class="form-control" placeholder="Search" value="${.request.GET.s}">
+            </div>
+          </form>
+
+
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<moya xmlns="http://moyaproject.com"
+    xmlns:let="http://moyaproject.com/let"
+    xmlns:db="http://moyaproject.com/db"
+    xmlns:fs="http://moyaproject.com/fs">
+
+    <handle signal="db.post-delete" sender="moya.imagelib#Image">
+        <let image="signal.data.object"
+            imagefs="signal.app.settings.imagefs"
+            file="image.file"/>
+        <!-- Delete file if there are no references to it -->
+        <db:if-not-exists model="#Image" let:file="file" if="file">
+            <fs:remove-file fs="${imagefs}" path="${file}"/>
+            <log-debug>deleted '${file}' from fs ${imagfefs}</log-debug>
+        </db:if-not-exists>
+    </handle>
+</moya>

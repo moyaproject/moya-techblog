@@ -1,0 +1,40 @@
+<moya xmlns="http://moyaproject.com"
+      xmlns:moya="http://moyaproject.com"
+      xmlns:let="http://moyaproject.com/let"
+      xmlns:auth="http://moyaproject.com/auth"
+      xmlns:admin="http://moyaproject.com/admin"
+      xmlns:html="http://moyaproject.com/html"
+      xmlns:w="http://moyaproject.com/widgets">
+
+    <admin:module xmlns="http://moyaproject.com/admin"
+        slug="imglib" title="Image Libraries" description="Manage collections of images">
+        <link to="#admintable.collections"/>
+        <link to="#admintable.images"/>
+    </admin:module>
+
+    <table xmlns="http://moyaproject.com/admin" libname="admintable.collections"
+        slug="collections" title="Collections" model="#Collection"
+        search="#Collection.slug icontains q">
+        <column title="UUID" link="yes" sort="uuid">${object.uuid}</column>
+        <column title="Slug" sort="slug">${object.slug or ''}</column>
+        <column title="Actions">
+            <w:link name="manage" let:collection_name="object.uuid">Manage</w:link>
+        </column>
+    </table>
+
+    <table xmlns="http://moyaproject.com/admin" libname="admintable.images"
+        slug="images" title="Images" model="#Image"
+        search="#Image.uuid == q or #Image.title icontains q">
+        <column title="Image" link="yes" sort="image">
+            <w:link app="${.app.settings.app_serve}" name="serve" target="_blank" let:path="object.file" if="object.file">
+                <html:img src="${object.file|'thumbnail'(processor='admin')}"/>
+            </w:link>
+            <moya:catch exception="*"/>
+        </column>
+        <column title="UUID" sort="uuid" link="yes">${object.uuid}</column>
+        <column title="Title" sort="title">${object.title}</column>
+        <column title="Created" sort="created_time">${object.created_time.local % "short"}</column>
+        <column title="Uploaded" sort="uploaded_time">${object.uploaded_time.local % "short"}</column>
+    </table>
+
+</moya>

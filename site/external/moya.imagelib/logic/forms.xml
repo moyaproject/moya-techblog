@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<moya xmlns="http://moyaproject.com"
+    xmlns:moya="http://moyaproject.com"
+    xmlns:imglib="http://moyaproject.com/imagelib"
+    xmlns:html="http://moyaproject.com/html"
+    xmlns:w="http://moyaproject.com/widgets"
+    xmlns:db="http://moyaproject.com/db">
+
+    <choices libname="choices.position">
+        <choice value="">Default</choice>
+        <choice value="left top">Left Top</choice>
+        <choice value="left center">Left Center</choice>
+        <choice value="left bottom">Left Bottom</choice>
+        <choice value="right top">Right Top</choice>
+        <choice value="right center">Right Center</choice>
+        <choice value="right bottom">Right Bottom</choice>
+        <choice value="center top">Center Top</choice>
+        <choice value="center center">Center Center</choice>
+        <choice value="center bottom">Center Bottom</choice>
+    </choices>
+
+    <!-- Forms know how to render and validate themselves -->
+    <form libname="form.getname" legend="Hello World Form" style="horizontal" xmlns="http://moyaproject.com/forms">
+        <input name="name" label="What is your name?" class="input-xlarge" type="text" maxlength="30" required="yes"/>
+        <submit-button text="Submit" />
+    </form>
+
+    <form libname="form.image.upload" xmlns="http://moyaproject.com/forms" style="basic">
+        <upload name="file" help="Must be a JPEG, or PNG"/>
+        <actions>
+            <submit-button text="Upload Image" />
+        </actions>
+    </form>
+
+    <form libname="form.image.search" xmlns="http://moyaproject.com/forms" style="basic" method="get" csrf="no">
+        <input name="q" placeholder="search title or description"/>
+        <actions>
+            <submit-button text="Search"/>
+        </actions>
+    </form>
+
+    <form libname="form.tests.uploadimg" legend="Upload Image" style="horizontal" xmlns="http://moyaproject.com/forms">
+        <field label="Image" name="img">
+            <!-- <imglib:picker/> -->
+        </field>
+        <submit-button text="Submit" />
+    </form>
+
+    <form libname="form.image.edit.remote" style="horizontal" xmlns="http://moyaproject.com/forms">
+        <input label="Title" name="title" maxlength="100" required="yes"/>
+        <input label="Slug" name="slug" maxlength="100" required="yes"/>
+        <input label="Creator" name="creator" maxlength="100" placeholder="Name / URL of image creator"/>
+        <input label="Copyright" name="copyright" maxlength="100" placeholder="Copyright statement"/>
+        <input label="License" name="license" maxlength="100" placeholder="License details"/>
+        <!-- <input label="Keywords" name="keywords" maxlength="100" placeholder="comma separated keywords"/> -->
+        <radio-group label="Type" name="type" inline="yes" choices="intchoices:enum:'#enum.image.type'" />
+        <select label="Maturity" name="maturity_rating"  choices="intchoices:enum:'#enum.image.maturity_rating'" />
+        <moya:get-choices choices="#choices.position" dst="position_choices"/>
+        <select label="Anchor" name="position" choices="position_choices" />
+
+        <text-area label="Description" name="description"/>
+        <actions>
+            <submit-button text="Save Changes"/>
+            <w:button name="cancel">Cancel</w:button>
+        </actions>
+        <validate-field field="slug">
+            <fail if="slug:value != value or not slug:value">
+                Not a valid slug (number,letters, underscored and hyphens only)
+            </fail>
+            <db:query model="#Image" src="collection.images" dst="images"
+                filter="#Image.id != image.id and #Image.slug == value"/>
+            <fail if="images.count">This slug exists in the collection, please enter a unique slug</fail>
+        </validate-field>
+    </form>
+</moya>

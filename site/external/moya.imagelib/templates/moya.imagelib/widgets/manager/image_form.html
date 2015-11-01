@@ -1,0 +1,36 @@
+{# rendered in an rpc call #}
+<div class="col-md-3">
+    <p>
+        <a href="{% url 'serve_collection_image' with collection=image.collection.uuid, filename=image.filename %}" target="_blank">
+            <img width="100%" src="${image.file|'thumbnail'(processor='manager_form')}"/>
+        </a>
+    </p>
+    <h5>${image.title}</h5>
+    <small>
+        <dl>
+            <dt>Dimensions</dt>
+            <dd>${image.width} x ${image.height} pixels</dd>
+
+            {%- if image.filesize %}
+            <dt>Filesize</dt>
+            <dd>${filesize:image.filesize} (${image.filesize::','} bytes)</dd>
+            {%- endif %}
+
+            {%- if image.owner %}
+            <dt>Uploaded by</dt>
+            <dd>${image.owner.username}</dd>
+            {% endif %}
+
+            {%- if image.uploaded_time %}
+            <dt>Uploaded time</dt>
+            <dd>${localize:image.uploaded_time}</dd>
+            {%- end-if %}
+
+            <dt>Original filename</dt>
+            <dd>${image.original_filename}</dd>
+        </dl>
+    </small>
+</div>
+<div class="col-md-9">
+    <div class="well">{% render form %}</div>
+</div>

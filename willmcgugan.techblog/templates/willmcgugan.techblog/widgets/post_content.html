@@ -1,0 +1,5 @@
+{%- cache for 1d key [post.id, post.updated_date, post.published_date] %}
+{% extract replace contents|'leadp' %}
+{% markup-block as 'moya' set post=post %}{% markup post.content as post.markup %}{% end-markup-block %}
+{% end-extract %}
+{%- endcache %}

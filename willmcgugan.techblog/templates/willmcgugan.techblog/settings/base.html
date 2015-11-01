@@ -1,0 +1,21 @@
+{% extends "../base.html"  %}
+
+{% block "body" %}
+
+<div class="row margin-top clearfix">
+    <div class="col-md-2">
+        {% render sections.side %}
+    </div>
+    <div class="col-md-10 clearfix">
+
+        <ol class="breadcrumb">
+            {% for link in sections.links %}
+            <li>{% render link %}</li>
+            {% endfor %}
+            <li class="active">${title}</li>
+        </ol>
+
+        {% render sections.content %}
+    </div>
+</div>
+{% endblock %}

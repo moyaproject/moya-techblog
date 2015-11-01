@@ -1,0 +1,81 @@
+<moya xmlns="http://moyaproject.com"
+      xmlns:moya="http://moyaproject.com"
+      xmlns:db="http://moyaproject.com/db"
+      xmlns:let="http://moyaproject.com/let"
+      xmlns:techblog="http://willmcgugan.com/techblog">
+
+    <widget name="post" template="widgets/post.html" undocumented="yes">
+        <doc>Render a blog post</doc>
+        <signature>
+            <attribute name="post" type="index" required="yes"/>
+            <attribute name="slug" type="index" required="no"/>
+            <attribute name="linktitle" type="boolean" default="yes" />
+            <attribute name="solo" type="boolean" default="no" />
+            <attribute name="newer" type="index" default="None"/>
+            <attribute name="older" type="index" default="None"/>
+            <attribute name="numcomments" default="0" />
+        </signature>
+    </widget>
+
+    <widget name="recent-posts" template="widgets/recent_posts.html" synopsis="displays a list of recent blog posts">
+        <doc>A list of recent posts</doc>
+        <signature>
+            <attribute name="count" type="integer" default="5" />
+            <attribute name="blog" default="None" />
+        </signature>
+
+        <if test=".permissions.admin">
+            <db:query model="#Post" dst="posts" orderby="-published_date" />
+        </if>
+        <else>
+            <db:query model="#Post" dst="posts" let:published="yes" orderby="-published_date" />
+        </else>
+        <db:query src="posts" filter="#Post.blog==blog" dst="posts" if="blog"/>
+        <db:query src="posts" filter="#Post.blog in blogs" dst="posts" if="blogs"/>
+        <db:query src="posts" maxresults="count" dst="posts"/>
+        <let-str title="Recent posts" />
+    </widget>
+
+    <widget name="related-posts" template="widgets/related_posts.html" synopsis="displays a list of related posts">
+        <doc>List related posts (by tag matches)</doc>
+        <signature>
+            <attribute name="post" required="yes"/>
+            <attribute name="count" default="5" />
+            <attribute name="blog" default="None"/>
+            <attribute name="blogs" default="None"/>
+        </signature>
+        <techblog:get-related-posts post="post" blog="blog" blogs="blogs" count="count" dst="post_ids" />
+        <db:query model="#Post" filter="#Post.id in post_ids" orderby="-published_date" dst="posts"/>
+    </widget>
+
+    <widget name="popular-tags" template="widgets/popular_tags.html" synopsis="tags sorted by popularity">
+        <signature>
+            <attribute name="active" default="None">Active tag to highlight if any</attribute>
+            <attribute name="count" default="40" type="integer">Number of tags to show</attribute>
+        </signature>
+        <let active_tag="active"/>
+        <db:query model="#Tag" orderby="-count,name" maxresults="count" dst="tags"/>
+        <return-scope>
+            tags
+            active_tag
+        </return-scope>
+    </widget>
+
+    <widget name="posts-by-month" template="widgets/posts_by_month.html">
+        <signature>
+            <attribute name="blog" required="yes"/>
+            <attribute name="year" required="no" type="expression" default=".now.year"/>
+            <attribute name="urlname" type="text" default="month"/>
+        </signature>
+        <let current_year="year"
+            posts="blog.display_posts"
+            dates="collect:[posts, 'published_date']"/>
+        <dict dst="years" default="{}"/>
+        <for src="dates" dst="date" filter="date">
+            <let year="years[date.year]" />
+            <set-item src="year" index="date.month" value="(year[date.month] or 0) + 1"/>
+        </for>
+        <let years="reversed:sorted:items:years"/>
+    </widget>
+
+</moya>

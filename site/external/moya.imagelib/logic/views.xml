@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<moya xmlns="http://moyaproject.com"
+      xmlns:let="http://moyaproject.com/let"
+      xmlns:db="http://moyaproject.com/db"
+      xmlns:forms="http://moyaproject.com/forms"
+      xmlns:fs="http://moyaproject.com/fs"
+      xmlns:img="http://moyaproject.com/image">
+
+
+    <view libname="view.upload" content="#content.upload">
+        <forms:get form="#form.upload" dst="form" />
+    </view>
+
+    <view libname="view.collection.manage" content="#content.collection.manage">
+        <db:get model="#Collection" let:slug=".url.collection_name" dst="collection"/>
+        <db:get-required model="#Collection" let:uuid=".url.collection_name" dst="collection" if="not collection"/>
+    </view>
+
+    <view libname="view.tests" content="#content.tests">
+        <db:get-or-create model="#Collection" let:slug="'test'" dst="collection"/>
+    </view>
+
+    <view libname="view.picker.upload">
+        <db:get-required model="#Collection" let:uuid=".url.collection" dst="collection"/>
+        <get-enum enum="#enum.image.type" dst="ImageType"/>
+
+        <let
+            file=".request.FILES.image"
+            image_uuid="uuid:1"
+            filename="file.filename"
+            default_ext="'jpeg'"
+            dst_filename="sub:'${path:image_uuid}.${lower:ext:filename or default_ext}'"
+            extension="ext:filename"
+            title="trim:[filename, 100]"
+            slug="slug:trim:[first:rpartition:[filename,'.'],100]"/>
+
+        <img:read file="file" dst="image_bitmap" />
+        <catch exception="image.*">
+            <log-warn>Unable to read image</log-warn>
+            <dict dst="result" let:success="False" let:msg="'Unable to read image'"/>
+            <serve-json obj="result"/>
+        </catch>
+        <let exif="image_bitmap.exif"/>
+
+        <if test="exif">
+            <let taken="parsedatetime:[exif.DateTimeOriginal, '%Y:%m:%d %H:%M:%S'] or None"
+                creator="exif.Artist"
+                copyright="exif.Copyright"/>
+        </if>
+
+        <let copyright=".user.display_name or ''" if="not copyright"/>
+        <str dst="copyright" if="copyright">© ${taken.year or .now.year} ${copyright}</str>
+
+        <fs:set-contents
+            fs="${.app.settings.imagefs}"
+            path="${dst_filename}"
+            contents="file" />
+
+        <catch exception="*" dst="error">
+            <log-warn>Unable to store image file (${error.msg})</log-warn>
+            <dict dst="result" let:success="False" let:msg="'Unable to store image file'"/>
+            <serve-json obj="result"/>
+        </catch>
+
+        <db:if-exists model="#Image" let:slug="slug" let:collection="collection">
+            <str dst="slug">image-${len:collection.images + 1}</str>
+        </db:if-exists>
+
+        <db:atomic>
+            <db:create model="#Image" dst="image"
+                let:created_time="taken or None"
+                let:file="dst_filename"
+                let:owner=".user"
+                let:creator="creator or .user.display_name_detail or ''"
+                let:copyright="copyright"
+                let:collection="collection"
+                let:type="ImageType.photo"
+                let:uploaded_time=".now.utc"
+                let:title="title"
+                let:slug="slug or None"
+                let:original_filename="filename"
+                let:filename="filename"
+                let:filesize="file.size"
+                let:width="image_bitmap.size.width"
+                let:height="image_bitmap.size.height"
+                let:exif="json:exif"/>
+        </db:atomic>
+        <catch exception="*" dst="error">
+            <log-error>Unable to upload image (${error.msg})</log-error>
+            <dict dst="result"
+                let:success="False"/>
+            <serve-json obj="result"/>
+        </catch>
+
+        <str dst="thumb_url">${.request.host_url}${image.file|'thumbnail'(processor='manager_tile')}</str>
+        <render-template template="widgets/manager/manager_image.html" dst="image_html"
+            let:image="image"/>
+        <dict dst="result"
+            let:success="True"
+            let:image_html="image_html"
+            let:thumb_url="thumb_url"/>
+        <serve-json obj="result"/>
+    </view>
+
+    <view libname="view.image.serve">
+        <db:get-required model="#Image" let:uuid=".url.image" dst="image"/>
+        <serve-file fs="${.app.settings.imagefs}" path="${image.file}"/>
+    </view>
+
+    <view libname="view.collection.image.serve">
+        <db:get-required model="#Collection" let:uuid=".url.collection" dst="collection"/>
+        <db:get-required model="#Image" filter="#Image.collection == collection" let:filename=".url.filename" dst="image"/>
+        <serve-file fs="${.app.settings.imagefs}" path="${image.file}"/>
+    </view>
+
+</moya>

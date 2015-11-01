@@ -1,0 +1,48 @@
+<moya xmlns:preflight="http://moyaproject.com/preflight"
+    xmlns:let="http://moyaproject.com/let"
+    xmlns:db="http://moyaproject.com/db">
+
+    <macro libname="get_providers">
+        <!-- Could be used as a hook to modify how providers are stored -->
+        <return value="data:'providers.json'"/>
+    </macro>
+
+    <tag name="get-provider">
+        <signature>
+            <attribute name="name" empty="no" type="text">Provider name</attribute>
+        </signature>
+        <call macro="#get_providers" dst="providers"/>
+        <throw exception="moya.logins.missing-provider"
+            msg="no such provider '${name}'"
+            if="name not in providers" />
+        <let provider="providers[name]" provider.name="name"/>
+        <return value="provider"/>
+    </tag>
+
+    <tag name="get-credentials">
+        <signature>
+            <attribute name="name" type="text">Provider name</attribute>
+        </signature>
+        <return>
+            <db:get model="#OAuth2Credentials" let:provider="name" let:enabled="yes" />
+        </return>
+    </tag>
+
+    <tag name="get-available-providers">
+        <call macro="#get_providers" dst="installed_providers"/>
+        <db:query model="#OAuth2Credentials" let:enabled="yes" dst="enabled_providers"
+            collect="list" collectkey="provider" orderby="provider"/>
+        <map src="enabled_providers" dst="providers" value="$$" filter="$$ in installed_providers"/>
+        <return value="providers"/>
+    </tag>
+
+    <preflight:check>
+        <call macro="#get_providers" dst="providers"/>
+        <catch dst="error">
+            <preflight:fail>
+                Unable to read provider information: ${error.msg}
+            </preflight:fail>
+        </catch>
+    </preflight:check>
+
+</moya>

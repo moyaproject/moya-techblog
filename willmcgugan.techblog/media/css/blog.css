@@ -1,0 +1,910 @@
+body
+{
+    overflow:auto;
+}
+
+.form-actions.form-group
+{
+    margin-bottom: 0px;
+}
+
+.techblog-image-insert
+{
+    margin-bottom:10.5px
+}
+
+.techblog-image-insert .techblog-image-caption
+{
+
+}
+
+#techblog-comments .moya-comment-actions
+{
+    color:#999;
+    margin-top:0px;
+}
+
+#techblog-comments .text > p:last-of-type
+{
+    margin-bottom:0px;
+}
+
+#techblog-comments .moya-comment-actions
+{
+    margin-top:4px;
+}
+
+#techblog-comments .moya-comment-actions a
+{
+    color:#aaa;
+    text-decoration:none;
+}
+
+#techblog-comments .moya-comment-actions a:hover
+{
+    color: #ff7518;
+    text-decoration:none;
+}
+
+#techblog-comments .comment-header
+{
+
+}
+
+#techblog-comments .moya-comments-container .moya-comments img.gravatar
+{
+    padding:0px;
+    margin:2px 0px;
+    border-radius:3px;
+}
+
+#techblog-comments .moya-comment
+{
+    margin-top:10px;
+}
+
+#techblog-comments .moya-comment .name
+{
+    font-weight:bold;
+
+}
+
+#techblog-comments .moya-comment .time
+{
+    float:none;
+    font-size:inherit;
+}
+
+#techblog-comments .moya-comments-container .moya-comments .moya-comment-body
+{
+    min-height: inherit;
+}
+
+.techblog-year
+{
+    display:none;
+}
+
+.techblog-year.current
+{
+    display:block;
+}
+
+.next-year
+{
+    opacity:0.7;
+}
+
+.previous-year
+{
+    opacity:0.7;
+}
+
+ul.techblog-months li a
+{
+    opacity:0.6;
+}
+
+.techblog-posts-calendar .year
+{
+    border:1px solid #ddd;
+    padding:8px;
+}
+
+.techblog-social-links
+{
+    margin:25px 0px 0px 0px;
+}
+
+.techblog-social-links .techblog-social
+{
+    display:inline-block;
+    vertical-align:top;
+    margin-right:8px;
+}
+
+.techblog-draft-status
+{
+
+}
+
+.techblog-draft-status .draft-changed
+{
+    position:fixed;
+    left:1em;
+    bottom:4px;
+    z-index:100;
+    opacity:0;
+}
+
+.techblog-draft-status .draft-saved
+{
+    position:fixed;
+    left:1em;
+    bottom:4px;
+    z-index:100;
+    opacity: 1;
+    visibility:hidden;
+}
+
+.techblog-draft-status .draft-saving
+{
+    position:fixed;
+    left:1em;
+    bottom:4px;
+    z-index:100;
+    opacity:0;
+}
+
+
+.techblog-draft-status.changed .draft-changed
+{
+    opacity:1;
+}
+
+.techblog-draft-status.saved .draft-saved
+{
+    visibility: visible;
+    opacity: 0;
+    transition: opacity 2s 1s;
+}
+
+.techblog-draft-status.saving .draft-saving
+{
+    opacity:1;
+}
+
+
+body.show-frame
+{
+    overflow:hidden;
+}
+
+.margin-top-20
+{
+    margin-top:20px;
+}
+
+.techblog-post-summary-image
+{
+    font-weight:bold;
+    width:180px;
+    height:180px;
+    color:#fff;
+    background-size:cover;
+    background-position:center center;
+    background-color:rgba(0,0,0,0.1);
+    margin-right:0px;
+}
+
+.techblog-post.summary
+{
+    width:100%;
+    display:table;
+    margin:20px 0px -10px 0px;
+    color:#555;
+    background-size:cover;
+    background-position:center center;
+}
+
+.techblog-post.summary.with-image .post-body
+{
+    display:table-cell;
+    vertical-align:top;
+    width:100%;
+}
+
+.techblog-date
+{
+}
+
+.techblog-post.summary h2 a
+{
+    color:#333;
+    font-weight:400;
+}
+
+.techblog-post.summary h2 a:hover
+{
+    color: #ff7518;
+    text-decoration: none;
+}
+
+.techblog-post.summary .post-body
+{
+    padding:0px 0px;
+    background-color:#fff;
+}
+
+
+.techblog-post.summary.with-image .post-body
+{
+    padding:0px 12px;
+}
+
+.techblog-post.summary .post-summary
+{
+
+}
+
+.techblog-post-header
+{
+
+}
+
+.techblog-post-header h2
+{
+    margin-top:4px;
+    margin-bottom:4px;
+}
+
+
+.moya-comment-form-editor
+{
+    padding-top:8px;
+}
+
+.moya-comment-form-editor .tab-content
+{
+    padding-top: 16px;
+}
+
+.techblog-image-type-photo
+{
+    cursor:pointer;
+}
+
+.frame-container .image-wait
+{
+    color:#fff;
+    position:absolute;
+    width:100vw;
+    text-align:center;
+    top:calc(50vh - 0.5em);
+    z-index: 2002;
+    opacity:0;
+    transition:opacity 0.5s;
+}
+
+.frame-container .image-wait.loading
+{
+    opacity:1;
+    transition:opacity 0.5s;
+}
+
+.frame-container .image-details
+{
+    color:white;
+    position:absolute;
+    bottom:0px;
+    opacity:1;
+    z-index:2002;
+    margin:8px;
+    font-size:.9em;
+    text-shadow:1px 1px 0px #000;
+}
+
+.frame-container .image-author
+{
+    color:white;
+    position:absolute;
+    right:0px;
+    bottom:0px;
+    opacity:1;
+    z-index:2002;
+    margin:8px;
+    font-size:.9em;
+    text-shadow:1px 1px 0px #000;
+    text-align:right;
+}
+
+
+.frame-container
+{
+    z-index:2000;
+    position:fixed;
+    width:100vw;
+    height:100vh;
+    top:0px;
+    left:0px;
+    background-size:cover;
+    background-position:center center;
+    visibility: hidden;
+    opacity:0;
+    transition: visibility 0s 0.5s, opacity 0.5s;
+}
+
+.frame-container.visible
+{
+    visibility:visible;
+    opacity:1;
+    transition: opacity 0.5s;
+}
+
+.frame-container:after
+{
+    content:' ';
+    background-color:rgba(0,0,0,0.6);
+    width:100vw;
+    height:100vh;
+    position:fixed;
+    z-index:2000;
+    top:0px;
+}
+
+.frame-container.visible:after{
+    opacity:1;
+    transition: opacity 0.5s linear;
+}
+
+.frame-container.visible .frame
+{
+    opacity:1;
+    transform:scale(1.0);
+    transition:opacity 0.5s, transform 1s;
+}
+
+.frame-container .frame
+{
+    transform:scale(0.7);
+    transition:opacity 0.5s, transform 1s;
+    opacity:0;
+    z-index:2001;
+    position:relative;
+    width:calc(100vw - 32px);
+    height:calc(100vh - 32px);
+    margin:16px;
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+nav.navbar-fixed-top:hover
+{
+    background-color:rgba(34,34,34,1) !important;
+    transition: 0.1s background-color;
+}
+
+.techblog-post-image
+{
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-color:#2780e3;
+    background-size:cover;
+    z-index:10;
+    width:auto;
+    height:100vh;
+    position:relative;
+}
+
+.techblog-post-titles
+{
+    width:100%;
+    position:absolute;
+    height:auto;
+    padding:0 0 0 0;
+    vertical-align:bottom;
+    bottom:0px;
+    color:#fff;
+    padding-top:8em;
+    min-height:30vh;
+    bottom:0px;
+    background-color: rgba(0,0,0,.5);
+    background:linear-gradient(transparent, rgba(0,0,0,0.8));
+}
+
+.techblog-post-titles a
+{
+    text-decoration:none;
+}
+
+.techblog-post-titles a:hover
+{
+    text-decoration:none;
+}
+
+.techblog-post-titles .tagline a
+{
+    color: #ff7518;;
+    font-weight:400;
+}
+
+.techblog-post-titles .tagline a:hover
+{
+    text-decoration: underline;
+}
+
+.techblog-main
+{
+    padding-top:70px
+}
+
+
+.techblog-main
+{
+    position:relative;
+    min-height:100vh;
+    padding-bottom:70px;
+}
+
+.techblog-post-image + .techblog-main
+{
+    padding-top:0px;
+}
+
+.techblog-months li{
+    margin:1px;
+}
+
+ul.techblog-months
+{
+    margin-bottom:0px;
+}
+
+a.techblog-month:hover{
+    opacity:1;
+    text-decoration:none;
+}
+
+a.techblog-month .badge
+{
+    margin-top:-2px;
+}
+
+.techblog-current-month
+{
+    opacity:1 !important;
+}
+
+ul.techblog-post-paginator
+{
+    list-style-type: none;
+    width:auto;
+    margin:0;
+    padding:0;
+    margin: 8px 0px;
+}
+
+ul.techblog-post-paginator li
+{
+    white-space: nowrap;
+    width:auto;
+    height:2em;
+    max-width:45%;
+    display:inline-block;
+    color:#fff;
+    opacity:.8;
+    margin:16px 2px 48px 2px;
+}
+
+
+ul.techblog-post-paginator li.newer-post
+{
+    float:right;
+}
+
+ul.techblog-post-paginator li.older-post
+{
+    float:left;
+}
+
+ul.techblog-post-paginator li a
+{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight:bold;
+    vertical-align: middle;
+    text-transform:uppercase;
+    border-radius:32px;
+    background-color: rgba(255,255,255,0.3);
+    color:#000;
+    padding:15px;
+    /*margin-right:8px;*/
+    transition:background-color 0.5s;
+    z-index:20;
+}
+
+ul.techblog-post-paginator li a:hover
+{
+    transition:background-color 0.1s;
+    background-color: rgba(255,255,255,1.0);
+}
+
+ul.techblog-post-paginator li a
+{
+    text-decoration: none;
+    display:block;
+}
+
+@media (max-width: 768px)
+{
+    .techblog-post-summary-image
+    {
+        display:none;
+    }
+    .techblog-post.summary.with-image .post-body
+    {
+        padding:0px;
+    }
+}
+
+@media (max-width: 768px)
+{
+
+    ul.techblog-post-paginator li
+    {
+        width:100%;
+        max-width:100%;
+        float:none !important;
+        margin:0px 0px 48px 0px;
+    }
+
+    ul.techblog-post-paginator li a
+    {
+        margin:0 !important;
+    }
+}
+
+
+@media (min-width: 768px)
+{
+    .techblog-post.full p:not(.lead)
+    {
+        font-size:110%;
+    }
+}
+
+@media (max-width: 400px)
+{
+    .tagline.summary
+    {
+        display:None;
+    }
+}
+
+.techblog-post
+{
+
+}
+
+
+.techblog-post .post-subtitle
+{
+    border-top:1px solid #eee;
+    border-bottom:1px solid #eee;
+}
+
+
+.techblog-image-caption
+{
+    color:#999;
+    font-size:90%;
+}
+
+.techblog-post-info
+{
+    font-size:.9em;
+
+}
+
+.continue-reading
+{
+    display:inline-block;
+    color:#9954bb;
+    font-size:0.9em;
+    margin-left:2px;
+
+}
+
+.continue-reading a
+{
+    font-weight:bold;
+}
+
+.continue-reading:hover
+{
+    opacity:1;
+}
+.continue-reading a:hover
+{
+    text-decoration: none;
+    opacity:1;
+}
+
+a.techblog-tag, a.techblog-social
+{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color:#fff;
+    vertical-align: middle;
+    text-transform:uppercase;
+    border-radius:32px;
+    background-color: rgba(0,0,0,0.2);
+    padding:5px 10px;
+    margin-right:8px;
+    transition:background-color 0.5s, color 0.5s;
+}
+
+a.techblog-social
+{
+    text-transform:none;
+}
+
+.techblog-tag:hover, .techblog-social:hover
+{
+    background-color: rgba(255,255,255,1.0);
+    text-decoration:none;
+    color:#000;
+    transition:background-color 0.2s, color 0.2s;
+}
+
+.techblog-post-super, .techblog-user
+{
+    text-transform:uppercase;
+    opacity:1.0;
+    margin-left:2px;
+    margin-right:10px;
+    border-radius:32px;
+    padding:5px 10px;
+    margin-left:-4px;
+    margin-right:1em;
+}
+
+a.techblog-user
+{
+    text-transform:none;
+}
+
+a.techblog-post-super, a.techblog-user
+{
+    color:#fff;
+}
+
+a.techblog-post-super:hover, a.techblog-user:hover
+{
+    text-decoration: none;
+    background-color: rgba(255,255,255,0.1);
+}
+
+
+pre
+{
+    background: #f8f8f8 !important;
+    overflow-x:auto;
+    border:none;
+    padding:2px;
+    margin-top:0px;
+    margin-bottom:16px;
+    font-size:13px;
+    box-sizing: border-box;
+    font-family:monospace;
+}
+
+
+
+pre code.hljs
+{
+    background: #f8f8f8 !important;
+    float:left;
+    min-width:100%;
+    display:inline-block;
+    white-space:pre;
+
+    font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif;
+    font-family:monospace;
+
+}
+
+pre code.hljs *
+{
+    white-space:pre;
+}
+
+ul.techblog-tags .badge
+{
+    margin-top:-2px;
+}
+ul.techblog-tags a
+{
+    text-decoration:none;
+    opacity:.6;
+}
+
+ul.techblog-tags li.active a
+{
+    opacity:1;
+}
+
+ul.techblog-tags a:hover
+{
+    opacity:1;
+    transition:opacity 0.1s;
+}
+
+ul.techblog-tags td
+{
+    padding:1px;
+}
+
+
+footer
+{
+    clear:both;
+    color:#fff;
+    background:#111;
+    position:absolute;
+    bottom:0px;
+    width:100%;
+    height:60px;
+}
+
+footer > .container
+{
+    padding-top:0px;
+    margin-top:20px;
+}
+
+
+footer a.footer-link
+{
+    color:#fff;
+    text-decoration:none;
+    margin-left:2em;
+}
+
+
+footer a:hover
+{
+    text-decoration: none;
+}
+
+
+.code .c { color: #008800; font-style: italic } /* Comment */
+.code .err { border: 1px solid #FF0000 } /* Error */
+.code .k { color: #AA22FF; font-weight: bold } /* Keyword */
+.code .o { color: #666666 } /* Operator */
+.code .cm { color: #008800; font-style: italic } /* Comment.Multiline */
+.code .cp { color: #008800 } /* Comment.Preproc */
+.code .c1 { color: #008800; font-style: italic } /* Comment.Single */
+.code .cs { color: #008800; font-weight: bold } /* Comment.Special */
+.code .gd { color: #A00000 } /* Generic.Deleted */
+.code .ge { font-style: italic } /* Generic.Emph */
+.code .gr { color: #FF0000 } /* Generic.Error */
+.code .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.code .gi { color: #00A000 } /* Generic.Inserted */
+.code .go { color: #808080 } /* Generic.Output */
+.code .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.code .gs { font-weight: bold } /* Generic.Strong */
+.code .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.code .gt { color: #0040D0 } /* Generic.Traceback */
+.code .kc { color: #AA22FF; font-weight: bold } /* Keyword.Constant */
+.code .kd { color: #AA22FF; font-weight: bold } /* Keyword.Declaration */
+.code .kp { color: #AA22FF } /* Keyword.Pseudo */
+.code .kr { color: #AA22FF; font-weight: bold } /* Keyword.Reserved */
+.code .kt { color: #AA22FF; font-weight: bold } /* Keyword.Type */
+.code .m { color: #666666 } /* Literal.Number */
+.code .s { color: #BB4444 } /* Literal.String */
+.code .na { color: #BB4444 } /* Name.Attribute */
+.code .nb { color: #AA22FF } /* Name.Builtin */
+.code .nc { color: #0000FF } /* Name.Class */
+.code .no { color: #880000 } /* Name.Constant */
+.code .nd { color: #AA22FF } /* Name.Decorator */
+.code .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.code .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.code .nf { color: #00A000 } /* Name.Function */
+.code .nl { color: #A0A000 } /* Name.Label */
+.code .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.code .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.code .nv { color: #B8860B } /* Name.Variable */
+.code .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.code .mf { color: #666666 } /* Literal.Number.Float */
+.code .mh { color: #666666 } /* Literal.Number.Hex */
+.code .mi { color: #666666 } /* Literal.Number.Integer */
+.code .mo { color: #666666 } /* Literal.Number.Oct */
+.code .sb { color: #BB4444 } /* Literal.String.Backtick */
+.code .sc { color: #BB4444 } /* Literal.String.Char */
+.code .sd { color: #BB4444; font-style: italic } /* Literal.String.Doc */
+.code .s2 { color: #BB4444 } /* Literal.String.Double */
+.code .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.code .sh { color: #BB4444 } /* Literal.String.Heredoc */
+.code .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.code .sx { color: #008000 } /* Literal.String.Other */
+.code .sr { color: #BB6688 } /* Literal.String.Regex */
+.code .s1 { color: #BB4444 } /* Literal.String.Single */
+.code .ss { color: #B8860B } /* Literal.String.Symbol */
+.code .bp { color: #AA22FF } /* Name.Builtin.Pseudo */
+.code .vc { color: #B8860B } /* Name.Variable.Class */
+.code .vg { color: #B8860B } /* Name.Variable.Global */
+.code .vi { color: #B8860B } /* Name.Variable.Instance */
+.code .il { color: #666666 } /* Literal.Number.Integer.Long */
+
+
+/* http://projects.lukehaas.me/css-loaders/ */
+
+.image-wait .loader {
+  font-size: 90px;
+  text-indent: -9999em;
+  overflow: hidden;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  margin: 0px auto;
+  position: relative;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation: load6 1.7s infinite ease;
+  animation: load6 1.7s infinite ease;
+}
+@-webkit-keyframes load6 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+    box-shadow: 0 -0.83em 0 -0.4em #ffffff, 0 -0.83em 0 -0.42em #ffffff, 0 -0.83em 0 -0.44em #ffffff, 0 -0.83em 0 -0.46em #ffffff, 0 -0.83em 0 -0.477em #ffffff;
+  }
+  5%,
+  95% {
+    box-shadow: 0 -0.83em 0 -0.4em #ffffff, 0 -0.83em 0 -0.42em #ffffff, 0 -0.83em 0 -0.44em #ffffff, 0 -0.83em 0 -0.46em #ffffff, 0 -0.83em 0 -0.477em #ffffff;
+  }
+  10%,
+  59% {
+    box-shadow: 0 -0.83em 0 -0.4em #ffffff, -0.087em -0.825em 0 -0.42em #ffffff, -0.173em -0.812em 0 -0.44em #ffffff, -0.256em -0.789em 0 -0.46em #ffffff, -0.297em -0.775em 0 -0.477em #ffffff;
+  }
+  20% {
+    box-shadow: 0 -0.83em 0 -0.4em #ffffff, -0.338em -0.758em 0 -0.42em #ffffff, -0.555em -0.617em 0 -0.44em #ffffff, -0.671em -0.488em 0 -0.46em #ffffff, -0.749em -0.34em 0 -0.477em #ffffff;
+  }
+  38% {
+    box-shadow: 0 -0.83em 0 -0.4em #ffffff, -0.377em -0.74em 0 -0.42em #ffffff, -0.645em -0.522em 0 -0.44em #ffffff, -0.775em -0.297em 0 -0.46em #ffffff, -0.82em -0.09em 0 -0.477em #ffffff;
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+    box-shadow: 0 -0.83em 0 -0.4em #ffffff, 0 -0.83em 0 -0.42em #ffffff, 0 -0.83em 0 -0.44em #ffffff, 0 -0.83em 0 -0.46em #ffffff, 0 -0.83em 0 -0.477em #ffffff;
+  }
+}
+@keyframes load6 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+    box-shadow: 0 -0.83em 0 -0.4em #ffffff, 0 -0.83em 0 -0.42em #ffffff, 0 -0.83em 0 -0.44em #ffffff, 0 -0.83em 0 -0.46em #ffffff, 0 -0.83em 0 -0.477em #ffffff;
+  }
+  5%,
+  95% {
+    box-shadow: 0 -0.83em 0 -0.4em #ffffff, 0 -0.83em 0 -0.42em #ffffff, 0 -0.83em 0 -0.44em #ffffff, 0 -0.83em 0 -0.46em #ffffff, 0 -0.83em 0 -0.477em #ffffff;
+  }
+  10%,
+  59% {
+    box-shadow: 0 -0.83em 0 -0.4em #ffffff, -0.087em -0.825em 0 -0.42em #ffffff, -0.173em -0.812em 0 -0.44em #ffffff, -0.256em -0.789em 0 -0.46em #ffffff, -0.297em -0.775em 0 -0.477em #ffffff;
+  }
+  20% {
+    box-shadow: 0 -0.83em 0 -0.4em #ffffff, -0.338em -0.758em 0 -0.42em #ffffff, -0.555em -0.617em 0 -0.44em #ffffff, -0.671em -0.488em 0 -0.46em #ffffff, -0.749em -0.34em 0 -0.477em #ffffff;
+  }
+  38% {
+    box-shadow: 0 -0.83em 0 -0.4em #ffffff, -0.377em -0.74em 0 -0.42em #ffffff, -0.645em -0.522em 0 -0.44em #ffffff, -0.775em -0.297em 0 -0.46em #ffffff, -0.82em -0.09em 0 -0.477em #ffffff;
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+    box-shadow: 0 -0.83em 0 -0.4em #ffffff, 0 -0.83em 0 -0.42em #ffffff, 0 -0.83em 0 -0.44em #ffffff, 0 -0.83em 0 -0.46em #ffffff, 0 -0.83em 0 -0.477em #ffffff;
+  }
+}

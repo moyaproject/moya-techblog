@@ -1,0 +1,15 @@
+*.orig
+*.project
+*.pyc
+*.egg
+*.egg-info
+*.db
+*.sqlite
+*.sublime-*
+/**/__*__
+.eggs
+.tox
+build/
+.DS_Store
+*.sqllite
+local.ini

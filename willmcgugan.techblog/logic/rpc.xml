@@ -1,0 +1,73 @@
+<moya xmlns="http://moyaproject.com"
+      xmlns:rpc="http://moyaproject.com/jsonrpc"
+      xmlns:let="http://moyaproject.com/let"
+      xmlns:db="http://moyaproject.com/db"
+      xmlns:forms="http://moyaproject.com/forms">
+
+    <!-- Here's an example JSONRPC interface to get you started. -->
+
+    <!-- Use an enumeration so you can refer to error codes by a label -->
+    <enum libname="enum.jsonrpc.errors">
+        <value id="1" name="no_collection">No such image collection</value>
+        <value name="markup_not_supported">This markup is not supported</value>
+        <value name="no_draft">Draft could not be found</value>
+    </enum>
+
+    <!-- This object creates a view that exposes methods via JSON RPC -->
+    <rpc:interface libname="jsonrpc.interface" errors="#enum.jsonrpc.errors">
+
+        <rpc:method name="render_images" description="Render images for insertion">
+            <rpc:parameter name="collection_uuid" type="string">UUID of collection</rpc:parameter>
+            <rpc:parameter name="images" type="list">List of Image UUIDs</rpc:parameter>.
+
+            <db:get model="moya.imagelib#Collection" let:uuid="collection_uuid" dst="collection"/>
+            <rpc:error code="no_collection" if="not collection"/>
+
+            <db:query model="moya.imagelib#Image" let:collection="collection" filter="moya.imagelib#Image.uuid in images" dst="images"/>
+            <return-dict>
+                <render-template template="rpc/images.html" let:images="images" dst="html"/>
+            </return-dict>
+        </rpc:method>
+
+        <rpc:method name="preview_content" description="Preview content from a post">
+            <rpc:parameter name="content" type="string">Content text</rpc:parameter>
+            <rpc:parameter name="post_id" type="number">ID of post</rpc:parameter>
+            <rpc:parameter name="markup" type="string">Markup type</rpc:parameter>
+
+            <db:get model="#Post" let:id="post_id" dst="post" />
+            <return-dict>
+                <render-template template="rpc/preview_content.html" dst="html"
+                    let:post="post.draft" let:content="content" let:markup="markup"/>
+            </return-dict>
+        </rpc:method>
+
+        <rpc:method name="save_draft" description="Save a draft post">
+            <rpc:parameter name="post_id">ID of post</rpc:parameter>
+            <rpc:parameter name="draft">Object containing draft data</rpc:parameter>
+            <rpc:parameter name="count" type="number" default="0">Draft save count</rpc:parameter>
+
+            <db:get model="#Post" let:id="post_id" dst="post" />
+            <rpc:error code="no_draft" if="not post or not post.draft"/>
+
+            <for src="['title', 'slug', 'tagline', 'type', 'markup', 'content', 'tagtext']" dst="field">
+                <set-item src="post.draft" index="field" value="draft[field]"/>
+            </for>
+            <return-dict let:status="'success'" let:count="count"/>
+        </rpc:method>
+
+        <rpc:method name="preview_comment" description="Preview comment">
+            <rpc:parameter name="comment" type="string" required="yes">Comment text</rpc:parameter>
+            <rpc:parameter name="markup" type="string" required="yes">Markup type</rpc:parameter>
+            <return-dict>
+                <render-template template="rpc/preview_comment.html" dst="html"
+                    let:comment="comment" let:markup="markup"/>
+            </return-dict>
+            <catch exception="markup.unsupported">
+                <rpc:error code="markup_not_supported">markup '${markup}' is not supported</rpc:error>
+            </catch>
+        </rpc:method>
+
+    </rpc:interface>
+
+
+</moya>

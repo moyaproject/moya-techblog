@@ -1,0 +1,98 @@
+<moya xmlns="http://moyaproject.com"
+    xmlns:m="http://moyaproject.com"
+    xmlns:let="http://moyaproject.com/let">
+
+    <model xmlns="http://moyaproject.com/db" name="Blog" libname="Blog" repr="blog '${slug}'">
+        <foreign-key model="auth#User" name="owner" null="yes" />
+        <string name="title" length="100" null="no" />
+        <string name="slug" length="100" null="no" unique="yes"/>
+        <datetime label="Created Date" name="created_date" null="no" auto="yes" />
+        <datetime label="Update Date" name="updated_date" null="yes" />
+        <boolean name="promoted" default="no" />
+        <string name="headline" length="300" null="no" default="" />
+        <text name="description" default="" help="(used in RSS feeds)"/>
+        <string name="markup" length="20" default="markdown" />
+        <text name="tagline" null="no" default="" help="Displayed in title pages" />
+
+        <text name="props" null="yes" default="None"/>
+        <one-to-one name="images" model="imagelib#Collection" null="yes" blank="yes"/>
+        <foreign-key name="image" model="moya.imagelib#Image" null="yes" blank="yes" />
+
+        <property name="userlinks" expression="collectmap:[owner.userlinks, 'name']" />
+
+        <property name="display_posts">
+            <!-- admin sees all posts, non-admin sees published posts only -->
+            <m:return value="object.posts" if=".permissions.admin"/>
+            <m:return>
+                <query model="#Post" src="object.posts" let:published="yes"/>
+            </m:return>
+        </property>
+
+    </model>
+
+    <model xmlns="http://moyaproject.com/db" name="Channel" libname="Channel" extends="#Blog" repr="channel '${slug}'">
+        <many-to-many name="blogs" model="#Blog" />
+
+        <property name="posts">
+            <query model="#Post" filter="#Post.blog.id in object.blogs" dst="posts"/>
+            <m:return value="posts"/>
+        </property>
+
+        <property name="display_posts">
+            <query model="#Post" filter="#Post.blog.id in object.blogs" dst="posts"/>
+            <m:return value="posts" if=".permissions.admin"/>
+            <query model="#Post" src="posts" let:published="yes" dst="posts"/>
+            <m:return value="posts"/>
+        </property>
+    </model>
+
+    <model xmlns="http://moyaproject.com/db" libname="PostFields" abstract="yes">
+        <!-- Fields common to Post and Draft -->
+        <string name="slug" length="100" null="no" blank="no"/>
+        <string name="title" length="100" null="no" />
+        <text name="tagline" null="no" default=""/>
+        <string name="type" length="20" default="text"/>
+        <string name="markup" length="20" default="markdown" />
+        <text name="content" null="no" default="" />
+        <text name="tagtext" null="no" default="" />
+        <text name="props" null="yes" default="None"/>
+        <one-to-one name="images" model="imagelib#Collection" null="yes" blank="yes"/>
+    </model>
+
+    <model xmlns="http://moyaproject.com/db" libname="Post" extends="#PostFields" repr="post '${title or '#' + str:id}'">
+        <unique-together>
+            <foreign-key model="#Blog" name="blog" null="no" backref="posts" />
+            <string name="slug" length="100" null="no" blank="no"/>
+        </unique-together>
+        <text name="content_text" label="Content as text" null="yes" />
+        <boolean name="published" default="no" />
+        <datetime name="published_date" null="yes" />
+        <datetime name="updated_date" null="yes" />
+        <integer name="update" null="no" default="0" />
+        <foreign-key model="auth#User" name="owner" null="yes" picker="moya.auth#admintable.users" />
+        <property name="userlinks" expression="collectmap:[owner.userlinks, 'name']" />
+    </model>
+
+    <model xmlns="http://moyaproject.com/db" libname="Draft" extends="#PostFields" repr="draft '${title or '#' + str:id}'">
+        <one-to-one model="#Post" name="post" backref="draft" null="no" ondelete="CASCADE" picker="#admintable.posts"/>
+        <one-to-one name="images" model="imagelib#Collection" null="yes" cascade="delete" blank="yes"/>
+    </model>
+
+    <model xmlns="http://moyaproject.com/db" libname="Tag" repr="${name}">
+        <string name="name" length="100" null="no" />
+        <string name="slug" length="100" null="no" />
+        <integer name="count" null="no" default="0" />
+        <many-to-many model="#Post" name="posts" backref="tags" picker="#admintable.posts" backpicker="#admintable.tags"/>
+    </model>
+
+    <model xmlns="http://moyaproject.com/db" libname="UserLink" repr="${user.username} / ${name}">
+        <foreign-key name="user" model="auth#User" backref="userlinks" null="no" picker="auth#admintable.users"/>
+        <string name="name" length="100" null="no" help="Use 'home' for a homepage link"/>
+        <string name="label" length="100" null="yes" help="Rendered in links"/>
+        <string label="Font Awesome Icon" name="fa_icon" length="20" null="yes" default="link" help="See http://fontawesome.github.io/Font-Awesome/icons/"/>
+        <string name="link" length="300" />
+        <text name="html" help="replace default HTML"/>
+        <boolean name="promoted" default="yes" null="no" label="Promoted?"/>
+    </model>
+
+</moya>

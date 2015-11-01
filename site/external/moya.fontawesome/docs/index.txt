@@ -1,0 +1,15 @@
+[title Font Awesome]
+
+This library bundles the [url http://fortawesome.github.io/Font-Awesome/]Font Awesome[/url] assets, which contain a large number of icons packed in to a font.
+
+You can include Font Awesome CSS by adding the following to your content:
+
+[code xml]
+<include-css path="css/font-awesome.min.css" from="moya.fontawesome" />
+[/code]
+
+Or, by adding the following directly to your base template:
+
+[code moyatemplate]
+<link rel="stylesheet" href="{% media 'css/font-awesome.min.css' from='moya.fontawesome' %}"/>
+[/code]
