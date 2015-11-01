@@ -77,13 +77,13 @@
         {% endif %}
         {% end-cache %}
 
-        <script src="{% media 'js/jquery.js' from 'moya.twitter.bootstrap' %}"></script>
 
 {% block "includecss" %}{% render include.css %}{% end %}
 {% block "css" %}{% render sections.css %}{% end %}
 {% block "jshead" %}{% render sections.jshead %}{% end %}
 {% block "head" %}{% render sections.head %}{% end %}
 
+    <script src="{% media 'js/jquery.js' from 'moya.twitter.bootstrap' %}"></script>
     </head>
 
     <body>
