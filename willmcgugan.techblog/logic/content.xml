@@ -27,13 +27,9 @@
         <section name="admin_links" merge="append">
             <if test=".url.blog">
                 <w:link icon="edit" name="settings" let:blog=".url.blog">Blog Settings</w:link>
-                <w:link icon="picture" name="images" let:blog=".url.blog">Blog Images</w:link>
-                <w:link icon="pencil" name="drafts" let:blog=".url.blog">Drafts</w:link>
             </if>
             <if test=".url.channel">
                 <w:link icon="edit" name="channel_settings" let:blog=".url.channel">Channel Settings</w:link>
-                <w:link icon="picture" name="channel_images" let:channel=".url.channel">Channel Images</w:link>
-                <w:link/>
                 <w:link icon="plus" name="new_blog">New Blog</w:link>
             </if>
             <w:link if="list_blogs.count"/>
@@ -74,7 +70,7 @@
         </section>
         <section name="admin_links" if=".permissions.admin">
             <w:link/>
-            <w:link name="newpost" let:blog=".url.blog" icon="plus" if=".url.blog">New post</w:link>
+            <w:link name="newpost" let:blog=".url.blog" icon="plus" if=".url.blog">New Post</w:link>
         </section>
         <section name="side">
             <techblog:posts-by-month blog="blog"/>
