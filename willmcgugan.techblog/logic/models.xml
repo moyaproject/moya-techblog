@@ -56,7 +56,7 @@
         <text name="content" null="no" default="" />
         <text name="tagtext" null="no" default="" />
         <text name="props" null="yes"/>
-        <one-to-one name="images" model="imagelib#Collection" null="yes" cascade="delete" blank="yes"/>
+
     </model>
 
     <model xmlns="http://moyaproject.com/db" libname="Post" extends="#PostFields" repr="post '${title or '#' + str:id}'">
@@ -64,6 +64,7 @@
             <foreign-key model="#Blog" name="blog" null="no" backref="posts" />
             <string name="slug" length="100" null="no" blank="no"/>
         </unique-together>
+        <one-to-one name="images" model="imagelib#Collection" null="yes" owner="yes" blank="yes"/>
         <text name="content_text" label="Content as text" null="yes" />
         <boolean name="published" default="no" />
         <datetime name="published_date" null="yes" />
@@ -74,7 +75,8 @@
     </model>
 
     <model xmlns="http://moyaproject.com/db" libname="Draft" extends="#PostFields" repr="draft '${title or '#' + str:id}'">
-        <one-to-one model="#Post" name="post" backref="draft" null="no" picker="#admintable.posts"/>
+        <one-to-one model="#Post" name="post" backref="draft" null="no" owned="yes" picker="#admintable.posts"/>
+        <one-to-one name="images" model="imagelib#Collection" null="yes" owner="yes" blank="yes"/>
     </model>
 
     <model xmlns="http://moyaproject.com/db" libname="Tag" repr="${name}">
@@ -85,7 +87,7 @@
     </model>
 
     <model xmlns="http://moyaproject.com/db" libname="UserLink" repr="${user.username} / ${name}">
-        <foreign-key name="user" model="auth#User" backref="userlinks" null="no" picker="auth#admintable.users"/>
+        <foreign-key name="user" model="auth#User" backref="userlinks" null="no" owned="yes" picker="auth#admintable.users"/>
         <string name="name" length="100" null="no" help="Use 'home' for a homepage link"/>
         <string name="label" length="100" null="yes" help="Rendered in links"/>
         <string label="Font Awesome Icon" name="fa_icon" length="20" null="yes" default="link" help="See http://fontawesome.github.io/Font-Awesome/icons/"/>

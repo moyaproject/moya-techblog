@@ -41,7 +41,7 @@
     </macro>
 
     <model libname="Image" xmlns="http://moyaproject.com/db" repr="image '${slug or uuid}'">
-        <foreign-key name="collection" model="#Collection" null="yes" blank="yes" backref="images" cascade="delete"/>
+        <foreign-key name="collection" model="#Collection" null="yes" blank="yes" backref="images" owned="yes"/>
         <foreign-key name="owner" model="auth#User" blank="yes" null="yes" picker="auth#admintable.users"/>
         <upload name="file" getfs="#get_fs" getpath="#get_image_path" geturl="#get_image_url" null="yes"/>
         <uuid name="uuid"/>

@@ -193,7 +193,7 @@
                 <forms:error field="slug" src="form">Slug exists, please edit</forms:error>
                 <break/>
             </catch>
-            <let post.images="draft.images" draft.images="None"/>
+            <let-parallel post.images="draft.images" draft.images="post.images"/>
             <let post.updated_date=".now" />
             <techblog:update-tags post="post" tags="post.tagtext" />
             <db:delete src="draft"/>
