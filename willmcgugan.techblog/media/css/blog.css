@@ -756,14 +756,14 @@ ul.techblog-post-paginator li a
 .continue-reading
 {
     display:inline-block;
-    /*color:#9954bb;*/
-    font-size:0.9em;
+
     margin-left:2px;
 
 }
 
 .continue-reading a
 {
+    color:#9954bb !important;
     font-weight:bold;
 }
 
