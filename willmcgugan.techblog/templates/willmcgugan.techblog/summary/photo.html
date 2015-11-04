@@ -6,7 +6,7 @@
 
 {%- let post_img_src=(summary_html|'imgdata').square or summary_html|'imgsrc' %}
 
-<div {% attrib class=['techblog-post', 'summary', post_img_src ? 'with-image' : None] %}>
+<div {% attrib class=['techblog-post', 'summary', 'with-image'] %}>
 
     <a href="{% url "showpost" with slug=post.slug, blog=post.blog.slug %}">
     {% include "photo_fan.html" %}
