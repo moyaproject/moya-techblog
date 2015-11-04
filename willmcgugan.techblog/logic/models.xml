@@ -15,7 +15,7 @@
         <text name="tagline" null="no" default="" help="Displayed in title pages" />
 
         <text name="props" null="yes"/>
-        <one-to-one name="images" model="imagelib#Collection" null="yes" blank="yes"/>
+        <one-to-one name="images" model="imagelib#Collection" null="yes" blank="yes" owner="yes"/>
         <foreign-key name="image" model="moya.imagelib#Image" null="yes" blank="yes" />
 
         <property name="userlinks" expression="collectmap:[owner.userlinks, 'name']" />
