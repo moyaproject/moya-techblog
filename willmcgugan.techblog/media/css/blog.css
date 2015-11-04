@@ -21,6 +21,7 @@ body
     font-size:12px;
 
     color:#888;
+    color:#9954bb;
     margin: 4px 0px 9px 2px;
     text-transform: uppercase;
 }
@@ -363,7 +364,7 @@ body.show-frame
 {
     color:#333;
     font-weight:400;
-    font-size:28px;
+    font-size:22px;
 }
 
 .techblog-post.summary h2 a:hover
@@ -750,20 +751,19 @@ ul.techblog-post-paginator li a
 .techblog-post-info
 {
     font-size:.9em;
-
 }
 
 .continue-reading
 {
     display:inline-block;
-
     margin-left:2px;
 
 }
 
 .continue-reading a
 {
-    color:#9954bb !important;
+    /*color:#9954bb !important;*/
+    color:#555;
     font-weight:bold;
 }
 

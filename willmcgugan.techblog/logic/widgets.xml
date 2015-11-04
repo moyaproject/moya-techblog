@@ -69,7 +69,7 @@
     </widget>
 
     <macro docname="aggregate_posts">
-        <cache-return key="${blog.id}.${post.id}.${post.updated_date}.${year}" for="1d">
+        <cache-return key="${blog.id}.${blog.updated_date}.${year}" for="1d">
             <let
                 posts="blog.display_posts"
                 dates="collect:[posts, 'published_date']"/>
