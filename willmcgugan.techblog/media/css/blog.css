@@ -8,6 +8,119 @@ body
     margin-bottom: 0px;
 }
 
+.techblog-photo-summary
+{
+    position:relative;
+    padding:10px 10px 40px 20px;
+    transition:transform 0.2s;
+    margin-left: 30px;
+}
+.list-group .techblog-photo-summary
+{
+    margin-left:0px;
+    margin-bottom:0px;
+    transform: translateY(0px);
+    width:120px;
+    margin:20px auto 10px auto;
+}
+
+.techblog-photo-summary:after{
+    content:' ';
+    width:120px;
+    height:100px;
+    display:inline-block;
+}
+
+.techblog-photo-summary img
+{
+    position:absolute;
+    top:10px;
+    left:0px;
+    width:120px;
+    height:120px;
+    padding:4px;
+    border:1px solid #bbb;
+    box-shadow:0px 0px 24px rgba(0,0,0,0.15);
+    background-color:#fff;
+    transition:transform 0.2s;
+}
+
+.list-group .techblog-photo-summary:hover
+{
+    transform:translateX(calc(50% - 60px));
+}
+.techblog-photo-summary:hover
+{
+    transition:transform 0.2s;
+}
+
+.techblog-photo-summary img:hover
+{
+
+}
+
+.techblog-photo-summary img:nth-child(1)
+{
+    transform:rotate(-5deg) translateX(-10px);
+    z-index: 2;
+}
+
+.techblog-photo-summary img:nth-child(2)
+{
+    transform:rotate(0deg) translateX(0px);
+    z-index: 3
+}
+
+.techblog-photo-summary img:nth-child(3)
+{
+    transform:rotate(+5deg) translateX(10px);
+    z-index:4
+}
+
+.techblog-photo-summary img:nth-child(4)
+{
+    transform:rotate(+10deg) translateX(20px);
+    z-index: 5;
+}
+
+.techblog-photo-summary img:nth-child(5)
+{
+    transform:rotate(-10deg) translateX(-20px);
+    z-index: 1
+}
+
+
+.techblog-photo-summary:hover img:nth-child(1)
+{
+    transform:rotate(-16deg) translateX(-30px) translateY(-20px);
+    z-index: 2;
+}
+
+.techblog-photo-summary:hover img:nth-child(2)
+{
+    transform:rotate(0deg) translateX(0px) translateY(-20px);
+    z-index: 3
+}
+
+.techblog-photo-summary:hover img:nth-child(3)
+{
+    transform:rotate(+16deg) translateX(30px) translateY(-20px);
+    z-index:4
+}
+
+.techblog-photo-summary:hover img:nth-child(4)
+{
+    transform:rotate(+32deg) translateX(60px) translateY(-20px);
+    z-index: 5;
+}
+
+.techblog-photo-summary:hover img:nth-child(5)
+{
+    transform:rotate(-32deg) translateX(-60px) translateY(-20px);
+    z-index: 1
+}
+
+
 .techblog-image-insert
 {
     margin-bottom:10.5px
@@ -538,6 +651,10 @@ ul.techblog-post-paginator li a
 
 @media (max-width: 768px)
 {
+    .techblog-post.summary .techblog-photo-summary
+    {
+        display:none;
+    }
     .techblog-post-summary-image
     {
         display:none;

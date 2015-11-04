@@ -1,0 +1,32 @@
+{%- cache for 1d key [post.id, post.updated_date, .permissions.admin] %}
+
+{%- extract as "summary_html" replace '' %}
+{% markup-block as 'moya' set post=post %}{% markup post.content as post.markup %}{% end-markup-block %}
+{%- end-extract %}
+
+{%- let post_img_src=(summary_html|'imgdata').square or summary_html|'imgsrc' %}
+
+<div {% attrib class=['techblog-post', 'summary', post_img_src ? 'with-image' : None] %}>
+
+    {%- if post_img_src %}
+    {%- with src=post_img_src %}{% include "summary_img.html" if src  %}{%- end-with %}
+    {%- endif %}
+
+    <div class="post-body">
+        <div class="techblog-post-header">
+            <h2>
+                <a href="{% url "showpost" with slug=post.slug, blog=post.blog.slug %}">
+                    ${post.title}
+                </a>
+                {% if not post.published %}
+                    <small><span class="label text-sm label-warning">Un-published</span></small>
+                {% endif %}
+            </h2>
+        </div>
+        <div class="post-summary">
+            {% render summary_html|'summary'(post=post) to 'html' %}
+        </div>
+    </div>
+
+</div>
+{%- end-cache %}

@@ -1,3 +1,4 @@
+
 {%- if posts %}
 <div class="list-group margin-top-20">
 {%- for post in posts %}
@@ -7,6 +8,9 @@
         <span class="label label-info pull-right">new!</span>
         {% endif %}
         <h4 class="list-group-item-heading">${post.title}</h4>
+        {% if post.type == 'photo' %}
+        {% include "photo_fan.html" %}
+        {% endif %}
     </a>
 {%- endfor %}
 </div>

@@ -1,0 +1,5 @@
+<div class="techblog-photo-summary">
+{% for image in post.images.images[slice:[None, 5]] %}
+    <img src="${image.file|'thumbnail'(processor='square')}">
+{% endfor %}
+</div>

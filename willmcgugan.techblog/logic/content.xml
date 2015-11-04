@@ -1,6 +1,5 @@
 <moya xmlns="http://moyaproject.com"
       xmlns:moya="http://moyaproject.com"
-      xmlns:blog="http://willmcgugan.com/techblog"
       xmlns:let="http://moyaproject.com/let"
       xmlns:html="http://moyaproject.com/html"
       xmlns:comments="http://moyaproject.com/comments"
@@ -54,7 +53,7 @@
             <comments:get-counts dst="comment_counts" namespace="app-${.app.name}"
                 topics="comment_objects" />
             <w:paginate src="posts" dst="post" pagesize="pagesize">
-                <blog:post template="widgets/post_summary.html" post="post" numcomments="comment_counts[sub:'post-${post.id}']"/>
+                <techblog:post-summary post="post" numcomments="comment_counts[sub:'post-${post.id}']"/>
             </w:paginate>
             <html:div if="not posts" class="alert">No posts yet!</html:div>
         </section>
@@ -161,11 +160,11 @@
         </section>
         <section name="content">
             <comments:get-count namespace="app-${.app.name}" topic="post-${post.id}" dst="numcomments"/>
-            <blog:post newer="newer" older="older" post="post" slug="url.slug" linktitle="no" solo="yes" numcomments="numcomments"/>
+            <techblog:post newer="newer" older="older" post="post" slug="url.slug" linktitle="no" solo="yes" numcomments="numcomments"/>
             <comments:comments markup="markdown" namespace="app-${.app.name}" topic="post-${post.id}" url="${post_url}" />
         </section>
         <section name="side">
-            <blog:related-posts post="post" count="6"/>
+            <techblog:related-posts post="post" count="6"/>
         </section>
         <section name="admin_links" merge="append" if=".permissions.admin and post">
             <let slug="post.slug" />
@@ -198,12 +197,12 @@
         <title>Search</title>
         <section name="results">
             <node template="search_header.html" let:search="search"/>
-            <w:paginate src="posts" dst="post" auto="no">
-                <node template="results.html" let:posts="pagination.objects" let:search="search"/>
+            <w:paginate src="posts" dst="post" auto="yes">
+                <techblog:post-summary post="post"/>
             </w:paginate>
         </section>
         <section name="side">
-            <blog:popular-tags count="20"/>
+            <techblog:popular-tags count="20"/>
         </section>
     </content>
 
@@ -211,12 +210,12 @@
         <title>Tag ${tag.name}</title>
         <section name="results">
             <node template="tag_header.html" let:tag="tag"/>
-            <w:paginate src="posts" dst="post" auto="no">
-                <node template="results.html" let:posts="pagination.objects" let:search="search"/>
+            <w:paginate src="posts" dst="post" auto="yes">
+                <techblog:post-summary post="post"/>
             </w:paginate>
         </section>
         <section name="side">
-            <blog:popular-tags active="tag"/>
+            <techblog:popular-tags active="tag"/>
         </section>
     </content>
 

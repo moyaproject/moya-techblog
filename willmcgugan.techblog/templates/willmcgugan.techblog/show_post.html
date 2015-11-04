@@ -83,7 +83,6 @@
         {% render sections.content %}
         </div>
         <div class="col-md-4">
-        {% include "social.html" %}
         {% cache for 1h key [post.published_date, post.published, .permission.admin] %}
         {% render sections.side %}
         {% end-cache %}
