@@ -8,6 +8,33 @@ body
     margin-bottom: 0px;
 }
 
+
+.techblog-post .post-info
+{
+    /*
+    border-top:1px solid #eee;
+    border-bottom:1px solid #eee;
+    */
+
+    display:inline-block;
+    margin-bottom:8px;
+    font-size:12px;
+
+    color:#888;
+    margin: 4px 0px 9px 2px;
+    text-transform: uppercase;
+}
+
+.techblog-post .post-info span
+{
+    margin-right:0.5em;
+}
+
+.techblog-post .post-info i.fa
+{
+    margin-right:4px;
+}
+
 .techblog-photo-summary
 {
     position:relative;
@@ -15,6 +42,7 @@ body
     transition:transform 0.2s;
     margin-left: 30px;
 }
+
 .list-group .techblog-photo-summary
 {
     margin-left:0px;
@@ -61,14 +89,14 @@ body
 
 .techblog-photo-summary img:nth-child(1)
 {
-    transform:rotate(-5deg) translateX(-10px);
-    z-index: 2;
+    transform:rotate(0deg) translateX(0px);
+    z-index: 3;
 }
 
 .techblog-photo-summary img:nth-child(2)
 {
-    transform:rotate(0deg) translateX(0px);
-    z-index: 3
+    transform:rotate(-5deg) translateX(-10px);
+    z-index: 2
 }
 
 .techblog-photo-summary img:nth-child(3)
@@ -92,14 +120,14 @@ body
 
 .techblog-photo-summary:hover img:nth-child(1)
 {
-    transform:rotate(-16deg) translateX(-30px) translateY(-20px);
-    z-index: 2;
+    transform:rotate(0deg) translateX(0px) translateY(-20px);
+    z-index: 3;
 }
 
 .techblog-photo-summary:hover img:nth-child(2)
 {
-    transform:rotate(0deg) translateX(0px) translateY(-20px);
-    z-index: 3
+    transform:rotate(-16deg) translateX(-30px) translateY(-20px);
+    z-index: 2;
 }
 
 .techblog-photo-summary:hover img:nth-child(3)
@@ -314,7 +342,7 @@ body.show-frame
 {
     width:100%;
     display:table;
-    margin:20px 0px -10px 0px;
+    margin:30px 0px -10px 0px;
     color:#555;
     background-size:cover;
     background-position:center center;
@@ -335,6 +363,7 @@ body.show-frame
 {
     color:#333;
     font-weight:400;
+    font-size:28px;
 }
 
 .techblog-post.summary h2 a:hover
@@ -367,7 +396,7 @@ body.show-frame
 
 .techblog-post-header h2
 {
-    margin-top:4px;
+    margin-top:-4px;
     margin-bottom:4px;
 }
 
@@ -727,7 +756,7 @@ ul.techblog-post-paginator li a
 .continue-reading
 {
     display:inline-block;
-    color:#9954bb;
+    /*color:#9954bb;*/
     font-size:0.9em;
     margin-left:2px;
 

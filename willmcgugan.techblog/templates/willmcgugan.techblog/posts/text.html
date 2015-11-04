@@ -30,7 +30,7 @@
                     </p>
                     <h1>${post.title}</h1>
                     <p class="techblog-post-info">
-                        {%- for tag in (post.tags) sort (name) reverse %}
+                        {%- for tag in (post.tags) sort (name) %}
                         <a class="techblog-tag" href="{% url 'tag' with tagslug=tag.slug %}" title="List posts tagged with '${tag.name}'">
                             <i class="fa fa-tag"></i>&nbsp;
                             ${tag.name}

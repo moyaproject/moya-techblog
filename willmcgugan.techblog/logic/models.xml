@@ -48,7 +48,7 @@
 
     <model xmlns="http://moyaproject.com/db" libname="PostFields" abstract="yes">
         <!-- Fields common to Post and Draft -->
-        <string name="slug" length="100" null="no" blank="no"/>
+        <string name="slug" length="100" null="no" blank="no" index="yes"/>
         <string name="title" length="100" null="no" />
         <text name="tagline" null="no" default=""/>
         <string name="type" length="20" default="text"/>

@@ -1,5 +1,7 @@
-<div class="techblog-photo-summary">
+{% with count=len:post.images.images %}
+<div class="techblog-photo-summary" data-toggle="tooltip" title="Photography post ({% trans number count %}(${count} photo){% plural %}${count} photos{% end-trans %})">
 {% for image in post.images.images[slice:[None, 5]] %}
     <img src="${image.file|'thumbnail'(processor='square')}">
 {% endfor %}
 </div>
+{% endwith %}

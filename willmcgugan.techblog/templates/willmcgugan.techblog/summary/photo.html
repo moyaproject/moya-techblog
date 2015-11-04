@@ -22,6 +22,7 @@
                     <small><span class="label text-sm label-warning">Un-published</span></small>
                 {% endif %}
             </h2>
+            {% include "post_info.html" %}
         </div>
         <div class="post-summary">
             {% render summary_html|'summary'(post=post) to 'html' %}

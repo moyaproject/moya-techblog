@@ -68,21 +68,29 @@
         </return-scope>
     </widget>
 
+    <macro docname="aggregate_posts">
+        <cache-return key="${blog.id}.${post.id}.${post.updated_date}.${year}" for="1d">
+            <let
+                posts="blog.display_posts"
+                dates="collect:[posts, 'published_date']"/>
+            <dict dst="years" default="{}"/>
+            <for src="dates" dst="date" filter="date">
+                <let year="years[date.year]" />
+                <set-item src="year" index="date.month" value="(year[date.month] or 0) + 1"/>
+            </for>
+            <let years="reversed:sorted:items:years"/>
+            <return value="years"/>
+        </cache-return>
+    </macro>
+
     <widget name="posts-by-month" template="widgets/posts_by_month.html">
         <signature>
             <attribute name="blog" required="yes"/>
             <attribute name="year" required="no" type="expression" default=".now.year"/>
             <attribute name="urlname" type="text" default="month"/>
         </signature>
-        <let current_year="year"
-            posts="blog.display_posts"
-            dates="collect:[posts, 'published_date']"/>
-        <dict dst="years" default="{}"/>
-        <for src="dates" dst="date" filter="date">
-            <let year="years[date.year]" />
-            <set-item src="year" index="date.month" value="(year[date.month] or 0) + 1"/>
-        </for>
-        <let years="reversed:sorted:items:years"/>
+        <let current_year="year"/>
+        <call macro="aggregate_posts" let:blog="blog" let:year="year" dst="years"/>
     </widget>
 
 </moya>

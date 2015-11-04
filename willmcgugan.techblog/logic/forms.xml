@@ -12,6 +12,7 @@
         <value name="photo">Photo</value>
         <value name="video">Video</value>
         <value name="page">Page</value>
+        <value name="code">Code</value>
     </enum>
 
     <form libname="form.blog.new" xmlns="http://moyaproject.com/forms" style="horizontal" legend="Create Blog">

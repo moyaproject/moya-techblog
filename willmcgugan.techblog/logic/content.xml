@@ -57,9 +57,6 @@
             </w:paginate>
             <html:div if="not posts" class="alert">No posts yet!</html:div>
         </section>
-        <section name="side">
-            <techblog:posts-by-month blog="blog"/>
-        </section>
     </content>
 
     <content libname="content.blog.posts" extends="#content.list-posts" template="blog_list.html">
