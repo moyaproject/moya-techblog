@@ -771,8 +771,8 @@ ul.techblog-post-paginator li a
 
 .continue-reading a
 {
-    /*color:#9954bb !important;*/
-    color:#666;
+    color:#9954bb;
+    text-transform: uppercase;
     font-weight:bold;
     font-size:90%;
 }
@@ -783,7 +783,6 @@ ul.techblog-post-paginator li a
 }
 .continue-reading a:hover
 {
-    text-decoration: none;
     opacity:1;
 }
 
