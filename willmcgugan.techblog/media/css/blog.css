@@ -331,8 +331,8 @@ body.show-frame
 .techblog-post-summary-image
 {
     font-weight:bold;
-    width:180px;
-    height:180px;
+    width:120px;
+    height:120px;
     color:#fff;
     background-size:cover;
     background-position:center center;
@@ -351,12 +351,19 @@ body.show-frame
     background-position:center center;
 }
 
-.techblog-post.summary.with-image .post-body
+.techblog-post.summary.with-image .post-body, .techblog-post.summary.with-photo .post-body
 {
     display:table-cell;
     vertical-align:top;
     width:100%;
 }
+
+.post-body .photo-fan
+{
+    float:right;
+    margin:-20px 20px 00px 20px;
+}
+
 
 .techblog-date
 {
