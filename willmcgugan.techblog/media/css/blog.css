@@ -690,7 +690,7 @@ ul.techblog-post-paginator li a
     display:block;
 }
 
-@media (max-width: 768px)
+@media (max-width: 600px)
 {
     .techblog-post.summary .techblog-photo-summary
     {
