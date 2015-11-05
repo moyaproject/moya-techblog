@@ -37,6 +37,7 @@
 
         <!-- admin urls -->
         <url route="/settings/" methods="GET,POST" view="#view.blog.settings" name="settings"/>
+        <url route="/delete/" methods="GET,POST" view="#view.blog.delete" name="delete"/>
         <url route="/images/" methods="GET" view="#view.blog.images" name="images"/>
         <url route="/write/" methods="GET,POST" view="#view.new-post" name="newpost"/>
         <url route="/edit/{slug:slug}/" methods="GET,POST" view="#view.edit-post" name="editpost" />
@@ -47,14 +48,6 @@
         <url route="/hide/{posinteger:id}/" methods="GET,POST" view="#view.hide" name="hide" />
         <url route="/drafts/" methods="GET" view="#view.drafts" name="drafts" />
     </mountpoint>
-
-    <handle signal="db.pre-update,db.pre-insert" sender="#Post">
-        <let post="signal.data.object"
-            post.updated_date=".now"
-            post.blog.updated_date=".now"/>
-        <process-markup src="post.content" type="${post.markup}" dst="html"/>
-        <let post.content_text="striptags:html" />
-    </handle>
 
     <view libname="view.blog.new" content="#content.blog.new" requires="permission:'admin'">
         <forms:get form="#form.blog.new" dst="form"/>
@@ -86,6 +79,15 @@
             <forms:apply src="form" dst="blog" />
             <let blog.updated_date=".now"/>
             <redirect name="settings" let:blog="blog.slug" query="{'success': ''}"/> <!-- in case the slug changes -->
+        </forms:validate>
+    </view>
+
+    <view libname="view.blog.delete" content="#content.blog.delete" requires="permission:'admin'">
+        <db:get-required model="#Blog" let:slug=".url.blog" dst="blog"/>
+        <forms:get form="#form.blog.delete" dst="form" let:blog="blog"/>
+        <forms:validate src="form">
+            <db:delete src="blog"/>
+            <redirect name="channel_list" let:blog="'roots'"/>
         </forms:validate>
     </view>
 

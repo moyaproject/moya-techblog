@@ -61,7 +61,7 @@
 
     <model xmlns="http://moyaproject.com/db" libname="Post" extends="#PostFields" repr="post '${title or '#' + str:id}'">
         <unique-together>
-            <foreign-key model="#Blog" name="blog" null="no" backref="posts" />
+            <foreign-key model="#Blog" name="blog" null="no" owned="yes" backref="posts" />
             <string name="slug" length="100" null="no" blank="no"/>
         </unique-together>
         <one-to-one name="images" model="imagelib#Collection" null="yes" owner="yes" blank="yes"/>

@@ -96,7 +96,7 @@
         </doc>
         <signature>
             <argument name="post" required="yes"/>
-            <argument name="chars" default="600" required="yes"/>
+            <argument name="chars" default="700" required="yes"/>
         </signature>
         <soup:extract-list src="html" select="p" dst="paragraphs"/>
 

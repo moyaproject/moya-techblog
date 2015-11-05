@@ -233,6 +233,13 @@
         </section>
     </content>
 
+    <content libname="content.blog.delete" extends="#content.blog.settings">
+        <title>Delete</title>
+        <section name="content">
+            <render src="form"/>
+        </section>
+    </content>
+
     <content libname="content.blog.images" extends="#content.blog.settings">
         <title>Images</title>
         <section name="content">

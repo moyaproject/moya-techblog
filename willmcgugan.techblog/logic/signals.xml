@@ -7,4 +7,14 @@
         <db:create model="moya.imagelib#Collection" dst="blog.images" if="not blog.images"/>
     </handle>
 
+    <handle signal="db.pre-update,db.pre-insert" sender="#Post">
+        <let post="signal.data.object"/>
+        <return if="not post.blog"/>
+        <let post.updated_date=".now"
+            post.blog.updated_date=".now"/>
+        <process-markup src="post.content" type="${post.markup}" dst="html"/>
+        <let post.content_text="striptags:html" />
+    </handle>
+
+
 </moya>

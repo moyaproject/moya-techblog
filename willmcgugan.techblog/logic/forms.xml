@@ -112,10 +112,8 @@
             <imagelib:select-image collection="blog.images" text="Select an Image" blank="yes"/>
         </field>
 
-
         <input label="headline" name="headline" maxlength="300"/>
         <text-area label="Tagline" name="tagline" help="Shown in the Post titles" rows="4"/>
-
         <text-area label="Description" name="description" src="description" help="In text format, used in feeds" rows="4"/>
 
         <actions>
@@ -173,5 +171,19 @@
         </adapt-field>
 
     </form>
+    <form libname="form.blog.delete" legend="Delete Blog" style="basic" xmlns="http://moyaproject.com/forms">
+        <w:warning>
+            <moya:markdown>**Deleting a blog will permanently remote all associated posts / images**</moya:markdown>
+        </w:warning>
 
+        <moya:markdown>
+            Deleting blog '${blog.title}' will remove **${len:blog.posts}** posts
+        </moya:markdown>
+
+        <checkbox name="confirm" required="yes" text="I understand"/>
+        <actions>
+            <submit-button visual="primary" text="Confirm and Delete" />
+            <w:button-link name="list" let:blog="blog.slug">Cancel</w:button-link>
+        </actions>
+    </form>
 </moya>
