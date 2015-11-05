@@ -181,6 +181,7 @@ body
 {
     color:#aaa;
     text-decoration:none;
+    font-size:90%;
 }
 
 #techblog-comments .moya-comment-actions a:hover
@@ -197,7 +198,7 @@ body
 #techblog-comments .moya-comments-container .moya-comments img.gravatar
 {
     padding:0px;
-    margin:2px 0px;
+    margin:4px 0px;
     border-radius:3px;
 }
 
@@ -216,6 +217,7 @@ body
 {
     float:none;
     font-size:inherit;
+    font-size:90%;
 }
 
 #techblog-comments .moya-comments-container .moya-comments .moya-comment-body
