@@ -11,11 +11,6 @@ body
 
 .techblog-post .post-info
 {
-    /*
-    border-top:1px solid #eee;
-    border-bottom:1px solid #eee;
-    */
-
     display:inline-block;
     margin-bottom:8px;
     font-size:12px;
@@ -890,6 +885,7 @@ ul.techblog-tags a
 ul.techblog-tags li.active a
 {
     opacity:1;
+    font-weight:bold;
 }
 
 ul.techblog-tags a:hover

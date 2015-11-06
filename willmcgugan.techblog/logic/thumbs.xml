@@ -30,8 +30,8 @@
             <image:gaussian-blur radius="6"/>
         </tn:processor>
 
-        <tn:processor name="square" version="4" quality="70">
-            <image:zoom-to-fit width="360" height="360"/>
+        <tn:processor name="square" version="5" quality="70">
+            <image:zoom-to-fit width="240" height="240"/>
         </tn:processor>
 
         <tn:processor name="sm" quality="75" version="2">

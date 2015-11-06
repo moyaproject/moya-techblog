@@ -2,8 +2,7 @@
 <ul class="techblog-tags list-unstyled">
 {% for tag in tags %}
     <li{% attrib class=[active_tag.slug == tag.slug ? 'active' : None] %}>
-        <a title="${tag.count} posts" href="{% url 'tag' with tagslug=tag.slug %}">
-            <span class="badge">${tag.count}</span>
+        <a title="${tag.count} posts" href="{% url 'tag' with tagslug=tag.slug %}" data-toggle="tooltip" data-placement="left" >
             ${tag.name}
         </a>
     </li>

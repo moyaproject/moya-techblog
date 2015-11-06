@@ -27,8 +27,8 @@
           }
         </style>
 
-        {% cache for 1d key [blog.updated_date, blog.image.updated_time] %}
         {% if blog.image %}
+        {% cache for 1d key [blog.updated_date, blog.image.updated_time] %}
         <style>
 
         .techblog-post-image
@@ -41,7 +41,6 @@
             .techblog-post-image
             {
                 background-image:url("${blog.image.file|'thumbnail'(processor="title.xlg")}");
-
             }
         }
 
@@ -72,10 +71,9 @@
             }
         }
 
-
         </style>
-        {% endif %}
         {% end-cache %}
+        {% endif %}
 
 
 {% block "includecss" %}{% render include.css %}{% end %}
@@ -83,7 +81,6 @@
 {% block "jshead" %}{% render sections.jshead %}{% end %}
 {% block "head" %}{% render sections.head %}{% end %}
 
-    <script src="{% media 'js/jquery.js' from 'moya.twitter.bootstrap' %}"></script>
     </head>
 
     <body>
@@ -127,6 +124,7 @@
             {% include "/footer.html" %}
         </div>
 
+<script src="{% media 'js/jquery.js' from 'moya.twitter.bootstrap' %}"></script>
 {% block "includejs" %}{% render include.js %}{% endblock %}
 {% block "js" %}{% render sections.js unique %}{% endblock %}
 {% block "jsfoot" %}{% render sections.jsfoot unique%}{% endblock %}

@@ -61,13 +61,8 @@
 
     <view libname="view.channel.list" content="#content.channel.posts">
         <db:get-required model="#Channel" let:slug=".url.channel" dst="channel"/>
-
-        <not-found if="exists:.request.GET.page and not int:.request.GET.page" />
-        <let page="int:.request.GET.page or 1" pagesize=".app.settings.page_size.int"/>
-
         <db:query model="#Post" src="channel.posts" dst="posts"
             orderby="published,-published_date" />
-
         <let blogs="channel.blogs"/>
     </view>
 
@@ -87,7 +82,7 @@
         <forms:get form="#form.blog.delete" dst="form" let:blog="blog"/>
         <forms:validate src="form">
             <db:delete src="blog"/>
-            <redirect name="channel_list" let:blog="'roots'"/>
+            <redirect name="channel_list" let:channel="'root'"/>
         </forms:validate>
     </view>
 
@@ -98,7 +93,8 @@
         <forms:validate src="form">
             <forms:apply src="form" dst="channel" />
             <let channel.updated_date=".now"/>
-            <redirect name="channel_settings" let:blog="blog.slug" query="{'success': ''}"/> <!-- in case the slug changes -->
+            <!-- redirect in case the slug changes -->
+            <redirect name="channel_settings" let:blog="blog.slug" query="{'success': ''}"/>
         </forms:validate>
     </view>
 

@@ -3,23 +3,6 @@
     xmlns:db="http://moyaproject.com/db"
     xmlns:soup="http://moyaproject.com/soup">
 
-    <tag name="get-recent">
-        <signature>
-            <attribute name="count" default="10" type="integer"/>
-        </signature>
-        <db:query model="#Post" dst="posts" orderby="-published_date" let:published="yes" maxresults="count"/>
-        <return value="posts" />
-    </tag>
-
-    <tag name="get-tags">
-        <signature>
-            <attribute name="post" required="yes"/>
-        </signature>
-        <map src="commasplit:post.tags" value="slug:$$" dst="tagslugs"/>
-        <db:query model="#Tag" filter="#Tag.slug in tagslugs" orderby="name" dst="tags"/>
-        <return value="tags"/>
-    </tag>
-
     <tag name="update-tags">
         <signature>
             <attribute name="post" required="yes"/>
@@ -122,11 +105,13 @@
     </filter>
 
     <filter name="leadp" value="html">
+        <doc>Add class="lead" to first paragraph</doc>
         <soup:strain src="html" select="p" max="1" let:class="'lead'" dst="leadp"/>
         <return value="html:leadp"/>
     </filter>
 
     <filter name="imgsrc" value="html">
+        <doc>Get the src of the first image in html</doc>
         <soup:extract-attrs src="html" select="img" max="5" dst="attrs"/>
         <for src="attrs" dst="tag">
             <return value="tag.src" if="not tag.width or int:tag.width gt 1" />

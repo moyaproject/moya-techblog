@@ -48,13 +48,16 @@
     <content libname="content.list-posts" extends="#content.blog.base" template="list.html">
         <title>${channel.title}</title>
         <section name="content">
-            <not-found if="page lt 1" />
-            <map src="posts" value="sub:'post-${id}'" dst="comment_objects" />
-            <comments:get-counts dst="comment_counts" namespace="app-${.app.name}"
-                topics="comment_objects" />
-            <w:paginate src="posts" dst="post" pagesize="pagesize">
-                <techblog:post-summary post="post" numcomments="comment_counts[sub:'post-${post.id}']"/>
+
+            <w:paginate src="posts" pagesize=".app.settings.page_size.int" auto="no">
+                <let posts="list:pagination.objects"/>
+                <map src="posts" value="sub:'post-${id}'" dst="comment_objects" />
+                <comments:get-counts dst="comment_counts" namespace="app-${.app.name}" topics="comment_objects" />
+                <for src="posts" dst="post">
+                    <techblog:post-summary post="post" numcomments="comment_counts[sub:'post-${post.id}']"/>
+                </for>
             </w:paginate>
+
             <html:div if="not posts" class="alert">No posts yet!</html:div>
         </section>
     </content>
