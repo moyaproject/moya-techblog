@@ -3,6 +3,11 @@ body
     overflow:auto;
 }
 
+.year-header
+{
+    cursor: pointer;
+}
+
 .form-actions.form-group
 {
     margin-bottom: 0px;

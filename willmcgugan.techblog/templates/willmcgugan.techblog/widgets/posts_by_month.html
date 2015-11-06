@@ -1,31 +1,20 @@
-{% cache for 1h key [blog.id, blog.updated_date, current_year, .url] %}
-<div class="panel-group margin-top-20" id="techblog-years" role="tablist" aria-multiselectable="true">
-
+{% cache for 1h key [blog.id, blog.updated_date, current_year, .url.month, .url] %}
+<div class="panel-group margin-top-20" style="text-align:center" id="techblog-years">
     {%- for year, months in years %}
-    <div class="panel panel-default techblog-year current">
-        <div class="panel-heading" role="tab" id="heading-${year}">
-            <h3 class="panel-title">
-                <a role="button" data-toggle="collapse" href="#year-${year}">${year}</a>
-            </h3>
-        </div>
-        <div id="year-${year}" class="panel-collapse collapse {% if current_year==year %}in{% endif %}">
-            <div class="panel-body">
-                <ul class="list-unstyled techblog-months">
-                {%- for month, count in reversed:sorted:items:months %}
-                <li>
-                    <a {% attrib class=['techblog-month', .url.year == year and .url.month==month ? 'techblog-current-month' : None] %}
-                        href="{% url urlname with blog=blog.slug, year=year, month=month %}">
-                        <span class="badge">${count}</span>
-                        ${date:[year,month,1] % 'MMMM'}
-                    </a>
-                </li>
-                {%- endfor %}
-                </ul>
-            </div>
-        </div>
+    <h4 data-toggle="collapse" data-target="#year-${year}" class="year-header">${year}</h4>
 
+    <div id="year-${year}" class="collapse{% if year==current_year %} in{% endif %}">
+        <ul class="list-unstyled techblog-months">
+        {%- for month, count in reversed:sorted:items:months %}
+        <li title="{% trans number count %}${count} post{% plural %}${count} posts{% endtrans %}">
+            <a {% attrib class=['techblog-month', .url.year == year and .url.month==month ? 'techblog-current-month' : None] %}
+                href="{% url urlname with blog=blog.slug, year=year, month=month %}">
+                ${upper:(date:[year,month,1] % 'MMMM')}
+            </a>
+        </li>
+        {%- endfor %}
+        </ul>
     </div>
     {%- endfor %}
-
 </div>
 {% endcache %}
