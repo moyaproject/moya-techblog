@@ -6,6 +6,8 @@ body
 .year-header
 {
     cursor: pointer;
+    margin:0px;
+    margin-bottom:10px;
 }
 
 .form-actions.form-group
