@@ -18,7 +18,7 @@
     </widget>
 
     <widget name="post-summary" template="summary/${post.type}.html, summary/text.html"
-        cachekey="${post.id}.${post.updated_date}.${post.blog.updated_date}.${permisions.admin}.${numcomments}" cachefor="1h">
+        cachekey="${post.id}.${post.updated_date}.${post.blog.updated_date}.${.permissions.admin}.${numcomments}" cachefor="1h">
         <signature>
             <attribute name="post" required="no"/>
             <attribute name="numcomments" default="0" />
