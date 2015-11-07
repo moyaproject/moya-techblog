@@ -344,7 +344,7 @@ body.show-frame
 {
     width:100%;
     display:table;
-    margin:30px 0px -10px 0px;
+    margin:20px 0px 0px 0px;
     color:#555;
     background-size:cover;
     background-position:center center;
@@ -865,10 +865,12 @@ pre code.hljs *
     white-space:pre;
 }
 
-ul.techblog-tags .badge
+ul.techblog-tags li
 {
-    margin-top:-2px;
+    text-align: center;
+    text-transform: uppercase;
 }
+
 ul.techblog-tags a
 {
     text-decoration:none;
