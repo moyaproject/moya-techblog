@@ -247,11 +247,6 @@ body
     opacity:0.7;
 }
 
-ul.techblog-months li a
-{
-    opacity:0.6;
-}
-
 .techblog-posts-calendar .year
 {
     border:1px solid #ddd;
@@ -608,15 +603,6 @@ nav.navbar-fixed-top:hover
     padding-top:0px;
 }
 
-.techblog-months li{
-    margin:1px;
-}
-
-ul.techblog-months
-{
-    margin-bottom:0px;
-}
-
 a.techblog-month:hover{
     opacity:1;
     text-decoration:none;
@@ -629,7 +615,7 @@ a.techblog-month .badge
 
 .techblog-current-month
 {
-    opacity:1 !important;
+    font-weight:600;
 }
 
 ul.techblog-post-paginator
@@ -757,7 +743,7 @@ ul.techblog-post-paginator li a
 
 .techblog-image-caption
 {
-    color:#999;
+    color:#666;
     font-size:90%;
 }
 

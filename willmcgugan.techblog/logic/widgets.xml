@@ -71,7 +71,7 @@
     </widget>
 
     <widget name="posts-by-month" template="widgets/posts_by_month.html"
-        cachekey="${blog.id}.${blog.updated_date}.${year}.${urlname}.${.permissions.admin}" cachefor="1h">
+        cachekey="${blog.id}.${blog.updated_date}.${year}.${urlname}.${.url}.${.permissions.admin}" cachefor="1h">
         <signature>
             <attribute name="blog" required="yes"/>
             <attribute name="year" required="no" type="expression" default=".now.year"/>

@@ -1,10 +1,10 @@
-{% cache for 1h key [blog.id, blog.updated_date, current_year, .url.month, .url] %}
+
 <div class="panel-group margin-top-20" style="text-align:center" id="techblog-years">
     {%- for year, months in years %}
     <h4 data-toggle="collapse" data-target="#year-${year}" class="year-header">${year}</h4>
 
     <div id="year-${year}" class="collapse{% if year==current_year %} in{% endif %}">
-        <ul class="list-unstyled">
+        <ul class="list-unstyled techblog-months">
         {%- for month, count in reversed:sorted:items:months %}
         <li title="{% trans number count %}${count} post{% plural %}${count} posts{% endtrans %}">
             <a {% attrib class=['techblog-month', .url.year == year and .url.month==month ? 'techblog-current-month' : None] %}
@@ -17,4 +17,3 @@
     </div>
     {%- endfor %}
 </div>
-{% endcache %}
