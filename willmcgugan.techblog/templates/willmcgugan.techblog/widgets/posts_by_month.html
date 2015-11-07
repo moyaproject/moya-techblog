@@ -1,4 +1,4 @@
-{% cache for 1h key [blog.id, blog.updated_date, current_year, .url.month, .url] %}
+
 <div class="panel-group margin-top-20" style="text-align:center" id="techblog-years">
     {%- for year, months in years %}
     <h4 data-toggle="collapse" data-target="#year-${year}" class="year-header">${year}</h4>
@@ -17,4 +17,3 @@
     </div>
     {%- endfor %}
 </div>
-{% endcache %}
