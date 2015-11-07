@@ -11,8 +11,8 @@
     <div class="techblog-post-titles">
         <div class="container">
 
+            {% cache for 1d key [post.published_date, post.updated_date, post.published, .permissions.admin] %}
             <div class="row">
-                {% cache for 1d key [post.published_date, post.updated_date, post.published, .permissions.admin] %}
                 <div class="col-md-12">
                     <p>
                         {% if post.published_date %}
@@ -38,7 +38,7 @@
                         {%- endfor %}
                     </p>
                     {%- if post.tagline %}
-                    <p class="lead tagline">{% markup post.tagline as post.markup %}</p>
+                    <div class="lead tagline">{% markup post.tagline as post.markup %}</div>
                     {%- else %}
                     <p class="lead tagline summary">
                         {%- summarize chars 300 %}
@@ -49,6 +49,7 @@
                 </div>
             </div>
             {% end-cache %}
+
              <div class="row">
                 <div class="col-md-12">
                     <ul class="techblog-post-paginator clearfix">
@@ -83,9 +84,7 @@
         {% render sections.content %}
         </div>
         <div class="col-md-4">
-        {% cache for 1h key [post.published_date, post.published, .permissions.admin] %}
         {% render sections.side %}
-        {% end-cache %}
         </div>
     </div>
 {% endblock %}
