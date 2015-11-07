@@ -9,7 +9,7 @@
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active fade in" id="comment_edit${token}">
 
-            <textarea class="form-control input-block-level" name="text" rows="8"></textarea>
+            <textarea class="form-control input-block-level" name="text" rows="8" maxlength="${.app.settings.max_comment_length.int}"></textarea>
 
             <small class="text-muted">
                 Use <a class="btn-link" role="button" data-toggle="collapse" data-target="#markuphelp${token}" target="_blank" expanded="false" title="formatting help">Markdown</a> for formatting
