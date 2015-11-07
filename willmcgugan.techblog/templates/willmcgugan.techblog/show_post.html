@@ -38,7 +38,7 @@
                         {%- endfor %}
                     </p>
                     {%- if post.tagline %}
-                    <p class="lead tagline">${post.tagline}</p>
+                    <p class="lead tagline">{% markup post.tagline as post.markup %}</p>
                     {%- else %}
                     <p class="lead tagline summary">
                         {%- summarize chars 300 %}
