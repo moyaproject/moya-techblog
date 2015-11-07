@@ -42,7 +42,7 @@
                     </w:option>
                 </for>
             </w:select>
-            <imglib:manager collection="collection" picker="yes"/>
+            <imglib:manager collection="collection" picker="yes" on_change="alert"/>
         </section>
     </content>
 </moya>

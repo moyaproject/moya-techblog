@@ -12,6 +12,7 @@
             <attribute name="picker" type="boolean" default="no"/>
             <attribute name="picker_text" type="text" default="Pick"/>
             <attribute name="on_pick" type="text" default="">Javascript method to call when images are 'picked'</attribute>
+            <attribute name="on_change" type="text" default="">Javascript method to call when the collection is modified</attribute>
         </signature>
         <include-css path="css/imglib.css"/>
         <include-js path="js/jsonrpc.js" from="moya.jsonrpc" />
@@ -26,14 +27,9 @@
         </css>
 
         <let managerid=".content.id" />
+        <str dst="options">{on_pick:${on_pick or 'null'}, on_change:${on_change or 'null'}}</str>
+        <js>$("#${managerid}").imgmanager(${options});</js>
 
-        <if test="on_pick">
-            <js>$("#${managerid}").imgmanager({on_pick:${on_pick}});</js>
-        </if>
-        <else>
-            <js>$("#${managerid}").imgmanager({});</js>
-        </else>
-        <!-- <js>$("#${managerid} [data-toggle='tooltip']").tooltip({html:true, placement:'top', delay:500});</js> -->
         <get-url name="picker_upload" dst="upload_url" let:collection="collection.uuid" />
         <db:query src="collection.images" model="#Image" orderby="-uploaded_time" dst="images" />
     </widget>

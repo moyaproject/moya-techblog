@@ -50,6 +50,13 @@ function on_pick_post_images(collection_uuid, images, callback)
     });
 }
 
+
+function on_images_change(collection_uuid)
+{
+    update_preview();
+}
+
+
 draft_changes = 0;
 draft_saved_changes = 0;
 draft_saves_count = 0;

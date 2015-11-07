@@ -51,7 +51,13 @@ function FileUploader(url, file, callbacks)
             callback();
         }
 
+        function default_on_change(uuid)
+        {
+            console.log(uuid, 'changed')
+        }
+
         var on_pick = options.on_pick || default_picker;
+        var on_change = options.on_change || default_on_change;
 
         var $manager = $(this);
         var $images = $manager.find('.moya-imglib-image-container');
@@ -245,6 +251,7 @@ function FileUploader(url, file, callbacks)
                         var $new_image = $images.find('.moya-imglib-image[name=' + result.replace + ']');
                         set_tooltip($new_image);
                         update_selection();
+                        on_change(collection_uuid);
                         /*$new_image.addClass('selected');*/
                     }
                 }
@@ -323,6 +330,7 @@ function FileUploader(url, file, callbacks)
                         $image.addClass('moya-imglib-deleted');
                         $header.removeClass('confirm-delete');
                         update_selection();
+                        on_change(collection_uuid);
                     });
                     setTimeout(function(){
                         $images.find('.moya-imglib-image.moya-imglib-deleted').removeClass('selected').remove();
@@ -378,7 +386,7 @@ function FileUploader(url, file, callbacks)
                   else {
                       image.addEventListener('load', replace_thumb);
                   }
-
+                  on_change(collection_uuid);
               }
           });
         }

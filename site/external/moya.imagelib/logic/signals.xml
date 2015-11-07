@@ -11,7 +11,7 @@
         <!-- Delete file if there are no references to it -->
         <db:if-not-exists model="#Image" let:file="file" if="file">
             <fs:remove-file fs="${imagefs}" path="${file}"/>
-            <log-debug>deleted '${file}' from fs ${imagfefs}</log-debug>
+            <log-debug>deleted '${file}' from fs ${imagefs}</log-debug>
         </db:if-not-exists>
     </handle>
 </moya>
