@@ -113,7 +113,7 @@ $(function(){
     });
     if(location.hash)
     {
-        $('a[name=' + location.hash.substr(1) + '] img.techblog-image').click();
+        $('img[name=' + location.hash.substr(1) + ']').click();
     }
 });
 

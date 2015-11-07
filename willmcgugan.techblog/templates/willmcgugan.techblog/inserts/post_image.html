@@ -28,7 +28,7 @@
 {% compact %}
 <img
     width="${image.width}" height="${image.height}"
-    {% attrib class=['img-responsive', 'techblog-image', 'techblog-image-type-' + image.type_name], title=image.title %}
+    {% attrib name=image.slug, class=['img-responsive', 'techblog-image', 'techblog-image-type-' + image.type_name], title=image.title %}
     {% data-attrib slug=image.slug, square=square, blur=blur, sm=sm, md=md, lg=lg, xlg=xlg, details=(details or ' '), author=sub:'${image.copyright}<br>${image.license}', toggle="tooltip" %}
     sizes="(min-width: 1200px) 1170px,
            (min-width: 992px) 970px,
