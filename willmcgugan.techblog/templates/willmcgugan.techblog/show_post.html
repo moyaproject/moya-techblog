@@ -11,8 +11,8 @@
     <div class="techblog-post-titles">
         <div class="container">
 
+            {% cache for 1d key [post.published_date, post.updated_date, post.published, .permission.admin] %}
             <div class="row">
-                {% cache for 1d key [post.published_date, post.updated_date, post.published, .permission.admin] %}
                 <div class="col-md-12">
                     <p>
                         {% if post.published_date %}
@@ -49,6 +49,7 @@
                 </div>
             </div>
             {% end-cache %}
+            
              <div class="row">
                 <div class="col-md-12">
                     <ul class="techblog-post-paginator clearfix">
