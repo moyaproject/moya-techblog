@@ -61,7 +61,7 @@
 
     <view libname="view.channel.list" content="#content.channel.posts">
         <db:get-required model="#Channel" let:slug=".url.channel" dst="channel"/>
-        <db:query model="#Post" src="channel.posts" dst="posts"
+        <db:query model="#Post" src="channel.display_posts" dst="posts"
             orderby="published,-published_date" />
         <let blogs="channel.blogs"/>
     </view>
