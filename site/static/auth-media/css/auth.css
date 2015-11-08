@@ -1,0 +1,9 @@
+.moya-auth-signin .form-group:last-child
+{
+    margin-bottom:0px;
+}
+
+.btn-social>:first-child
+{
+    margin-top:4px;
+}
