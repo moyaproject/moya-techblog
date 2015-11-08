@@ -3,6 +3,10 @@ body
     overflow:auto;
 }
 
+.btn-social>:first-child
+{
+    margin-top:4px;
+}
 
 .embed-responsive
 {
