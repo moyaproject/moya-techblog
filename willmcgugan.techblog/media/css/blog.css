@@ -70,6 +70,7 @@ body
 
 .techblog-photo-summary img
 {
+    -webkit-backface-visibility: hidden;
     position:absolute;
     top:10px;
     left:0px;
