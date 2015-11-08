@@ -3,6 +3,7 @@ from __future__ import print_function
 
 import moya
 from moya.compat import text_type
+from moya.context.missing import is_missing
 
 from oauthlib.oauth2 import InsecureTransportError
 from requests_oauthlib import OAuth2Session
@@ -83,8 +84,11 @@ def get_oauth2_profile(app, provider, credentials, token):
     with context.frame('_oauth_info'):
         for k, v in provider_profile.items():
             try:
-                profile[k] = context.eval(v)
+                profile_value = context.eval(v)
             except:
                 pass
+            else:
+                if not is_missing(profile_value):
+                    profile[k] = profile_value
 
     return {'profile': profile, 'info': info}
