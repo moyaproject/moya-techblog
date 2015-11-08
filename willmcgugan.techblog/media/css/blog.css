@@ -3,6 +3,12 @@ body
     overflow:auto;
 }
 
+
+.embed-responsive
+{
+    margin-bottom:0.5em;
+}
+
 .year-header
 {
     cursor: pointer;
