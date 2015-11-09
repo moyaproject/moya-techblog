@@ -32,15 +32,14 @@
                     <p class="techblog-post-info">
                         {%- for tag in (post.tags) sort (name) %}
                         <a class="techblog-tag" href="{% url 'tag' with tagslug=tag.slug %}" title="List posts tagged with '${tag.name}'">
-                            <span class="hidden-xs"><i class="fa fa-tag"></i>&nbsp;</span>
-                            ${tag.name}
+                            <i class="fa fa-tag"></i>&nbsp;${tag.name}
                         </a>
                         {%- endfor %}
                     </p>
                     {%- if post.tagline %}
-                    <div class="lead tagline">{% markup post.tagline as post.markup %}</div>
+                    <div class="lead tagline hidden-xs">{% markup post.tagline as post.markup %}</div>
                     {%- else %}
-                    <p class="lead tagline summary">
+                    <p class="lead tagline summary hidden-xs">
                         {%- summarize chars 300 %}
                         {% markup post.content as post.markup %}
                         {%- end %}

@@ -24,8 +24,8 @@
 
 {%- if image.slug %}<a name="${image.slug}"></a>{% end-if %}
 <figure class="techblog-image-insert">
-{% spaceless %}
-{% compact %}
+{%- spaceless %}
+{%- compact %}
 <img
     width="${image.width}" height="${image.height}"
     {% attrib name=image.slug, class=['img-responsive', 'techblog-image', 'techblog-image-type-' + image.type_name], title=image.title %}
@@ -37,13 +37,10 @@
             ${md} 970w,
             ${sm} 750w"
     src="${image.file|'thumbnail'(processor='lg')}">
-
 {% end-compact %}
-{% end-spaceless %}
-{% if image.description %}
+{%- end-spaceless %}
+{%- if image.description %}
 <figcaption class="techblog-image-caption text-muted">{% markup image.description as 'markdown' %}</figcaption>
 {% endif %}
 </figure>
-
-
-{%- end-if %}
+{%- endif %}

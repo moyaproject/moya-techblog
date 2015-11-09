@@ -9,17 +9,15 @@
     </span>
 
     {% if numcomments %}
-    <span>
-        <i class="fa fa-comments-o"></i> ${numcomments}
-    </span>
+    <span><i class="fa fa-comments-o"></i>${numcomments}</span>
     {% endif %}
 
     {% if post.tags %}
     <span>
     <i class="fa fa-tag"></i>
-        {%- for tag in (post.tags) sort (name) %}
-        ${tag.name}{% if not forloop.last %},{% endif %}
-        {% endfor %}
+        {%- for tag in (post.tags) sort (name) -%}
+        ${tag.name}{% if not forloop.last %}, {% endif %}
+        {%- endfor -%}
     </span>
     {% endif %}
 </div>
