@@ -90,7 +90,7 @@ $(function(){
 
         var img = new Image();
         img.onload = function(e){
-            if (window.devicePixelRatio >= 2 && (data.width >= 1920 || date.height >= 1080))
+            if (window.devicePixelRatio >= 2 && (data.width >= 1920 || data.height >= 1080))
             {
                 $('#techblog-expanded-image .frame').css('background-image', 'url(' + data.xlg2x + ')');
             }
