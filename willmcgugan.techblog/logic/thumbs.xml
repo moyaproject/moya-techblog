@@ -58,7 +58,7 @@
             <image:resize-to-fit width="1920" height="1080"/>
         </tn:processor>
 
-        <tn:processor name="xlg2x" quality="60">
+        <tn:processor name="xlg2x" quality="75" version="2">
             <image:resize-to-fit width="3840" height="2160"/>
         </tn:processor>
 
