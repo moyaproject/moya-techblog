@@ -17,8 +17,16 @@
             <image:resize-to-fit height="1080"/>
         </tn:processor>
 
-        <tn:processor name="title.xlg" quality="85" version="11">
+        <tn:processor name="title.sm2x" quality="65" version="7">
             <image:resize-to-fit height="1200"/>
+        </tn:processor>
+
+        <tn:processor name="title.md2x" quality="65" version="8">
+            <image:resize-to-fit height="1920"/>
+        </tn:processor>
+
+        <tn:processor name="title.lg2x" quality="65" version="11">
+            <image:resize-to-fit height="2160"/>
         </tn:processor>
 
     </tn:thumbnails>
@@ -30,8 +38,8 @@
             <image:gaussian-blur radius="6"/>
         </tn:processor>
 
-        <tn:processor name="square" version="6" quality="80">
-            <image:zoom-to-fit width="120" height="120"/>
+        <tn:processor name="square" version="7" quality="70">
+            <image:zoom-to-fit width="240" height="240"/>
         </tn:processor>
 
         <tn:processor name="sm" quality="75" version="2">
@@ -46,8 +54,12 @@
             <image:resize-to-fit width="1170"/>
         </tn:processor>
 
-        <tn:processor name="xlg" quality="90" version="7">
-            <image:resize-to-fit width="1920"/>
+        <tn:processor name="xlg" quality="90" version="8">
+            <image:resize-to-fit width="1920" height="1080"/>
+        </tn:processor>
+
+        <tn:processor name="xlg2x" quality="60">
+            <image:resize-to-fit width="3840" height="2160"/>
         </tn:processor>
 
     </tn:thumbnails>

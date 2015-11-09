@@ -90,7 +90,14 @@ $(function(){
 
         var img = new Image();
         img.onload = function(e){
-            $('#techblog-expanded-image .frame').css('background-image', 'url(' + data.xlg + ')');
+            if (window.devicePixelRatio >= 2 && data.width >= 1920)
+            {
+                $('#techblog-expanded-image .frame').css('background-image', 'url(' + data.xlg2x + ')');
+            }
+            else
+            {
+                $('#techblog-expanded-image .frame').css('background-image', 'url(' + data.xlg + ')');
+            }
             $('#techblog-expanded-image').css('background-image', 'url(' + data.blur + ')');
             $('#techblog-expanded-image .image-details').html(data.details);
             $('#techblog-expanded-image .image-author').html(data.author);

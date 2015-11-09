@@ -36,22 +36,15 @@
             background-position: ${blog.image.position or 'center center'} !important;
         }
 
-        @media (min-height:1080px)
-        {
-            .techblog-post-image
-            {
-                background-image:url("${blog.image.file|'thumbnail'(processor="title.xlg")}");
-            }
-        }
 
-        @media (max-height:1080px)
+
+        @media (min-height:960px)
         {
             .techblog-post-image
             {
                 background-image:url("${blog.image.file|'thumbnail'(processor="title.lg")}");
             }
         }
-
         @media (max-height:960px)
         {
             .techblog-post-image
@@ -59,7 +52,6 @@
                 background-image:url("${blog.image.file|'thumbnail'(processor="title.md")}");
             }
         }
-
         @media (max-height:600px)
         {
             .techblog-post-image
@@ -67,6 +59,31 @@
                 background-image:url("${blog.image.file|'thumbnail'(processor="title.sm")}");
             }
         }
+
+
+        @media (min-height:960px) and (min-resolution: 2dppx)
+        {
+            .techblog-post-image
+            {
+                background-image:url("${blog.image.file|'thumbnail'(processor="title.lg2x")}");
+            }
+        }
+        @media (max-height:960px) and (min-resolution: 2dppx)
+        {
+            .techblog-post-image
+            {
+                background-image:url("${blog.image.file|'thumbnail'(processor="title.md2x")}");
+            }
+        }
+        @media (max-height:600px) and (min-resolution: 2dppx)
+        {
+            .techblog-post-image
+            {
+                background-image:url("${blog.image.file|'thumbnail'(processor="title.sm2x")}");
+            }
+        }
+
+
         </style>
         {% end-cache %}
         {% endif %}
