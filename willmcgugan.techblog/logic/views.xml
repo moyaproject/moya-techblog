@@ -50,6 +50,7 @@
     </mountpoint>
 
     <view libname="view.blog.new" content="#content.blog.new" requires="permission:'admin'">
+        <doc>Create a new blog</doc>
         <forms:get form="#form.blog.new" dst="form"/>
         <forms:validate src="form" >
             <let slug="form.data.slug or slug:form.data.title"/>
@@ -60,6 +61,7 @@
     </view>
 
     <view libname="view.channel.list" content="#content.channel.posts">
+        <doc>List posts in a channel (multi-blog)</doc>
         <db:get-required model="#Channel" let:slug=".url.channel" dst="channel"/>
         <db:query model="#Post" src="channel.display_posts" dst="posts"
             orderby="published,-published_date" />
@@ -67,6 +69,7 @@
     </view>
 
     <view libname="view.blog.settings" content="#content.blog.settings" requires="permission:'admin'">
+        <doc>Settings for a blog</doc>
         <db:get-required model="#Blog" let:slug=".url.blog" dst="blog" />
         <forms:get form="#form.blog.settings" dst="form" src="blog" let:blog="blog"/>
         <let success="'success' in .request.GET"/>
@@ -78,6 +81,7 @@
     </view>
 
     <view libname="view.blog.delete" content="#content.blog.delete" requires="permission:'admin'">
+        <doc>Delete a blog</doc>
         <db:get-required model="#Blog" let:slug=".url.blog" dst="blog"/>
         <forms:get form="#form.blog.delete" dst="form" let:blog="blog"/>
         <forms:validate src="form">
@@ -87,6 +91,7 @@
     </view>
 
     <view libname="view.channel.settings" content="#content.channel.settings" requires="permission:'admin'">
+        <doc>Settings for a channel</doc>
         <db:get-required model="#Channel" let:slug=".url.channel" dst="channel" />
         <forms:get form="#form.channel.settings" dst="form" src="channel" let:channel="channel"/>
         <let success="'success' in .request.GET"/>
@@ -99,14 +104,17 @@
     </view>
 
     <view libname="view.blog.images" content="#content.blog.images" requires="permission:'admin'">
+        <doc>Images manager for a blog</doc>
         <db:get-required model="#Blog" let:slug=".url.blog" dst="blog" />
     </view>
 
     <view libname="view.channel.images" content="#content.channel.images" requires="permission:'admin'">
+        <doc>Images manager for a channel</doc>
         <db:get-required model="#Channel" let:slug=".url.channel" dst="channel" />
     </view>
 
     <view libname="view.blog.list" content="#content.blog.posts">
+        <doc>Blog list </doc>
         <db:get-required model="#Blog" let:slug=".url.blog" dst="blog" />
         <not-found if="exists:.request.GET.page and not int:.request.GET.page" />
         <let page="int:.request.GET.page or 1" pagesize=".app.settings.page_size.int"/>
@@ -115,6 +123,7 @@
     </view>
 
     <view libname="view.posts-by-month" content="#content.list-posts-by-month">
+        <doc>List of posts by month / year<doc>
         <db:get-required model="#Blog" let:slug=".url.blog" dst="blog" />
         <not-found if="exists:.request.GET.page and not int:.request.GET.page" />
         <let page="int:.request.GET.page or 1" pagesize=".app.settings.page_size.int"/>
@@ -127,6 +136,7 @@
     </view>
 
     <view libname="view.channel.posts-by-month" content="#content.channel.list-posts-by-month">
+        <doc>Lists of posts by month / year for a channel</doc>
         <db:get-required model="#Channel" let:slug=".url.channel" dst="channel" />
         <not-found if="exists:.request.GET.page and not int:.request.GET.page" />
         <let page="int:.request.GET.page or 1" pagesize=".app.settings.page_size.int"/>
@@ -142,6 +152,7 @@
     </view>
 
     <view libname="view.new-post" content="#content.new-post" requires="permission:'admin'">
+        <doc>A new post</doc>
         <db:get-required model="#Blog" let:slug=".url.blog" dst="blog" />
         <forms:get form="#form.post.new" dst="form" let:blog="blog"/>
         <forms:validate src="form">
@@ -163,9 +174,11 @@
     </view>
 
     <view libname="view.edit-post" content="#content.edit-post" requires="permission:'admin'">
+        <doc>Edit a post</doc>
         <db:get-required model="#Post" dst="post" let:slug="url.slug"/>
         <db:create model="moya.imagelib#Collection" dst="post.images" if="not post.images"/>
 
+        <!-- A draft object holds all changes without altering the original -->
         <db:get-or-create model="#Draft" let:post="post" dst="draft"
             initial="{'slug': post.slug, 'title': post.title}">
             <let draft.tagline="post.tagline"
@@ -200,12 +213,14 @@
     </view>
 
     <view libname="view.delete-post" content="#content.delete-post" requires="permission:'admin'">
+        <doc>Delete a post (GET)</doc>
         <db:get-required model="#Blog" let:slug=".url.blog" dst="blog" />
         <db:get-required model="#Post" dst="post" let:blog="blog" let:slug="url.slug"/>
         <forms:get form="#form.post.delete" dst="form" let:post="post" />
     </view>
 
     <view libname="view.delete-post.post" content="#content.delete-post" requires="permission:'admin'">
+        <doc>Delete a post (POST)</doc>
         <db:get-required model="#Blog" let:slug=".url.blog" dst="blog" />
         <db:get-required model="#Post" dst="post" let:blog="blog" let:slug="url.slug"/>
         <forms:get form="#form.post.delete" dst="form" let:post="post" />
@@ -218,10 +233,12 @@
     </view>
 
     <view libname="view.showpost" content="#content.post">
+        <doc>A single post</doc>
         <db:get-required model="#Blog" let:slug=".url.blog" dst="blog" />
         <db:get-required model="#Post" dst="post" let:blog="blog" let:slug="url.slug" />
         <not-found if="not .permissions.admin and not post.published" />
         <db:query model="#Post" let:published="yes" dst="posts"/>
+        <!-- pagination links -->
         <if test="post.published_date">
             <db:query dst="newer_posts" src="posts" let:blog="blog"
                 filter="#Post.published_date gt post.published_date" orderby="published_date"/>
@@ -254,6 +271,7 @@
     </view>
 
     <view libname="view.publish" content="#content.publish-post" requires="permission:'admin'">
+        <doc>Publish a post to make it visible to non-admin</doc>
         <db:get-required model="#Post" dst="post" let:id="url.id" />
         <forms:get form="#form.post.publish" dst="form" let:post="post" />
     </view>
@@ -265,6 +283,7 @@
     </view>
 
     <view libname="view.hide" content="#content.hide-post" requires="permission:'admin'">
+        <doc>Hide (un-publish) a post</doc>
         <db:get-required model="#Post" dst="post" let:id="url.id" />
         <forms:get form="#form.post.hide" dst="form" let:post="post" />
         <if-post>
@@ -274,6 +293,7 @@
     </view>
 
     <view libname="view.feed">
+        <doc>Create an atom feed</doc>
         <db:get-required model="#Blog" let:slug=".url.blog" dst="blog" />
         <get-fq-url let:blog="blog.slug" name="list" dst="blog_url" />
 
@@ -298,6 +318,7 @@
     </view>
 
     <view libname="view.channel.feed">
+        <doc>Create an atom feed for the channel</doc>
         <db:get-required model="#Channel" let:slug=".url.channel" dst="channel" />
         <get-fq-url let:channel="channel.slug" name="channel_list" dst="channel_url" />
 
@@ -321,6 +342,7 @@
     </view>
 
     <view libname="view.search" content="#content.search">
+        <doc>Search posts</doc>
         <let search=".request.GET.s" />
         <list dst="posts"/>
         <if test="search">
@@ -333,6 +355,7 @@
     </view>
 
     <view libname="view.tag" content="#content.tag">
+        <doc>View posts with a given tag</doc>
         <db:get-required model="#Tag" let:slug=".url.tagslug" dst="tag" />
         <db:query model="#Post" src="tag.posts" dst="posts"
             filter="#Post.blog.promoted == yes"
@@ -343,6 +366,7 @@
 
 
     <view libname="view.drafts" content="#content.drafts" requires="permission:'admin'">
+        <doc>View list of drafts</doc>
         <db:get-required model="#Blog" let:slug=".url.blog" dst="blog" />
         <db:query model="#Draft" filter="#Draft.post.blog==blog" orderby="title" dst="drafts"/>
     </view>

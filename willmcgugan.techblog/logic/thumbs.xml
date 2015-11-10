@@ -4,6 +4,7 @@
     xmlns:image="http://moyaproject.com/image">
 
     <tn:thumbnails libname="thumbnails.blog.titles" name="title_images">
+        <!-- Images shown in the titles -->
 
         <tn:processor name="title.sm" quality="80" version="7">
             <image:resize-to-fit height="600"/>
@@ -17,6 +18,8 @@
             <image:resize-to-fit height="1080"/>
         </tn:processor>
 
+
+        <!-- High DPI versions of the above -->
         <tn:processor name="title.sm2x" quality="70" version="7">
             <image:resize-to-fit height="1200"/>
         </tn:processor>
@@ -32,16 +35,21 @@
     </tn:thumbnails>
 
     <tn:thumbnails libname="thumbnails.blog.content" name="post_images">
+        <!-- Images shown in posts -->
 
+        <!-- a background for expanded images -->
         <tn:processor name="blur" version="6" quality="70">
+            <!-- low quality resample, since we are just going to blut it anyway -->
             <image:resize-to-fit width="800" height="800" resample="nearest"/>
             <image:gaussian-blur radius="6"/>
         </tn:processor>
 
+        <!-- shown with post previews -->
         <tn:processor name="square" version="7" quality="70">
             <image:zoom-to-fit width="240" height="240"/>
         </tn:processor>
 
+        <!-- Sized to fit standard bootstrap columns -->
         <tn:processor name="sm" quality="75" version="2">
             <image:resize-to-fit width="750"/>
         </tn:processor>
@@ -54,10 +62,12 @@
             <image:resize-to-fit width="1170"/>
         </tn:processor>
 
+        <!-- Expanded image -->
         <tn:processor name="xlg" quality="90" version="8">
             <image:resize-to-fit width="1920" height="1080"/>
         </tn:processor>
 
+        <!-- Expanded, high DPI, image -->
         <tn:processor name="xlg2x" quality="75" version="2">
             <image:resize-to-fit width="3840" height="2160"/>
         </tn:processor>

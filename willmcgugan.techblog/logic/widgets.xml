@@ -19,6 +19,7 @@
 
     <widget name="post-summary" template="summary/${post.type}.html, summary/text.html"
         cachekey="${post.id}.${post.updated_date}.${post.blog.updated_date}.${.permissions.admin}.${numcomments}" cachefor="1h">
+        <doc>A post summary, used in the list view</doc>
         <signature>
             <attribute name="post" required="no"/>
             <attribute name="numcomments" default="0" />
@@ -58,6 +59,7 @@
     </widget>
 
     <widget name="popular-tags" template="widgets/popular_tags.html" synopsis="tags sorted by popularity">
+        <doc>A list of `count` most popular tags</doc>
         <signature>
             <attribute name="active" default="None">Active tag to highlight if any</attribute>
             <attribute name="count" default="40" type="integer">Number of tags to show</attribute>
@@ -72,6 +74,7 @@
 
     <widget name="posts-by-month" template="widgets/posts_by_month.html"
         cachekey="${blog.id}.${blog.updated_date}.${year}.${urlname}.${.url}.${.permissions.admin}" cachefor="1h">
+        <doc>A list of posts categorised by published date</doc>
         <signature>
             <attribute name="blog" required="yes"/>
             <attribute name="year" required="no" type="expression" default=".now.year"/>

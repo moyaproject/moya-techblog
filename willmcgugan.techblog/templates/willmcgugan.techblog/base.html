@@ -91,6 +91,10 @@
 
 {% block "includecss" %}{% render include.css %}{% end %}
 {% block "css" %}{% render sections.css %}{% end %}
+
+    <!-- Some posts have embedded JS, so we need JQUery here -->
+    <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
 {% block "jshead" %}{% render sections.jshead %}{% end %}
 {% block "head" %}{% render sections.head %}{% end %}
 
@@ -137,7 +141,7 @@
             {% include "/footer.html" %}
         </div>
 
-<script src="{% media 'js/jquery.js' from 'moya.twitter.bootstrap' %}"></script>
+<!-- <script src="{% media 'js/jquery.js' from 'moya.twitter.bootstrap' %}"></script> -->
 {% block "includejs" %}{% render include.js %}{% endblock %}
 {% block "js" %}{% render sections.js unique %}{% endblock %}
 {% block "jsfoot" %}{% render sections.jsfoot unique%}{% endblock %}
