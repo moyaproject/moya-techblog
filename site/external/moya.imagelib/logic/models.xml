@@ -73,6 +73,7 @@
         <property name="copyright_license" expression="sub:'${copyright}, ${license}'"/>
         <property name="data" expression="(title=title,slug=slug,copyright=copyright,description=description,uuid=uuid,width=width,height=height)"/>
         <property name="props" expression="props_json ? parsejson:props_json or {} : {}"/>
+        <property name="aspect" expression="(width and height) ? width / height : None"/>
     </model>
 
 </moya>

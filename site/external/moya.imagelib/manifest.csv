@@ -1,5 +1,5 @@
 "path","md5","auth md5"
-"/lib.ini",958d9af949f029a63aec2903c8e1b700,2f28702ba0ecea84d03f84f6c826dcbd
+"/lib.ini",dc42cfbebfe480329366ffb19cf4f529,c83cc7c1cc81c992505b6cc213b5b8d0
 "/__init__.py",e54925e1ed3818adfd6c00bffa62f89d,07f2dead3bac69c65db162b2f4aba71c
 "/logic/signals.xml",b6fff350b0ceec108a11816c9e86ed64,ece7ba627fc95e33795cdfb1f795971c
 "/logic/rpc.xml",b031a5a35b888b559d19605989aec926,64d80e44db12e95fc75b6b1e026693d9
@@ -7,7 +7,7 @@
 "/logic/widgets.xml",23ca546ae41f38dbf36af98fce8071e0,a762b79b374360f88a2420f2f89f0ea5
 "/logic/mountpoints.xml",b8ff59ae6892650f08b17399c06fd71b,c40c78739b8b2638a2d67a66e1537ef5
 "/logic/readme.txt",c9b6ae3a72d38bce525f828d88a29f78,6c8d877e335ec732a80091f9f7990aa9
-"/logic/models.xml",42fbf88ca596098d8f43bd4efa59198a,14baa49e6c5decda0296d7c8e7cc6ad5
+"/logic/models.xml",5038841e1621c5c9644a7c640ce25007,b2875df082c141bea93530311044b950
 "/logic/views.xml",889e1c7f29fcfe4d70670bd86f12886b,64e729adf23ba13b2b11e84049d8816f
 "/logic/content.xml",d53abe4a6b7bf7df47f76a9f7a8f65f2,afe904a64fd9a2a1ab9860fd29a6e450
 "/logic/thumbs.xml",ca480911117142b7620f6602b70e4931,2a0c1b6a747f5c15447fa8999f8937b7
