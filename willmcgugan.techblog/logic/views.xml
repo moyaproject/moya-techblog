@@ -123,7 +123,7 @@
     </view>
 
     <view libname="view.posts-by-month" content="#content.list-posts-by-month">
-        <doc>List of posts by month / year<doc>
+        <doc>List of posts by month / year</doc>
         <db:get-required model="#Blog" let:slug=".url.blog" dst="blog" />
         <not-found if="exists:.request.GET.page and not int:.request.GET.page" />
         <let page="int:.request.GET.page or 1" pagesize=".app.settings.page_size.int"/>
