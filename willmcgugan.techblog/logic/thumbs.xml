@@ -49,17 +49,17 @@
             <image:zoom-to-fit width="240" height="240"/>
         </tn:processor>
 
-        <!-- Sized to fit standard bootstrap columns -->
-        <tn:processor name="sm" quality="75" version="2">
-            <image:resize-to-fit width="750"/>
+        <!-- Sized to fit standard bootstrap columns (-30px gutter)-->
+        <tn:processor name="sm" quality="75" version="3">
+            <image:resize-to-fit width="720"/>
         </tn:processor>
 
-        <tn:processor name="md" quality="75" version="2">
-            <image:resize-to-fit width="970"/>
+        <tn:processor name="md" quality="75" version="3">
+            <image:resize-to-fit width="940"/>
         </tn:processor>
 
-        <tn:processor name="lg" quality="80" version="2">
-            <image:resize-to-fit width="1170"/>
+        <tn:processor name="lg" quality="80" version="3">
+            <image:resize-to-fit width="1140"/>
         </tn:processor>
 
         <!-- Expanded image -->
