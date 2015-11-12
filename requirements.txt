@@ -1,3 +1,3 @@
 gunicorn
-moya==0.5.24
+moya==0.5.25
 requests_oauthlib
