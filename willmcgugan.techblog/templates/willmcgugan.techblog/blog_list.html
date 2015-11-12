@@ -20,7 +20,7 @@
                         {% if userlink.html %}
                             ${html:userlink.html}
                         {% else %}
-                            <a href="${userlink.link}" class="techblog-social"><i class="fa fa-${userlink.fa_icon}"></i>&nbsp;${userlink.label}</a>
+                            <a href="${userlink.link}" class="techblog-social" title="${userlink.label}" data-toggle="tooltip"><i class="fa fa-${userlink.fa_icon}"></i></a>
                         {% endif %}
                     {% endfor %}
                     </p>
