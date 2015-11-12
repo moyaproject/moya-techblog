@@ -9,7 +9,7 @@
         "photography"
     ],
     "scripts": {
-        "postdeploy": "moya init --ini heroku.ini"
+        "postdeploy": "moya init --location ./site --ini heroku.ini"
     },
     "env": {
         "MOYA_PROJECT": "./site",
