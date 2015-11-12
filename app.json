@@ -1,13 +1,22 @@
 {
-  "name": "Moya Tech Blog",
-  "description": "A blogging application for coders and photographers",
-  "repository": "https://github.com/moyaproject/moya-techblog",
-  "keywords": ["moya", "blog", "blogging", "photography"],
-  "scripts": {
-	"postdeploy": "moya init --ini heroku.ini"  	
-  },
-  "env": {
-  	"MOYA_PROJECT": "./site",
-  	"MOYA_PROJECT_INI": "heroku.ini"
-  }
+    "name": "Moya Tech Blog",
+    "description": "A blogging application for coders and photographers",
+    "repository": "https://github.com/moyaproject/moya-techblog",
+    "keywords": [
+        "moya",
+        "blog",
+        "blogging",
+        "photography"
+    ],
+    "scripts": {
+        "postdeploy": "moya init --ini heroku.ini"
+    },
+    "env": {
+        "MOYA_PROJECT": "./site",
+        "MOYA_PROJECT_INI": "heroku.ini"
+    },
+    "addons": [
+        "heroku-postgresql:hobby-dev",
+        "papertrail"
+    ]
 }
