@@ -4,10 +4,10 @@
   "repository": "https://github.com/moyaproject/moya-techblog",
   "keywords": ["moya", "blog", "blogging", "photography"],
   "scripts": {
-	"postdeploy": "moya init --ini production.ini --location ./site"  	
+	"postdeploy": "moya init --ini heroku.ini"  	
   },
   "env": {
   	"MOYA_PROJECT": "./site",
-  	"MOYA_PROJECT_INI": "heroki.ini"
+  	"MOYA_PROJECT_INI": "heroku.ini"
   }
 }
