@@ -1,3 +1,4 @@
 gunicorn
 moya==0.5.25
 requests_oauthlib
+psycopg2
