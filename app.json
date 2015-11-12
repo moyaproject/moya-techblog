@@ -2,5 +2,11 @@
   "name": "Moya Tech Blog",
   "description": "A blogging application for coders and photographers",
   "repository": "https://github.com/moyaproject/moya-techblog",
-  "keywords": ["moya", "blog", "blogging", "photography"]
+  "keywords": ["moya", "blog", "blogging", "photography"],
+  "scripts": {
+	"postdeply": "moya init --ini production.ini --location ./site"  	
+  },
+  "env": {
+  	"MOYA_PROJECT": "./site"
+  }
 }
