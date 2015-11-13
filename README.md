@@ -4,7 +4,7 @@ Blog software for code and Photography.
 
 ## Installing Moya
 
-If you don't have moya istalled, install it from the command line with:
+If you don't have moya installed, install it from the command line with:
 
     pip install moya
 

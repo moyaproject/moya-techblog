@@ -163,6 +163,10 @@
         </adapt-field>
 
         <apply-field field="image">
+            <moya:if test="value=''">
+                <moya:let object.image="None"/>
+                <moya:return/>
+            </moya:if>
             <db:get model="moya.imagelib#Image" let:id="value" dst="object.image"/>
         </apply-field>
 

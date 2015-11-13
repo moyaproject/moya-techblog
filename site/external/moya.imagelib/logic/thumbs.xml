@@ -4,11 +4,7 @@
     xmlns:tn="http://moyaproject.com/thumbnail"
     xmlns:image="http://moyaproject.com/image">
 
-    <tn:thumbnails libname="thumbnails.tests" name="admin">
-
-        <tn:processor name="small" version="4">
-            <image:resize-to-fit width="120" height="120"/>
-        </tn:processor>
+    <tn:thumbnails libname="thumbnails.manager" name="admin">
 
         <tn:processor name="admin" version="3">
             <image:resize-to-fit width="120" height="120" />

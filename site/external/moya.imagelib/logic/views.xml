@@ -4,8 +4,8 @@
       xmlns:db="http://moyaproject.com/db"
       xmlns:forms="http://moyaproject.com/forms"
       xmlns:fs="http://moyaproject.com/fs"
-      xmlns:img="http://moyaproject.com/image">
-
+      xmlns:img="http://moyaproject.com/image"
+      xmlns:tn="http://moyaproject.com/thumbnail">
 
     <view libname="view.upload" content="#content.upload">
         <forms:get form="#form.upload" dst="form" />
@@ -34,7 +34,7 @@
             title="trim:[filename, 100]"
             slug="slug:trim:[first:rpartition:[filename,'.'],100]"/>
 
-        <img:read file="file" dst="image_bitmap" />
+        <img:read file="file" dst="image_bitmap" filename="filename"/>
         <catch exception="image.*">
             <log-warn>Unable to read image</log-warn>
             <dict dst="result" let:success="False" let:msg="'Unable to read image'"/>
@@ -92,7 +92,16 @@
             <serve-json obj="result"/>
         </catch>
 
-        <str dst="thumb_url">${.request.host_url}${image.file|'thumbnail'(processor='manager_tile')}</str>
+        <!-- pre-render thumbnails -->
+        <if test=".app.settings.thumbnails">
+            <for src=".app.settings.thumbnails.list" dst="thumb">
+                <timer msg="pre-rendered thumbnails '${thumb}'">
+                    <tn:generate thumbnails="${thumb}" path="image.file" image="image_bitmap" overwrite="no"/>
+                </timer>
+            </for>
+        </if>
+        <str dst="thumb_url">${image.file|'thumbnail'(processor='manager_tile')}</str>
+
         <render-template template="widgets/manager/manager_image.html" dst="image_html"
             let:image="image"/>
         <dict dst="result"

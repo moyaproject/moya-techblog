@@ -2,7 +2,8 @@
       xmlns:rpc="http://moyaproject.com/jsonrpc"
       xmlns:let="http://moyaproject.com/let"
       xmlns:db="http://moyaproject.com/db"
-      xmlns:forms="http://moyaproject.com/forms">
+      xmlns:forms="http://moyaproject.com/forms"
+      xmlns:tn="http://moyaproject.com/thumbnail">
 
     <!-- Here's an example JSONRPC interface to get you started. -->
 
@@ -35,6 +36,7 @@
             <rpc:parameter name="markup" type="string">Markup type</rpc:parameter>
 
             <db:get model="#Post" let:id="post_id" dst="post" />
+
             <return-dict>
                 <render-template template="rpc/preview_content.html" dst="html"
                     let:post="post.draft" let:content="content" let:markup="markup"/>
