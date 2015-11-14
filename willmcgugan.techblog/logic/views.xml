@@ -10,6 +10,10 @@
         <url route="/" mount="#mountpoint.channel" let:channel="'root'" />
         <url route="/blog/{slug:blog}/" name="blogs" mount="#mountpoint.blog"/>
         <url route="/jsonrpc/" methods="GET,POST" name="rpc" view="#jsonrpc.interface"/>
+        <url route="/error/" methods="GET">
+            <!-- to test the 500 page -->
+            <echo>${1/0}</echo>
+        </url>
     </mountpoint>
 
     <mountpoint name="channel" libname="mountpoint.channel">
