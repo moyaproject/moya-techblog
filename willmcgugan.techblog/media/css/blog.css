@@ -3,6 +3,27 @@ body
     overflow:auto;
 }
 
+figcaption
+{
+    margin-top:3px
+}
+
+figcaption > p
+{
+    margin-left:0px;
+    margin-bottom:0px;
+}
+
+figcaption i.fa
+{
+    margin-right:4px;
+}
+
+figcaption p
+{
+
+}
+
 .btn-social>:first-child
 {
     margin-top:4px;
