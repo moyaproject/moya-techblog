@@ -12,7 +12,14 @@
                 if="post"/>
         </url>
         <!-- Replicate a URL structure from old Techblog -->
-        <url route="/blog/rootblog/feeds/posts/">
+        <url route="/blog/rootblog/{*path}">
+            <rewrite-to path="/${.url.path}"/>
+        </url>
+
+        <!-- Alternate location for feed -->
+        <!-- The original techblog never had this URL but it is requested constantly -->
+        <!-- I suspect some feed readers just assume there will be a feed here, so lets serve one -->
+        <url route="/feed/">
             <rewrite name="channel_feed" from="willmcgugan.techblog"
                 let:channel="root"/>
         </url>

@@ -16,7 +16,7 @@
         <!-- public urls -->
         <url route="/" view="#view.channel.list" name="channel_list" />
         <url route="/new-blog/" view="#view.blog.new" name="new_blog" />
-        <url route="/feeds/posts/" methods="GET" view="#view.channel.feed" name="channel_feed"/>
+        <url route="/feeds/posts/" methods="GET" view="#view.feed.channel" name="channel_feed"/>
         <url route="/{posinteger:year}/{posinteger:month}/" name="channel_month" methods="GET" view="#view.channel.posts-by-month"/>
         <url route="/{integer:year}/{integer:month}/{integer:day}/{slug:slug}/" methods="GET" view="#view.channel.showpost_dated"/>
         <url route="/search/" methods="GET" view="#view.search" name="search"/>
@@ -32,6 +32,7 @@
         <url route="/" methods="GET" view="#view.blog.list" name="list"/>
         <url route="/post/{slug:slug}/" methods="GET" view="#view.showpost" name="showpost" />
         <url route="/feeds/posts/" methods="GET" view="#view.feed" name="feed"/>
+        <url route="/feeds/tag/{tagslug}/" methods="GET" view="#view.feed.tag" name="tag_feed" />
         <url route="/{integer:year}/{integer:month}/{integer:day}/{slug:slug}/" methods="GET" view="#view.showpost_dated" name="showpost_dated" />
         <url route="/{posinteger:year}/{posinteger:month}/" methods="GET" view="#view.posts-by-month" name="month"/>
 
@@ -317,7 +318,33 @@
         <serve-xml content_type="application/rss+xml" obj="feed"/>
     </view>
 
-    <view libname="view.channel.feed">
+    <view libname="view.feed.tag">
+        <doc>Create an atom feed for a tag</doc>
+        <db:get-required model="#Blog" let:slug=".url.blog" dst="blog" />
+        <get-fq-url let:blog="blog.slug" name="list" dst="blog_url" />
+
+        <db:get-required model="#Tag" let:slug=".url.tagslug" dst="tag" />
+        <db:query model="#Post" src="tag.posts" dst="posts"
+            filter="#Post.blog.promoted == yes"
+            orderby="-published_date"
+            maxresults="25"/>
+
+        <feed title="${title:tag.name} posts in ${blog.title}"
+            description="${blog.description}"
+            link="${blog_url}" dst="feed"/>
+
+        <for src="posts" dst="post">
+            <get-fq-url name="showpost" let:blog="post.blog.slug" let:slug="post.slug" dst="post_url"/>
+            <render-template template="feed_description.html" let:post="post" dst="description"/>
+            <add-feed-item src="feed"
+                title="post.title" link="post_url" description="description"
+                pub_date="post.published_date"/>
+        </for>
+        <serve-xml content_type="application/rss+xml" obj="feed"/>
+    </view>
+
+
+    <view libname="view.feed.channel">
         <doc>Create an atom feed for the channel</doc>
         <db:get-required model="#Channel" let:slug=".url.channel" dst="channel" />
         <get-fq-url let:channel="channel.slug" name="channel_list" dst="channel_url" />
