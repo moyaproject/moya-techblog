@@ -470,32 +470,38 @@ body.show-frame
     transition:opacity 0.5s;
 }
 
+.frame-container .image-notes
+{
+    display:inline-table;
+    position:absolute;
+    bottom:0px;
+    width:100%;
+    z-index:2002;
+}
+
 .frame-container .image-details
 {
     color:white;
-    position:absolute;
-    bottom:0px;
+
     opacity:1;
-    z-index:2002;
+
     margin:8px;
     font-size:.9em;
     text-shadow:1px 1px 0px #000;
-    max-width:50%;
+    padding:8px;
+
 }
 
 .frame-container .image-author
 {
     color:white;
-    position:absolute;
-    right:0px;
-    bottom:0px;
+    text-align:right;
     opacity:1;
-    z-index:2002;
+
     margin:8px;
     font-size:.9em;
     text-shadow:1px 1px 0px #000;
-    text-align:right;
-    max-width:50%;
+    padding:8px;
 }
 
 .frame-container
