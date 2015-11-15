@@ -16,7 +16,6 @@
         "MOYA_PROJECT_INI": "heroku.ini"
     },
     "addons": [
-        "heroku-postgresql:hobby-dev",
-        "papertrail"
+        "heroku-postgresql:hobby-dev"
     ]
 }
