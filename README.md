@@ -10,13 +10,17 @@ If you don't have moya installed, install it from the command line with:
 
 You may need 'sudo' on some platforms. If you have an older version of Moya, add the -U switch to uprade.
 
+You will also need the following for the 'Sign In' buttons. 
+
+    pip install requests_oauthlib
+
 ## Getting Started
 
-To set up your blog for first use, run the following:
+To set up your blog for first use navigate to the /site/ directory and run the following:
 
     moya init
 
-You can now use the following to run the server:
+You can now run a development server with this command:
 
     moya runserver
 
