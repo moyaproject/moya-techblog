@@ -480,6 +480,7 @@ body.show-frame
     margin:8px;
     font-size:.9em;
     text-shadow:1px 1px 0px #000;
+    max-width:50%;
 }
 
 .frame-container .image-author
@@ -494,8 +495,8 @@ body.show-frame
     font-size:.9em;
     text-shadow:1px 1px 0px #000;
     text-align:right;
+    max-width:50%;
 }
-
 
 .frame-container
 {
@@ -772,7 +773,7 @@ ul.techblog-post-paginator li a
 .techblog-image-caption
 {
     color:#666;
-    font-size:90%;
+    font-size:95%;
 }
 
 .techblog-post-info
