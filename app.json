@@ -13,7 +13,8 @@
     },
     "env": {
         "MOYA_PROJECT": "./heroku",
-        "MOYA_PROJECT_INI": "heroku.ini"
+        "MOYA_PROJECT_INI": "heroku.ini",
+	"TECHBLOG_UPLOADS_LOCATION": "/tmp/techblog_uploads/"
     },
     "addons": [
         "heroku-postgresql:hobby-dev"
