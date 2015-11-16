@@ -14,7 +14,8 @@
     "env": {
         "MOYA_PROJECT": "./heroku",
         "MOYA_PROJECT_INI": "heroku.ini",
-	"TECHBLOG_UPLOADS_LOCATION": "osfs:///tmp/techblog_uploads/"
+	"TECHBLOG_UPLOADS_LOCATION": "./__uploads__",
+        "TECHBLOG_THUMBS_URL": "/uploads/"
     },
     "addons": [
         "heroku-postgresql:hobby-dev"
