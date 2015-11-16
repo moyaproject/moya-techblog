@@ -2,6 +2,7 @@
     "name": "Moya Tech Blog",
     "description": "A blogging application for coders and photographers",
     "repository": "https://github.com/moyaproject/moya-techblog",
+    "success_url": "/",
     "keywords": [
         "moya",
         "blog",
