@@ -50,13 +50,21 @@
                     About
                 </a>
             </li>
+            {%- if .user %}
+            <li>
+                <a href="{% url 'user_edit' from 'moya.auth' %}" title="User Details">
+                    <i class="glyphicon glyphicon-user"></i>
+                </a>
+            </li>
+            {%- endif %}
           </ul>
+
           <form action="{% url 'search' from "techblog" %}" class="navbar-form navbar-right" role="search" method="get">
+
             <div class="form-group">
               <input type="text" name="s" class="form-control" placeholder="Search" value="${.request.GET.s}">
             </div>
           </form>
-
 
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
