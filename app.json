@@ -1,6 +1,6 @@
 {
     "name": "Moya Tech Blog",
-    "description": "A blogging application for coders and photographers",
+    "description": "A blogging engine for coders and photographers",
     "repository": "https://github.com/moyaproject/moya-techblog",
     "success_url": "/",
     "keywords": [
@@ -10,13 +10,49 @@
         "photography"
     ],
     "scripts": {
-        "postdeploy": "moya init"
+        "postdeploy": "moya db sync && moya auth#cmd.init --username $SUPER_USER --password $SUPER_PASSWORD --email $SUPER_EMAIL && moya techblog#cmd.init"
     },
     "env": {
-        "MOYA_PROJECT": "./heroku",
-        "MOYA_PROJECT_INI": "heroku.ini",
-	"TECHBLOG_UPLOADS_LOCATION": "./__uploads__",
-        "TECHBLOG_THUMBS_URL": "/uploads/"
+        "BLOG_TITLE": {
+            "value": "Techblog",
+            "descritpion": "Title of your blog"
+        },
+        "SUPER_USER": {
+            "value": "admin",
+            "desription": "Super user's username, enter your username here"
+        },
+        "SUPER_EMAIL": {
+            "value": "",
+            "description": "Enter your email address here"
+        },
+        "SUPER_PASSWORD": {
+            "value": "admin",
+            "description": "Super user's password (change it when you first log in)"
+        },
+        "MOYA_SECRET": {
+            "desription": "Some random characters for cookies and CSRF detection",
+            "generator": "secret"
+        },
+        "MOYA_DEBUG": {
+            "desription": "Enter 'yes' to enable debug mode (you can enable it later if you need to)",
+            "value": "no"
+        },
+        "MOYA_PROJECT": {
+            "value": "./heroku",
+            "description": "The ./heroku directory contains custom setting for the Herokou platform"
+        },
+        "MOYA_PROJECT_INI": {
+            "value": "heroku.ini",
+            "description": "INI file to load settings from ('heroku.ini' for Heroki platform)"
+        },
+        "TECHBLOG_UPLOADS_LOCATION": {
+            "value": "./__uploads__",
+            "description": "filesystem for uploads, may be be directory or s3://S3_KEY:S3_SECRET@BUCKET"
+        },
+        "TECHBLOG_THUMBS_URL": {
+            "value": "/uploads/",
+            "description": "URL that serves uploaded media, should be '/uploads/' or S3 static URL"
+        }
     },
     "addons": [
         "heroku-postgresql:hobby-dev"

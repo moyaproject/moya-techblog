@@ -1,5 +1,5 @@
 gunicorn
-moya==0.5.28
+moya==0.5.29
 requests_oauthlib
 psycopg2
 boto
