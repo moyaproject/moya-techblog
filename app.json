@@ -10,7 +10,7 @@
         "photography"
     ],
     "scripts": {
-        "postdeploy": "echo Hello"
+        "postdeploy": "/app/heroku/postdeploy.sh"
     },
     "env": {
         "BLOG_TITLE": {
