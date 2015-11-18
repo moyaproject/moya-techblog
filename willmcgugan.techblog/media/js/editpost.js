@@ -113,7 +113,7 @@ function get_form_data()
 {
     var $form = $('form#edit-post');
     var data = {};
-    $form.find('textarea,input,select').each(function(i, el){
+    $form.find('textarea,input[type=text],input[type=radio]:checked,select').each(function(i, el){
         var $input = $(el);
         var name = $input.attr('name');
         if(name[0] != '_')
