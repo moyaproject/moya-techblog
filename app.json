@@ -10,16 +10,16 @@
         "photography"
     ],
     "scripts": {
-        "postdeploy": "moya db sync && moya auth#cmd.init --username $SUPER_USER --password $SUPER_PASSWORD --email $SUPER_EMAIL && moya techblog#cmd.init"
+        "postdeploy": "moya db sync && moya auth#cmd.init --username $SUPER_USER --password $SUPER_PASSWORD --email $SUPER_EMAIL && moya techblog#cmd.init --force"
     },
     "env": {
         "BLOG_TITLE": {
             "value": "Techblog",
-            "descritpion": "Title of your blog"
+            "description": "Title of your blog"
         },
         "SUPER_USER": {
             "value": "admin",
-            "desription": "Super user's username, enter your username here"
+            "description": "Super user's username, enter your username here"
         },
         "SUPER_EMAIL": {
             "value": "",
@@ -30,11 +30,11 @@
             "description": "Super user's password (change it when you first log in)"
         },
         "MOYA_SECRET": {
-            "desription": "Some random characters for cookies and CSRF detection",
+            "description": "Some random characters for cookies and CSRF detection",
             "generator": "secret"
         },
         "MOYA_DEBUG": {
-            "desription": "Enter 'yes' to enable debug mode (you can enable it later if you need to)",
+            "description": "Set to 'yes' to enable debug mode (you can enable it later if you need to)",
             "value": "no"
         },
         "MOYA_PROJECT": {
