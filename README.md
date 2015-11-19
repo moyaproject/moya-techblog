@@ -1,6 +1,6 @@
 # Moya Tech Blog
 
-Blog software for code and Photography.
+Blog software for code and Photography. See [this blog post](https://www.willmcgugan.com/blog/tech/post/moya-tech-blog/) for more details.
 
 ## Installing Moya
 
@@ -8,9 +8,9 @@ If you don't have moya installed, install it from the command line with:
 
     pip install moya
 
-You may need 'sudo' on some platforms. If you have an older version of Moya, add the -U switch to uprade.
+You may need 'sudo' on some platforms. If you have an older version of Moya, add the -U switch to upgrade.
 
-You will also need the following for the 'Sign In' buttons. 
+You will also need the following for the 'Sign In' buttons.
 
     pip install requests_oauthlib
 
