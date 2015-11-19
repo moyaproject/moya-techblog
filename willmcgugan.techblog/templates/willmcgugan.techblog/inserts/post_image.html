@@ -37,7 +37,7 @@
     srcset="${lg} 1170w,
             ${md} 970w,
             ${sm} 750w"
-    src="${.request.host_url}${image.file|'thumbnail'(processor='lg')}">
+    src="${image.file|'thumbnail'(processor='lg')}">
 {% end-compact %}
 {%- end-spaceless %}
 {%- if image.description %}
