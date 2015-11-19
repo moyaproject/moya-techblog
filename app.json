@@ -38,7 +38,7 @@
             "value": "no"
         },
         "MOYA_PROJECT": {
-            "value": "~/heroku",
+            "value": "/app/heroku/",
             "description": "The /heroku directory contains custom setting for the Herokou platform"
         },
         "MOYA_PROJECT_INI": {
