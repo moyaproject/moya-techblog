@@ -10,7 +10,7 @@
         "photography"
     ],
     "scripts": {
-        "postdeploy": "moya -v"
+        "postdeploy": "moya help if"
     },
     "env": {
         "BLOG_TITLE": {
