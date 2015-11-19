@@ -1,6 +1,6 @@
 # Moya Tech Blog
 
-Blog software for code and Photography. See [this blog post](https://www.willmcgugan.com/blog/tech/edit/moya-tech-blog/) for more details.
+Blog software for code and Photography. See [this blog post](https://www.willmcgugan.com/blog/tech/post/moya-tech-blog/) for more details.
 
 ## Installing Moya
 
