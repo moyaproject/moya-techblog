@@ -10,7 +10,7 @@
         "photography"
     ],
     "scripts": {
-        "postdeploy": "moya help if"
+        "postdeploy": "/bin/bash ./heroku/postdeploy.sh"
     },
     "env": {
         "BLOG_TITLE": {
@@ -38,8 +38,8 @@
             "value": "no"
         },
         "MOYA_PROJECT": {
-            "value": "./heroku",
-            "description": "The ./heroku directory contains custom setting for the Herokou platform"
+            "value": "~/heroku",
+            "description": "The /heroku directory contains custom setting for the Herokou platform"
         },
         "MOYA_PROJECT_INI": {
             "value": "heroku.ini",
