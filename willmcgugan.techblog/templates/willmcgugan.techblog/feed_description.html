@@ -1,3 +1,5 @@
 {%- cache for 24h key [post.id, post.updated_date, post.published_date] %}
+{% sanitize rules data:"feed_description_sanitize.json" %}
 {% markup-block as 'moya' set post=post %}{% markup post.content as post.markup %}{% end-markup-block %}
+{% end-sanitize %}
 {%- endcache %}

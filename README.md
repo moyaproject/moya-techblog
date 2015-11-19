@@ -16,8 +16,10 @@ You will also need the following for the 'Sign In' buttons.
 
 ## Getting Started
 
-To set up your blog for first use navigate to the /site/ directory and run the following:
+To set up a Techblog site, run the following:
 
+    git clone git@github.com:moyaproject/moya-techblog.git
+    cd moya-techblog/site
     moya init
 
 You can now run a development server with this command:

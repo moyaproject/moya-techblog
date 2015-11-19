@@ -1,0 +1,58 @@
+{
+    "tags":
+    [
+        "a",
+        "abbr",
+        "acronym",
+        "b",
+        "blockquote",
+        "pre",
+        "code",
+        "em",
+        "i",
+        "li",
+        "ol",
+        "strong",
+        "ul",
+        "p",
+        "br",
+        "h1",
+        "h2",
+        "h3",
+        "h4",
+        "h5",
+        "img",
+        "caption",
+        "figcaption",
+        "div",
+        "iframe"
+    ],
+    "attributes":
+    {
+        "a": ["href", "title"],
+        "abbr": ["title"],
+        "acronym": ["title"],
+        "code": ["class"],
+        "img": ["title", "src"],
+        "iframe": ["width", "height", "src", "frameborder", "allowfullscreen"]
+    },
+    "styles":
+    [
+    ],
+    "values":
+    {
+        "class":
+        [
+            "language-python",
+            "language-xml",
+            "language-html",
+            "language-css",
+            "language-c",
+            "language-cpp",
+            "language-javascript",
+            "language-ruby"
+        ]
+    },
+    "strip": true,
+    "strip_comments": true
+}
