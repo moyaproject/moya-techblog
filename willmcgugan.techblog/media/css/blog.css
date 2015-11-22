@@ -3,6 +3,28 @@ body
     overflow:auto;
 }
 
+.techblog-post-titles:before
+{
+    content:"▼";
+    position:absolute;
+    z-index:2000;
+    bottom:0px;
+    width:100vw;
+    text-align: center;
+    font-size:11px;
+    margin-bottom:2px;
+    opacity:0.9;
+
+
+}
+
+body.loaded .techblog-post-titles:before
+{
+    opacity:0.0;
+    margin-bottom:2px;
+    transition: opacity 2s 2s;
+}
+
 figcaption
 {
     margin-top:3px

@@ -1,5 +1,5 @@
 $(function(){
-
+    $('body').addClass('loaded');
     function update_nav_opacity()
     {
         /*
