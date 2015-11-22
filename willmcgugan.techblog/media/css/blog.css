@@ -15,7 +15,11 @@ body
     margin-bottom:2px;
     opacity:0.9;
 
+}
 
+article p code
+{
+    white-space: nowrap;
 }
 
 body.loaded .techblog-post-titles:before
