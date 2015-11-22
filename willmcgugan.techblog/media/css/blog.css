@@ -9,7 +9,7 @@ body
     position:absolute;
     z-index:2000;
     bottom:0px;
-    width:100vw;
+    width:100%;
     text-align: center;
     font-size:11px;
     margin-bottom:2px;
