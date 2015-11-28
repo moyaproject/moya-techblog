@@ -164,12 +164,6 @@ function highlight_code($el)
 }
 
 $(function(){
+    $('body').addClass('loaded');
     highlight_code($('pre'));
-    setTimeout(
-        /* Not nice, but I think the load event can fire before the stylesheet is loaded */
-        function(){
-            $('body').addClass('loaded');
-        },
-        3000
-    );
 });
