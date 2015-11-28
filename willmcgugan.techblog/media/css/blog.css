@@ -26,7 +26,7 @@ body.loaded .techblog-post-titles:before
 {
     opacity:0.0;
     margin-bottom:2px;
-    transition: opacity 2s 2s;
+    transition: opacity 6s 2s;
 }
 
 figcaption

@@ -1,4 +1,4 @@
-{%- cache for 1d key [post.id, post.updated_date, .permissions.admin] %}
+{%- cache for 1d key [post.id, post.updated_date, .permissions.admin, numcomments] %}
 
 {%- extract as "summary_html" replace '' %}
 {% markup-block as 'moya' set post=post %}{% markup post.content as post.markup %}{% end-markup-block %}
