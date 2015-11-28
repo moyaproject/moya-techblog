@@ -1,5 +1,5 @@
 $(function(){
-    $('body').addClass('loaded');
+
     function update_nav_opacity()
     {
         /*
@@ -164,5 +164,12 @@ function highlight_code($el)
 }
 
 $(function(){
-    highlight_code($('pre'))
+    highlight_code($('pre'));
+    setTimeout(
+        /* Not nice, but I think the load event can fire before the stylesheet is loaded */
+        function(){
+            $('body').addClass('loaded');
+        },
+        3000
+    );
 });
