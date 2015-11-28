@@ -32,26 +32,6 @@
             opacity:1;
         }
 
-        .techblog-post-titles:before
-        {
-            content:"▼";
-            position:absolute;
-            z-index:2000;
-            bottom:0px;
-            width:100%;
-            text-align: center;
-            font-size:11px;
-            margin-bottom:2px;
-            opacity:0.9;
-
-        }
-
-        body.loaded .techblog-post-titles:before
-        {
-            opacity:0.0;
-            margin-bottom:2px;
-            transition: opacity 3s 2s;
-        }
     </style>
 
     <link href="{% media "css/blog.css" from "willmcgugan.techblog" %}" rel="stylesheet" type="text/css">

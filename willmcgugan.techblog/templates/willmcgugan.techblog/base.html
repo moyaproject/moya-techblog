@@ -8,23 +8,41 @@
         <title>{% block "title" %}${title}{% end %}</title>
 
         <style>
-          .moya-admin-menu
-          {
+        .moya-admin-menu
+        {
             position:fixed !important;
             float:left;
             left:8px;
             margin-right:16px;
             z-index:10000;
             margin-top:10px;
-          }
-          .moya-admin-menu:hover
-          {
+        }
+        .moya-admin-menu:hover
+        {
             opacity:1;
-          }
-          .navbar-fixed-top + .container
-          {
+        }
+        .navbar-fixed-top + .container
+        {
             margin-top:70px;
-          }
+        }
+        .techblog-post-titles:before
+        {
+            content:"▼";
+            position:absolute;
+            z-index:2000;
+            bottom:0px;
+            width:100%;
+            text-align: center;
+            font-size:11px;
+            margin-bottom:2px;
+            opacity:0.9;
+        }
+        body.loaded .techblog-post-titles:before
+        {
+            opacity:0.0;
+            margin-bottom:2px;
+            transition: opacity 3s 2s;
+        }
         </style>
 
         {% if blog.image %}
