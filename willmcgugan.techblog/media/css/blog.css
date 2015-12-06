@@ -12,6 +12,7 @@ figcaption
 {
     margin-top:3px;
     font-style: italic;
+    font-size:0.9em;
 }
 
 figcaption > p.camera-icon
