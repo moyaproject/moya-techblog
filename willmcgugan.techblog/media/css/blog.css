@@ -10,7 +10,8 @@ article p code
 
 figcaption
 {
-    margin-top:3px
+    margin-top:3px;
+    font-family: 'Open Sans Condensed', sans-serif;
 }
 
 figcaption > p.camera-icon
@@ -781,8 +782,7 @@ ul.techblog-post-paginator li a
 
 .techblog-image-caption
 {
-    color:#666;
-    font-size:95%;
+    color:#333;
 }
 
 .techblog-post-info
