@@ -11,6 +11,7 @@ article p code
 figcaption
 {
     margin-top:3px;
+    font-style: italic;
 }
 
 figcaption > p.camera-icon
