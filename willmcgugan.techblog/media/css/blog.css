@@ -11,8 +11,6 @@ article p code
 figcaption
 {
     margin-top:3px;
-    font-family: 'Open Sans Condensed', sans-serif;
-    font-weight:600;
 }
 
 figcaption > p.camera-icon
