@@ -5,7 +5,8 @@ body
 
 article p code
 {
-    white-space: nowrap;
+    /* alas forced horizontal scrolling */
+    /* white-space: nowrap; */
 }
 
 figcaption
