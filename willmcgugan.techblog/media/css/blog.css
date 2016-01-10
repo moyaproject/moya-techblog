@@ -56,9 +56,9 @@ figcaption i.fa
     margin-bottom:8px;
     font-size:12px;
 
-    color:#888;
-    color:#9954bb;
-    margin: 0px 0px 9px 2px;
+    color:#666;
+    /*color:#9954bb;*/
+    margin: 0px 0px 18px 2px;
     text-transform: uppercase;
 }
 
@@ -438,11 +438,13 @@ body.show-frame
 
 }
 
+/*
 .techblog-post-header h2
 {
     margin-top:-4px;
     margin-bottom:4px;
 }
+*/
 
 
 .moya-comment-form-editor
