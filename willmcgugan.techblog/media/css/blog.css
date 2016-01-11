@@ -372,14 +372,14 @@ body.show-frame
     background-position:center center;
     background-color:rgba(0,0,0,0.1);
     margin-right:0px;
-    margin-top:30px;
+    margin-top:10px;
 }
 
 .techblog-post.summary
 {
     width:100%;
     display:table;
-    margin:20px 0px 0px 0px;
+    margin:00px 0px 0px 0px;
     color:#555;
     background-size:cover;
     background-position:center center;
