@@ -406,8 +406,11 @@ body.show-frame
 .techblog-post.summary h2 a
 {
     color:#333;
+    font-weight:400;
+    /*
     font-weight:bold;
     font-size:24px;
+    */
 }
 
 .techblog-post.summary h2 a:hover
