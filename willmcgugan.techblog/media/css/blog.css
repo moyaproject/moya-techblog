@@ -22,6 +22,11 @@ figcaption > p.camera-icon
     margin-bottom:0px;
 }
 
+.post-summary p.camera-icon
+{
+    margin-right:0.5em;
+}
+
 figcaption i.fa
 {
     margin-right:4px;
