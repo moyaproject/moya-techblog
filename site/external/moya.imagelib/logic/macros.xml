@@ -1,0 +1,9 @@
+<moya xmlns="http://moyaproject.com">
+
+    <macro libname="macro.uploader.check">
+        <log-warn>default uploader check used, override with 'uploader_check' setting</log-warn>
+        <echo obj="$$" if=".debug"/>
+        <return value=".user and .user == collection.owner or permission:'admin'"/>
+    </macro>
+
+</moya>
