@@ -130,7 +130,7 @@
                 <w:tab title="Attatch Images" id="images" if="draft.images">
                     <imagelib:manager collection="draft.images" picker="yes" picker_text="insert"
                         on_pick="on_pick_post_images"
-                        on_change="on_images_change"/>
+                        on_selection="on_images_change"/>
                 </w:tab>
                 <w:tab title="Preview" id="preview">
                     <html:div id="post-preview"/>

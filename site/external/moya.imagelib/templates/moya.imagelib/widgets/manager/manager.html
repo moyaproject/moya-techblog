@@ -1,4 +1,8 @@
-<div id="${managerid}" {% attrib class=['moya-imglib-manager', 'clearfix', fullsize ? 'moya-imglib-fullsize': None] %} {% data-attrib collection=collection.uuid, upload_url=upload_url, rpc_url=.appurls.edit.jsonrpc %}>
+{% singleline %}
+<div id="${managerid}"
+{% attrib class=['moya-imglib-manager', 'clearfix', fullsize ? 'moya-imglib-fullsize': None] %}
+{% data-attrib collection=collection.uuid, upload_url=upload_url, rpc_url=.appurls.edit.jsonrpc, single=json:single, edit=json:edit %}>
+{% end %}
 
     <script type="text/template" class="progress-template">
         <div class="moya-imglib-image moya-imglib-image-uploading">
@@ -12,19 +16,27 @@
 
     <script type="text/template" class="upload-form-template">
         <form enctype="multipart/form-data" class="upload invisible">
+            <input type="hidden" name="edit" value="${edit ? 'yes' : 'no'}"/>
             <input type="file" name="file" accept="image/*" multiple/>
         </form>
     </script>
 
     <div class="moya-imglib-header clearfix">
         <input type="text" name="search" class="form-control" placeholder="search">
+        
         <div class="moya-imglib-controls">
             <button name="upload" class="btn btn-success">
                 <i class="glyphicon glyphicon-cloud-upload"></i>
                 <span class="hidden-xs">Upload</span>
             </button>
         </div>
+        
         <div class="moya-imglib-select">
+
+            <button name="upload" class="btn btn-success">
+                <i class="glyphicon glyphicon-cloud-upload"></i>
+                <span class="hidden-xs">Upload</span>
+            </button>
 
             {%- if picker %}
             <button type="button" title="${picker_text}" class="btn btn-success moya-imglib-action moya-imglib-action-pick" data-action="pick">
@@ -34,14 +46,16 @@
             {%- endif %}
 
             <div class="btn-group" role="group">
-              <button type="button" title="Clear selection" class="btn btn-default moya-imglib-action" data-action="select-clear">
-                  <i class="glyphicon glyphicon-remove-circle"></i>
-                  <span class="hidden-xs">Clear</span>
-              </button>
-              <button type="button" title="Select all" class="btn btn-default moya-imglib-action" data-action="select-all">
-                  <i class="glyphicon glyphicon-ok-circle"></i>
-                  <span class="hidden-xs">All</span>
-              </button>
+                <button type="button" title="Clear selection" class="btn btn-default moya-imglib-action" data-action="select-clear">
+                    <i class="glyphicon glyphicon-remove-circle"></i>
+                    <span class="hidden-xs">Clear</span>
+                </button>
+                {% if not single %}
+                <button type="button" title="Select all" class="btn btn-default moya-imglib-action" data-action="select-all">
+                    <i class="glyphicon glyphicon-ok-circle"></i>
+                    <span class="hidden-xs">All</span>
+                </button>
+                {% endif %}
             </div>
 
             <button type="button" title="Delete selected image(s)" class="btn btn-danger moya-imglib-action" data-action="delete">

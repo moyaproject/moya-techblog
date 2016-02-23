@@ -10,17 +10,12 @@
             <image:resize-to-fit width="120" height="120" />
         </tn:processor>
 
-        <tn:processor name="square_tile" version="3">
-            <image:square/>
-            <image:resize-to-fit width="140" height="140"/>
-        </tn:processor>
-
         <tn:processor name="manager_tile" quality="70" version="6">
             <image:square/>
             <image:resize-to-fit width="200" height="200"/>
         </tn:processor>
 
-        <tn:processor name="manager_form" version="2">
+        <tn:processor name="large_thumbnail" version="2">
             <image:resize-to-fit width="320" height="240"/>
         </tn:processor>
 

@@ -10,12 +10,12 @@
     </mountpoint>
 
     <mountpoint libname="mountpoint.edit">
-        <url route="*">
-            <forbidden if="not permission:.app.settings.edit_permission.list" />
-        </url>
-        <url route="/upload/" methods="GET,POST" view="#view.upload" name="upload" />
+
         <url route="/manage/{collection_name}/" methods="GET,POST" view="#view.collection.manage" name="manage" />
+
         <url route="/picker-upload/{collection}/" methods="POST" view="#view.picker.upload" name="picker_upload" />
+        <url route="/uploader-upload/{collection}/{slug}/" methods="POST" view="#view.uploader.upload" name="uploader_upload"/>
+
         <url route="/jsonrpc/" view="#jsonrpc.interface" name="jsonrpc"/>
     </mountpoint>
 

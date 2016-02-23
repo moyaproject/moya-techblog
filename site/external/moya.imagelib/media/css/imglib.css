@@ -343,3 +343,127 @@
 .moya-imglib-manager.edit-image .moya-imglib-header {
     display: none;
 }
+
+.moya-imglib-uploader
+{
+    width:320px;
+    height:240px;
+
+    overflow:hidden;
+    background-color:white;
+    background-image: linear-gradient(45deg, #eaeaea 25%, transparent 25%, transparent 75%, #eaeaea 75%), 
+linear-gradient(45deg, #eaeaea 25%, transparent 25%, transparent 75%, #eaeaea 75%);
+background-size:32px 32px;
+background-position: 0 0, 16px 16px;
+}
+
+.moya-imglib-uploader form
+{
+    position:absolute;
+}
+
+.moya-imglib-uploader .moya-imglib-upload-image
+{
+    /*background-color:#f6f6f6;*/
+    padding:2px;
+    border:1px solid #e2e2e2;
+    width:320px;
+    height:240px;
+    position:absolute;
+    overflow:hidden;
+    white-space: nowrap;
+    box-sizing: border-box;
+}
+
+
+
+
+.helper {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+.noya-imglib-uploader .upload-icon
+{
+    font-size:48px;
+}
+
+.moya-imglib-uploader .moya-imglib-upload-controls
+{
+    width:320px;
+    height:240px;
+    position:absolute;
+    font-size:32px;
+    text-align: center;
+    line-height:240px;
+    background-color:rgba(0,0,0,0.5);
+    color:#fff;
+    opacity:0.0;
+    transition: opacity 0.2s;
+}
+
+.moya-imglib-uploader:not(.loading) .moya-imglib-upload-controls:hover
+{
+    opacity:1.0;
+    transition: opacity 0.2s;
+    cursor:pointer;
+}
+
+.moya-imglib-upload-image
+{
+    width:320px;
+    height:240px;
+    background-position: center center;
+    background-size:contain;
+    background-repeat: no-repeat;
+}
+
+
+.moya-imglib-progress
+{
+    position:relative;
+    width:100%;
+    height:32px;
+    padding-top:50px;
+    padding:16px;
+    margin-top:90px;
+    display:none;
+
+}
+
+.moya-imglib-progress .progress-bar
+{
+    box-sizing: content-box;
+    width:100%;
+    height:20px;
+    border-radius:10px;
+    background-color:rgba(0,0,0,0.2);
+    padding:0px 4px;
+}
+
+.moya-imglib-uploader.loading .moya-imglib-progress 
+{
+    display:block;
+}
+
+.moya-imglib-progress .progress-bar .complete
+{
+    background-color:rgba(255,255,255,1.0);
+    height:12px;
+    margin-top:4px;
+  
+    border-radius:6px;
+    box-shadow: inset 0px 0px 3px #444;
+    border:1px solid #000;
+    background-image: linear-gradient(to bottom, rgb(84,240,84), rgb(43,194,83));
+
+    transition: width 0.5s;
+}
+
+.moya-imglib-uploader .moya-imglib-error
+{
+    display:none;
+    position:absolute;
+    width:auto;
+}

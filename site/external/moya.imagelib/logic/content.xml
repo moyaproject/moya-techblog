@@ -21,12 +21,6 @@
         </section>
     </content>
 
-    <content libname="content.upload">
-        <section name="body">
-            <render src="form"/>
-        </section>
-    </content>
-
     <content libname="content.collection.manage" template="managerbase.html">
         <section name="body">
             <imglib:manager collection="collection" fullsize="yes"/>
@@ -35,6 +29,7 @@
 
     <content libname="content.tests">
         <section name="body">
+            <imglib:uploader collection="collection" slug="profile"/>
             <w:select>
                 <for src="collection.images" dst="image">
                     <w:option value="image.pk">
@@ -43,6 +38,8 @@
                 </for>
             </w:select>
             <imglib:manager collection="collection" picker="yes"/>
+            <imglib:manager collection="collection" single="yes" edit="no" select="[collection.images.0.uuid]"
+                on_selection="function(uuid){alert(uuid);}"/>
         </section>
     </content>
 </moya>

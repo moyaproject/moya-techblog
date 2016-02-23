@@ -16,6 +16,17 @@
         </url>
     </mountpoint>
 
+    <!-- mount a single blog -->
+    <!--
+    e.g.
+        <mount app="techblog" url="/blog/" let:blog="'posts'" mountpoint="single"/
+    -->
+    <mountpoint name="single">
+        <url route="/channel/" mount="#mountpoint.channel" let:channel="'root'" />
+        <url route="/" name="blogs" mount="#mountpoint.blog"/>
+        <url route="/jsonrpc/" methods="GET,POST" name="rpc" view="#jsonrpc.interface"/>
+    </mountpoint>
+
     <mountpoint name="channel" libname="mountpoint.channel">
         <!-- public urls -->
         <url route="/" view="#view.channel.list" name="channel_list" />

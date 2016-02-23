@@ -949,7 +949,7 @@ ul.techblog-tags td
 }
 
 
-footer
+footer.techblog-footer
 {
     clear:both;
     color:#fff;
@@ -960,14 +960,14 @@ footer
     height:60px;
 }
 
-footer > .container
+footer.techblog-footer > .container
 {
     padding-top:0px;
     margin-top:20px;
 }
 
 
-footer a.footer-link
+footer.techblog-footer a.footer-link
 {
     color:#fff;
     text-decoration:none;
@@ -975,7 +975,7 @@ footer a.footer-link
 }
 
 
-footer a:hover
+footer.techblog-footer a:hover
 {
     text-decoration: none;
 }

@@ -7,10 +7,6 @@
       xmlns:img="http://moyaproject.com/image"
       xmlns:tn="http://moyaproject.com/thumbnail">
 
-    <view libname="view.upload" content="#content.upload">
-        <forms:get form="#form.upload" dst="form" />
-    </view>
-
     <view libname="view.collection.manage" content="#content.collection.manage">
         <db:get model="#Collection" let:slug=".url.collection_name" dst="collection"/>
         <db:get-required model="#Collection" let:uuid=".url.collection_name" dst="collection" if="not collection"/>
@@ -20,11 +16,10 @@
         <db:get-or-create model="#Collection" let:slug="'test'" dst="collection"/>
     </view>
 
-    <view libname="view.picker.upload">
-        <db:get-required model="#Collection" let:uuid=".url.collection" dst="collection"/>
+    <macro libname="macro.upload">
         <get-enum enum="#enum.image.type" dst="ImageType"/>
-
         <let
+            edit=".request.GET.edit == 'yes'"
             file=".request.FILES.image"
             image_uuid="uuid:1"
             filename="file.filename"
@@ -32,22 +27,21 @@
             dst_filename="sub:'${path:image_uuid}.${lower:ext:filename or default_ext}'"
             extension="ext:filename"
             title="trim:[filename, 100]"
-            slug="slug:trim:[first:rpartition:[filename,'.'],100]"/>
+            slug="slug or slug:trim:[first:rpartition:[filename,'.'],100]"/>
 
         <img:read file="file" dst="image_bitmap" filename="filename"/>
         <catch exception="image.*">
             <log-warn>Unable to read image</log-warn>
-            <dict dst="result" let:success="False" let:msg="'Unable to read image'"/>
-            <serve-json obj="result"/>
+            <serve-json-object>
+                <let-str state="readfail" msg="unable to read image"/>
+            </serve-json-object>
         </catch>
         <let exif="image_bitmap.exif"/>
-
-        <if test="exif">
-            <let taken="parsedatetime:[exif.DateTimeOriginal, '%Y:%m:%d %H:%M:%S'] or None"
-                creator="exif.Artist"
-                copyright="exif.Copyright"/>
-        </if>
-
+        <let if="exif" 
+            taken="parsedatetime:[exif.DateTimeOriginal, '%Y:%m:%d %H:%M:%S'] or None"
+            creator="exif.Artist"
+            copyright="exif.Copyright"/>
+    
         <let copyright=".user.display_name or ''" if="not copyright"/>
         <str dst="copyright" if="copyright">© ${taken.year or .now.year} ${copyright}</str>
 
@@ -58,13 +52,10 @@
 
         <catch exception="*" dst="error">
             <log-warn>Unable to store image file (${error.msg})</log-warn>
-            <dict dst="result" let:success="False" let:msg="'Unable to store image file'"/>
-            <serve-json obj="result"/>
+            <serve-json-object>
+                <let-str state="writefail" msg="unable to store image file"/>
+            </serve-json-object>
         </catch>
-
-        <db:if-exists model="#Image" let:slug="slug" let:collection="collection">
-            <str dst="slug">image-${len:collection.images + 1}</str>
-        </db:if-exists>
 
         <db:atomic>
             <db:create model="#Image" dst="image"
@@ -87,28 +78,80 @@
         </db:atomic>
         <catch exception="*" dst="error">
             <log-error>Unable to upload image (${error.msg})</log-error>
-            <dict dst="result"
-                let:success="False"/>
-            <serve-json obj="result"/>
+            <serve-json-object>
+                <let-str state="savefail" msg="upload failed"/>
+            </serve-json-object>
         </catch>
 
         <!-- pre-render thumbnails -->
-        <if test=".app.settings.thumbnails">
-            <for src=".app.settings.thumbnails.list" dst="thumb">
-                <timer msg="pre-rendered thumbnails '${thumb}'">
-                    <tn:generate thumbnails="${thumb}" path="image.file" image="image_bitmap" overwrite="no"/>
-                </timer>
-            </for>
-        </if>
-        <str dst="thumb_url">${image.file|'thumbnail'(processor='manager_tile')}</str>
+        <for src=".app.settings.thumbnails.list" dst="thumb" if=".app.settings.thumbnails">
+            <timer msg="pre-rendered thumbnails '${thumb}'">
+                <tn:generate thumbnails="${thumb}" path="image.file" image="image_bitmap" overwrite="no"/>
+            </timer>
+        </for>
+        <str dst="thumb_url">${image.file|'thumbnail'(processor=thumbnail)}</str>
 
-        <render-template template="widgets/manager/manager_image.html" dst="image_html"
-            let:image="image"/>
-        <dict dst="result"
-            let:success="True"
-            let:image_html="image_html"
-            let:thumb_url="thumb_url"/>
-        <serve-json obj="result"/>
+        <db:delete src="replace_image" if="replace_image"/>
+
+        <!-- for a unique slug if it is not already unique-->
+        <let n="0"/>
+        <repeat times="100">
+            <db:get model="#Image" dst="slug_image"
+                filter="#Image.id != image.id"
+                let:slug="slug" let:collection="collection"/>
+            <break if="not slug_image"/>
+            <let slug="slug[:90] +  str:n" image.slug="slug" n="n + 1"/>
+        </repeat>
+
+        <render-template template="${template}" dst="image_html"
+            let:image="image"
+            let:edit="edit"/>
+
+        <serve-json-object>
+            <let state="'ok'"
+                image_html="image_html"
+                thumb_url="thumb_url"
+                image_id="image.uuid"/>
+        </serve-json-object>
+    </macro>
+
+    <view libname="view.picker.upload">
+
+        <serve-json-object if="not permission:.app.settings.manage_permission">
+            <let-str state="nopermission" msg="no permission to upload"/>
+        </serve-json-object>
+
+        <db:get-required model="#Collection" let:uuid=".url.collection" dst="collection"/>
+        <let-str template="widgets/manager/manager_image.html"
+            thumbnail="manager_tile"/>
+        <defer to="#macro.upload"/>
+    </view>
+
+    <view libname="view.uploader.upload">
+
+        <serve-json-object if="not permission:.app.settings.uploader_permission">
+            <let-str state="nopermission" msg="no permission to upload"/>
+        </serve-json-object>
+
+        <let slug=".url.slug"/>
+        <db:get-required model="#Collection" let:uuid=".url.collection" dst="collection"/>
+        <db:query src="collection.images" dst="images"
+            filter="#Image.slug == slug and #Image.collection == collection"/>
+        <let replace_image="images.first or None"/>
+
+        <let check="yes"/>
+        <call macro="${.app.settings.uploader_check}" dst="check" if=".app.settings.uploader_check"
+            let:collection="collection"
+            let:slug=".url.slug"
+            let:replace_image="replace_image"/>
+
+        <serve-json-object if="not check">
+            <let-str state="checkfailed" msg="you have no permission to do that"/>
+        </serve-json-object>
+     
+        <let-str template="widgets/uploader/uploader_image.html"
+            thumbnail="large_thumbnail"/>
+        <defer to="#macro.upload"/>
     </view>
 
     <view libname="view.image.serve">
