@@ -164,8 +164,9 @@ function highlight_code($el)
 }
 
 $(function(){
+    $('body').addClass('loaded');
     setTimeout(function(){
-        $('body').addClass('loaded');
+        $('body').addClass('loaded-1s');
     }, 1000);
     highlight_code($('pre'));
 });
