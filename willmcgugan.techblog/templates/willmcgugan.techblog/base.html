@@ -43,11 +43,6 @@
             margin-bottom:2px;
             transition: opacity 3s 2s;
         }
-        </style>
-
-        {% if blog.image %}
-        {% cache for 1d key [blog.updated_date, blog.image.updated_time] %}
-        <style>
 
         .techblog-post-image-preview
         {
@@ -59,9 +54,18 @@
             background-size:cover;
             z-index:1;
             background-color:#2780e3;
-            background-image:url("${blog.image.file|'thumbnail'(processor="title.blur")}");
             opacity:1;
             transition:opacity 1s;
+        }
+        </style>
+
+        {% if blog.image %}
+        {% cache for 1d key [blog.updated_date, blog.image.updated_time] %}
+        <style>
+
+        .techblog-post-image-preview
+        {
+            background-image:url("${blog.image.file|'thumbnail'(processor="title.blur")}");
             background-position: ${blog.image.position or 'center center'} !important;
         }
 
