@@ -118,7 +118,7 @@ $(function(){
         lg_img.src = data.xlg;
 
     });
-    if(location.hash)
+    if(location.hash && location.hash.match(/^[0-9a-zA-Z\-_]+$/))
     {
         $('img[name=' + location.hash.substr(1) + ']').click();
     }
