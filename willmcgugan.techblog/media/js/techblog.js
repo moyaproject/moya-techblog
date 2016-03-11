@@ -131,7 +131,10 @@ $(function(){
         $('[data-toggle="tooltip"]').tooltip({html:true})
     });
     function resize_titles(){
-        $('.techblog-post-image').height($(window).height());
+        var h = $(window).height();
+        $('.techblog-post-image').height(h);
+        $('.techblog-post-image-preview').height(h);
+        $('.techblog-post-titles-container').height(h);
     }
     $(window).on("orientationchange",function(){
         setTimeout(resize_titles, 250);

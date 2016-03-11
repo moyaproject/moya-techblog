@@ -6,47 +6,49 @@
 <div class="techblog-post-image">
 </div>
 
-<div class="techblog-post-titles">
-    <div class="container">
+<div class="techblog-post-titles-container">
+    <div class="techblog-post-titles">
+        <div class="container">
 
-        <div class="row">
-            <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
 
-                {%- with home_url=blog.userlinks.home.link %}
-                <p>
-                {%- if home_url %}
-                <a href="${home_url}" class="techblog-social" title="Go to ${blog.owner.username}'s home page">
-                    <i class="fa fa-user"></i> ${blog.owner.username}
-                </a>
-                {%- endif %}
-                {% for userlink in blog.owner.userlinks if userlink.promoted and userlink.name != 'home' %}
-                    {% if userlink.html %}
-                        ${html:userlink.html}
-                    {% else %}
-                        <a href="${userlink.link}" class="techblog-social" title="${userlink.label}" data-toggle="tooltip"><i class="fa fa-${userlink.fa_icon}"></i></a>
-                    {% endif %}
-                {% endfor %}
-                </p>
-                {%- endwith %}
-
-                <h1>${blog.headline or blog.title}</h1>
-                <p class="techblog-post-info">
-                    {%- for tag in (post.tags) sort (name) reverse %}
-                    <a class="techblog-tag" href="{% url 'tag' with tagslug=tag.slug %}">
-                        <i class="fa fa-tag"></i>&nbsp;
-                        ${tag.name}
+                    {%- with home_url=blog.userlinks.home.link %}
+                    <p>
+                    {%- if home_url %}
+                    <a href="${home_url}" class="techblog-social" title="Go to ${blog.owner.username}'s home page">
+                        <i class="fa fa-user"></i> ${blog.owner.username}
                     </a>
-                    {%- endfor %}
-                </p>
+                    {%- endif %}
+                    {% for userlink in blog.owner.userlinks if userlink.promoted and userlink.name != 'home' %}
+                        {% if userlink.html %}
+                            ${html:userlink.html}
+                        {% else %}
+                            <a href="${userlink.link}" class="techblog-social" title="${userlink.label}" data-toggle="tooltip"><i class="fa fa-${userlink.fa_icon}"></i></a>
+                        {% endif %}
+                    {% endfor %}
+                    </p>
+                    {%- endwith %}
 
-                <div class="lead tagline">
-                    {% markup blog.tagline as blog.markup %}
+                    <h1>${blog.headline or blog.title}</h1>
+                    <p class="techblog-post-info">
+                        {%- for tag in (post.tags) sort (name) reverse %}
+                        <a class="techblog-tag" href="{% url 'tag' with tagslug=tag.slug %}">
+                            <i class="fa fa-tag"></i>&nbsp;
+                            ${tag.name}
+                        </a>
+                        {%- endfor %}
+                    </p>
+
+                    <div class="lead tagline">
+                        {% markup blog.tagline as blog.markup %}
+                    </div>
+
                 </div>
-
             </div>
+
+
         </div>
-
-
     </div>
 </div>
 {% endblock %}

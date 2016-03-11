@@ -10,70 +10,72 @@
 </div>
 <div class="techblog-post-image">
 </div>
-<div class="techblog-post-titles">
-    <div class="container">
+<div class="techblog-post-titles-container">
+    <div class="techblog-post-titles">
+        <div class="container">
 
-        {% cache for 1d key [post.published_date, post.updated_date, post.published, .permissions.admin] %}
-        <div class="row">
-            <div class="col-md-12">
-                <p>
-                    {% if post.published_date %}
-                    <a title="All posts in ${post.published_date % 'MMMM, yyyy'}" href="{% url 'month' with blog=post.blog.slug, year=post.published_date.year, month=post.published_date.month %}" class="techblog-post-super">
-                        <i class="fa fa-clock-o"></i> ${post.published_date % 'MMMM d, YYYY'}
-                    </a>
-                    {% endif %}
-                    {%- with home_url=post.userlinks.home.link %}
-                    {%- if home_url %}
-                    <a href="${home_url}" class="techblog-post-super" title="Go to ${post.owner.username}'s home page">
-                        <i class="fa fa-user"></i> ${post.owner.username}
-                    </a>
+            {% cache for 1d key [post.published_date, post.updated_date, post.published, .permissions.admin] %}
+            <div class="row">
+                <div class="col-md-12">
+                    <p>
+                        {% if post.published_date %}
+                        <a title="All posts in ${post.published_date % 'MMMM, yyyy'}" href="{% url 'month' with blog=post.blog.slug, year=post.published_date.year, month=post.published_date.month %}" class="techblog-post-super">
+                            <i class="fa fa-clock-o"></i> ${post.published_date % 'MMMM d, YYYY'}
+                        </a>
+                        {% endif %}
+                        {%- with home_url=post.userlinks.home.link %}
+                        {%- if home_url %}
+                        <a href="${home_url}" class="techblog-post-super" title="Go to ${post.owner.username}'s home page">
+                            <i class="fa fa-user"></i> ${post.owner.username}
+                        </a>
+                        {%- endif %}
+                        {%- endwith %}
+                    </p>
+                    <h1>${post.title}</h1>
+                    <p class="techblog-post-info">
+                        {%- for tag in (post.tags) sort (name) %}
+                        <a class="techblog-tag" href="{% url 'tag' with tagslug=tag.slug %}" title="List posts tagged with '${tag.name}'">
+                            <i class="fa fa-tag"></i>&nbsp;${tag.name}
+                        </a>
+                        {%- endfor %}
+                    </p>
+                    {%- if post.tagline %}
+                    <div class="lead tagline hidden-xs">{% markup post.tagline as post.markup %}</div>
+                    {%- else %}
+                    <p class="lead tagline summary hidden-xs">
+                        {%- summarize chars 300 %}
+                        {% markup post.content as post.markup %}
+                        {%- end %}
+                    </p>
                     {%- endif %}
-                    {%- endwith %}
-                </p>
-                <h1>${post.title}</h1>
-                <p class="techblog-post-info">
-                    {%- for tag in (post.tags) sort (name) %}
-                    <a class="techblog-tag" href="{% url 'tag' with tagslug=tag.slug %}" title="List posts tagged with '${tag.name}'">
-                        <i class="fa fa-tag"></i>&nbsp;${tag.name}
-                    </a>
-                    {%- endfor %}
-                </p>
-                {%- if post.tagline %}
-                <div class="lead tagline hidden-xs">{% markup post.tagline as post.markup %}</div>
-                {%- else %}
-                <p class="lead tagline summary hidden-xs">
-                    {%- summarize chars 300 %}
-                    {% markup post.content as post.markup %}
-                    {%- end %}
-                </p>
-                {%- endif %}
+                </div>
             </div>
-        </div>
-        {% end-cache %}
+            {% end-cache %}
 
-         <div class="row">
-            <div class="col-md-12">
-                <ul class="techblog-post-paginator clearfix">
-                    {% if older %}
-                    <li class="older-post">
-                        <a title="${older.title}" href="{% url 'showpost' with blog=blog.slug, slug=older.slug %}">
-                            <i class="fa fa-chevron-left"></i>
-                            ${older.title}
-                        </a>
-                    </li>
-                    {% endif %}
-                    {% if newer %}
-                    <li class="newer-post">
-                        <a title="${newer.title}" href="{% url 'showpost' with blog=blog.slug, slug=newer.slug %}">
-                        <i class="fa fa-chevron-right"></i>
-                        ${newer.title}
-                        </a>
-                    </li>
-                    {% endif %}
-                </ul>
+             <div class="row">
+                <div class="col-md-12">
+                    <ul class="techblog-post-paginator clearfix">
+                        {% if older %}
+                        <li class="older-post">
+                            <a title="${older.title}" href="{% url 'showpost' with blog=blog.slug, slug=older.slug %}">
+                                <i class="fa fa-chevron-left"></i>
+                                ${older.title}
+                            </a>
+                        </li>
+                        {% endif %}
+                        {% if newer %}
+                        <li class="newer-post">
+                            <a title="${newer.title}" href="{% url 'showpost' with blog=blog.slug, slug=newer.slug %}">
+                            <i class="fa fa-chevron-right"></i>
+                            ${newer.title}
+                            </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
             </div>
-        </div>
 
+        </div>
     </div>
 </div>
 {% endblock %}
