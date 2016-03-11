@@ -590,7 +590,6 @@ nav.navbar-fixed-top:hover
 {
     background-position: center center;
     background-repeat: no-repeat;
-    background-color:#2780e3;
     background-size:cover;
     z-index:10;
     width:auto;
@@ -600,6 +599,7 @@ nav.navbar-fixed-top:hover
 
 .techblog-post-titles
 {
+    z-index:5;
     width:100%;
     position:absolute;
     height:auto;
