@@ -6,7 +6,7 @@
     <tn:thumbnails libname="thumbnails.blog.titles" name="title_images">
         <!-- Images shown in the titles -->
 
-        <tn:processor name="title.blur" version="13" quality="80">
+        <tn:processor name="title.blur" version="14" quality="70">
             <image:resize-to-fit height="1080"/>
             <image:gaussian-blur radius="16"/>
         </tn:processor>

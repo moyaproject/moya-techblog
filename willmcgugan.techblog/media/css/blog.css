@@ -599,7 +599,7 @@ nav.navbar-fixed-top:hover
 
 .techblog-post-titles
 {
-    z-index:5;
+    z-index:11;
     width:100%;
     position:absolute;
     height:auto;
