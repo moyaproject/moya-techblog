@@ -61,7 +61,7 @@ $(function(){
 
     $(window).on('hashchange', function() {
         var hash = location.hash.substr(1);
-        if(hash)
+        if(hash && hash.match(/^[0-9a-zA-Z\-_]+$/))
         {
             $('a[name=' + location.hash.substr(1) + '] img.techblog-image').click();
         }
