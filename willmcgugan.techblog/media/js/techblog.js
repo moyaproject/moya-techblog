@@ -5,7 +5,7 @@ $(function(){
         /*
             Make the navbar 50% opacity, but blend to opaque as the user scrolls.
         */
-        var $img = $('.techblog-post-image > .techblog-post-titles');
+        var $img = $('.techblog-post-titles');
         if (!$img.length)
         {
             return;
@@ -164,6 +164,8 @@ function highlight_code($el)
 }
 
 $(function(){
-    $('body').addClass('loaded');
+    setTimeout(function(){
+        $('body').addClass('loaded');
+    }, 1000);
     highlight_code($('pre'));
 });
