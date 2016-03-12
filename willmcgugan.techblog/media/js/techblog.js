@@ -63,7 +63,8 @@ $(function(){
         var hash = location.hash.substr(1);
         if(hash && hash.match(/^[0-9a-zA-Z\-_]+$/))
         {
-            $('a[name=' + location.hash.substr(1) + '] img.techblog-image').click();
+            var $img = $('a[name=' + hash + '] + figure img');
+            $img.click();
         }
         else {
             $('#techblog-expanded-image').removeClass('visible');
@@ -118,7 +119,7 @@ $(function(){
         lg_img.src = data.xlg;
 
     });
-    if(location.hash && location.hash.match(/^[0-9a-zA-Z\-_]+$/))
+    if(location.hash && location.hash.substr(1).match(/^[0-9a-zA-Z\-_]+$/))
     {
         $('img[name=' + location.hash.substr(1) + ']').click();
     }
