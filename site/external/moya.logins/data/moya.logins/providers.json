@@ -33,7 +33,7 @@
 
         "authorization_base_url": "https://github.com/login/oauth/authorize",
         "token_url": "https://github.com/login/oauth/access_token",
-        "scope": ["user"],
+        "scope": ["user:email"],
 
         "resources": {
             "profile": "https://api.github.com/user"
@@ -41,8 +41,8 @@
 
         "profile": {
             "username": "profile.login",
-            "first_name": "first:partition:profile.name",
-            "last_name": "last:partition:profile.name",
+            "first_name": "profile.name ? first:partition:profile.name : ''",
+            "last_name": "profile.name ? last:partition:profile.name : ''",
             "email": "profile.email",
             "id": "profile.id"
         }
@@ -64,8 +64,8 @@
         },
 
         "profile": {
-            "first_name": "profile.first_name",
-            "last_name": "profile.last_name",
+            "first_name": "profile.first_name or ''",
+            "last_name": "profile.last_name or ''",
             "email": "profile.email",
             "id": "str:profile.id"
         }

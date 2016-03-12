@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <moya xmlns="http://moyaproject.com"
     xmlns:html="http://moyaproject.com/html"
-    xmlns:moya="http://moyaproject.com"
+    xmlns:m="http://moyaproject.com"
     xmlns:logins="http://moyaproject.com/logins"
     xmlns:let="http://moyaproject.com/let"
     xmlns:w="http://moyaproject.com/widgets">
@@ -37,11 +37,11 @@
     <form libname="moya.auth#form.login" xmlns="http://moyaproject.com/forms"
         legend="Sign In" style="basic" action="${.urls.auth.login}" class="moya-auth-signin">
 
-        <moya:get-url name="forgot_password" dst="forgot_password_url" />
-        <moya:get-url name="signup" from="moya.signup" dst="signup_url" if=".libs['moya.signup']"/>
+        <m:get-url name="forgot_password" dst="forgot_password_url" />
+        <m:get-url name="signup" from="moya.signup" dst="signup_url" if=".libs['moya.signup']"/>
 
         <hidden-input name="fwd" required="no" initial="fwd or .request.GET.fwd" />
-        <moya:include-css path="css/auth.css" from="moya.auth" />
+        <m:include-css path="css/auth.css" from="moya.auth" />
 
         <w:error if=".request.GET.error and .request.GET.provider">
             Sign in with ${title:.request.GET.provider} failed
@@ -58,25 +58,25 @@
                     </group>
                 </w:well>
                 <field>
-                    <moya:if test="signup_url">
-                        <moya:markdown>
+                    <m:if test="signup_url">
+                        <m:markdown>
                             [I've forgotten my password](${forgot_password_url}) | [Create new account](${signup_url})
-                        </moya:markdown>
-                    </moya:if>
-                    <moya:else>
-                        <moya:markdown>
+                        </m:markdown>
+                    </m:if>
+                    <m:else>
+                        <m:markdown>
                             [I've forgotten my password](${forgot_password_url})
-                        </moya:markdown>
-                    </moya:else>
+                        </m:markdown>
+                    </m:else>
                 </field>
             </html:div>
 
             <html:div class="col-sm-4">
                 <logins:get-available-providers dst="providers" />
                 <field if="providers">
-                    <moya:for src="providers" dst="provider">
+                    <m:for src="providers" dst="provider">
                         <logins:login-button provider="${provider}" forward="${.request.GET.fwd or '/'}" class="btn-block"/>
-                    </moya:for>
+                    </m:for>
                 </field>
             </html:div>
 
@@ -85,9 +85,19 @@
     </form>
 
     <form libname="form.pick_username" xmlns="http://moyaproject.com/forms" style="horizontal" class="moya-logins-pick-username well">
-        <moya:include-css path="css/logins.css"/>
+        <m:include-css path="css/logins.css"/>
         <input label="Username" name="username" initial="username" required="yes" adapt="strip:value"/>
         <submit-button text="Create Account" visual="success" block="yes"/>
+
+        <validate-field field="username">
+            <m:let auth="app:'moya.auth'"/>
+            <fail if="len:value lt auth.settings.min_username_length.int">
+                Username should be at least ${auth.settings.min_username_length.int} characters
+            </fail>
+            <fail if="value in data:['moya.auth', 'reserved_usernames.json']">
+                Sorry, this username is reserved
+            </fail>
+        </validate-field>
     </form>
 
 </moya>
