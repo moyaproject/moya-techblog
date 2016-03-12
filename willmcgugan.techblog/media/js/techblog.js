@@ -170,6 +170,9 @@ function highlight_code($el)
 $(function(){
     $('body').addClass('loaded');
     setTimeout(function(){
+        $('body').addClass('loaded-0_5s');
+    }, 1000);
+    setTimeout(function(){
         $('body').addClass('loaded-1s');
     }, 1000);
     highlight_code($('pre'));
