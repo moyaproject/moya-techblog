@@ -68,17 +68,17 @@
         }
 
 
-        .techblog-post-image-container
+        .techblog-post-image-preview, .techblog-post-image
         {
             transform:scale(1.2,1.2);
-            transition:transform 3s;
+            transition:opacity 1s, transform 3s;
         }
 
 
-        .loaded .techblog-post-image-container
+        .loaded .techblog-post-image-preview, .loaded .techblog-post-image
         {
             transform:scale(1,1);
-            transition:transform 3s;
+            transition:opacity 1s, transform 3s;
         }
 
         </style>
@@ -102,7 +102,7 @@
         .preview-loaded.show-titles .techblog-post-image
         {
             opacity: 1;
-            transition:opacity 1s;
+
         }
 
         @media (min-height:960px)
