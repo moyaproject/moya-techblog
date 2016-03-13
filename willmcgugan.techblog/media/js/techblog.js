@@ -176,4 +176,17 @@ $(function(){
         $('body').addClass('loaded-1s');
     }, 1000);
     highlight_code($('pre'));
+    var data = $('body').data();
+    var preview_image_src = data['title_image_preview'];
+    if(preview_image_src)
+    {
+        var img = new Image()
+        img.onload = function(e)
+        {
+            setTimeout(function(){
+                $('body').addClass('preview-loaded');
+            }, 100);
+        }
+        img.src = preview_image_src;
+    }
 });

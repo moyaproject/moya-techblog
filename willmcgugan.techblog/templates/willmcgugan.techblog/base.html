@@ -70,25 +70,13 @@
             background-position: ${blog.image.position or 'center center'} !important;
         }
 
-        /*
-        .techblog-post-image-preview:before
-        {
-            content:' ';
-            width:100%;
-            height:100%;
-            display:block;
-            position:absolute;
-            background-color:rgba(0,0,0,0.3);
-        }
-        */
-
         .techblog-post-image
         {
             opacity: 0;
             background-position: ${blog.image.position or 'center center'} !important;
         }
 
-        .loaded-0_5s .techblog-post-image
+        .preview-loaded .techblog-post-image
         {
             opacity: 1;
             transition:opacity 1s;
@@ -96,21 +84,21 @@
 
         @media (min-height:960px)
         {
-            .loaded .techblog-post-image
+            .preview-loaded .techblog-post-image
             {
                 background-image:url("${blog.image.file|'thumbnail'(processor="title.lg")}");
             }
         }
         @media (max-height:960px)
         {
-            .loaded .techblog-post-image
+            .preview-loaded .techblog-post-image
             {
                 background-image:url("${blog.image.file|'thumbnail'(processor="title.md")}");
             }
         }
         @media (max-height:600px)
         {
-            .loaded .techblog-post-image
+            .preview-loaded .techblog-post-image
             {
                 background-image:url("${blog.image.file|'thumbnail'(processor="title.sm")}");
             }
@@ -119,21 +107,21 @@
 
         @media (min-height:960px) and (min-resolution: 2dppx)
         {
-            .loaded .techblog-post-image
+            .preview-loaded .techblog-post-image
             {
                 background-image:url("${blog.image.file|'thumbnail'(processor="title.lg2x")}");
             }
         }
         @media (max-height:960px) and (min-resolution: 2dppx)
         {
-            .loaded .techblog-post-image
+            .preview-loaded .techblog-post-image
             {
                 background-image:url("${blog.image.file|'thumbnail'(processor="title.md2x")}");
             }
         }
         @media (max-height:600px) and (min-resolution: 2dppx)
         {
-            .loaded .techblog-post-image
+            .preview-loaded .techblog-post-image
             {
                 background-image:url("${blog.image.file|'thumbnail'(processor="title.sm2x")}");
             }
@@ -154,7 +142,7 @@
 
     </head>
 
-    <body>
+    <body {% if blog.image %}data-title_image_preview="${blog.image.file|'thumbnail'(processor="title.blur")}"{% endif %}>
         <input type="hidden" name="techblog_rpc" value="{% url 'rpc' from 'willmcgugan.techblog' %}" />
         {% include "/navbar.html" %}
 
