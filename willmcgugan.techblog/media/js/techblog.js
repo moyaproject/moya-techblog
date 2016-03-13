@@ -183,9 +183,10 @@ $(function(){
         var img = new Image()
         img.onload = function(e)
         {
+            $('body').addClass('preview-loaded');
             setTimeout(function(){
-                $('body').addClass('preview-loaded');
-            }, 100);
+                $('body').addClass('show-titles');
+            }, 250);
         }
         img.src = preview_image_src;
     }
