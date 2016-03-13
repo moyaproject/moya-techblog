@@ -134,6 +134,8 @@ $(function(){
     function resize_titles(){
         var h = $(window).height();
         $('.techblog-post-image-container').height(h);
+        $('.techblog-post-image-preview').height(h);
+        $('.techblog-post-image').height(h);
         $('.techblog-post-titles-container').height(h);
     }
     $(window).on("orientationchange",function(){
