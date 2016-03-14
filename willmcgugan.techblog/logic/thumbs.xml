@@ -26,15 +26,15 @@
 
 
         <!-- High DPI versions of the above -->
-        <tn:processor name="title.sm2x" quality="70" version="7">
+        <tn:processor name="title.sm2x" quality="80" version="8">
             <image:resize-to-fit height="1200"/>
         </tn:processor>
 
-        <tn:processor name="title.md2x" quality="70" version="9">
+        <tn:processor name="title.md2x" quality="80" version="10">
             <image:resize-to-fit height="1920"/>
         </tn:processor>
 
-        <tn:processor name="title.lg2x" quality="70" version="12">
+        <tn:processor name="title.lg2x" quality="80" version="13">
             <image:resize-to-fit height="2160"/>
         </tn:processor>
 
