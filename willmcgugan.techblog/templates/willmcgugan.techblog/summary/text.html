@@ -36,11 +36,10 @@
                 </h2>
             </header>
         </div>
-
         <div class="post-summary">
             {% render summary_html|'summary'(post=post) to 'html' %}
         </div>
     </div>
-    <span class="clearfix"/>
+    <div class="clearfix"></div>
 </div>
 {%- end-cache %}
