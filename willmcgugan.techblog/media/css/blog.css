@@ -3,6 +3,11 @@ body
     overflow:auto;
 }
 
+p
+{
+    font-size:16px;
+}
+
 article p code
 {
     /* alas forced horizontal scrolling */
@@ -57,19 +62,14 @@ figcaption i.fa
 
 .techblog-post .post-info
 {
-    display:inline-block;
+    display:block;
     margin-bottom:8px;
     font-size:12px;
-
+    text-align:right;
     color:#666;
     /*color:#9954bb;*/
     margin: 0px 0px 18px 2px;
     text-transform: uppercase;
-}
-
-.techblog-post .post-info span
-{
-    margin-right:0.5em;
 }
 
 .techblog-post .post-info i.fa
@@ -367,6 +367,25 @@ body.show-frame
     margin-top:20px;
 }
 
+.margin-top-40
+{
+    margin-top:40px;
+}
+
+.techblog-post
+{
+    clear:both;
+}
+
+.techblog-post-details
+{
+    margin-right:10px;
+    width:120px;
+    float:left;
+    margin-top:4px;
+}
+
+
 .techblog-post-summary-image
 {
     font-weight:bold;
@@ -377,14 +396,15 @@ body.show-frame
     background-position:center center;
     background-color:rgba(0,0,0,0.1);
     margin-right:0px;
-    margin-top:30px;
+    border-radius:5px;
 }
 
 .techblog-post.summary
 {
-    width:100%;
-    display:table;
-    margin:00px 0px 0px 0px;
+    /*width:100%;*/
+
+    clear:both;
+    margin:0px;
     color:#555;
     background-size:cover;
     background-position:center center;
@@ -392,9 +412,9 @@ body.show-frame
 
 .techblog-post.summary.with-image .post-body, .techblog-post.summary.with-photo .post-body
 {
-    display:table-cell;
+    /*display:table-cell;*/
     vertical-align:top;
-    width:100%;
+    /*width:100%;*/
 }
 
 .post-body .photo-fan
@@ -411,11 +431,6 @@ body.show-frame
 .techblog-post.summary h2 a
 {
     color:#333;
-    font-weight:400;
-    /*
-    font-weight:bold;
-    font-size:24px;
-    */
 }
 
 .techblog-post.summary h2 a:hover
@@ -428,13 +443,9 @@ body.show-frame
 {
     padding:0px 0px;
     background-color:#fff;
+    margin-left:140px;
 }
 
-
-.techblog-post.summary.with-image .post-body
-{
-    padding:0px 12px;
-}
 
 .techblog-post.summary .post-summary
 {
@@ -445,15 +456,6 @@ body.show-frame
 {
 
 }
-
-/*
-.techblog-post-header h2
-{
-    margin-top:-4px;
-    margin-bottom:4px;
-}
-*/
-
 
 .moya-comment-form-editor
 {
@@ -736,13 +738,13 @@ ul.techblog-post-paginator li a
 
 @media (max-width: 600px)
 {
-    .techblog-post.summary .techblog-photo-summary
+    .techblog-post-details
     {
         display:none;
     }
-    .techblog-post-summary-image
+    .techblog-post.summary .post-body
     {
-        display:none;
+        margin-left:0px;
     }
     .techblog-post.summary.with-image .post-body
     {
@@ -773,7 +775,7 @@ ul.techblog-post-paginator li a
 {
     .techblog-post.full p:not(.lead)
     {
-        font-size:110%;
+        /*font-size:110%;*/
     }
 }
 
@@ -789,7 +791,6 @@ ul.techblog-post-paginator li a
 {
 
 }
-
 
 .techblog-post .post-subtitle
 {

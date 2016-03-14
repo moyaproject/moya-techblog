@@ -7,17 +7,37 @@
 {%- let post_img_src=(summary_html|'imgdata').square or summary_html|'imgsrc' %}
 <div {% attrib class=['techblog-post', 'summary', 'with-photo'] %}>
 
+ <div class="techblog-post-details clearfix">
+        <div class="post-info">
+            <span >
+                <i class="fa fa-calendar"></i>
+                ${localize:post.published_date.date}
+            </span>
+            <br>
+            <span>
+                in ${post.blog.title}
+            </span>
+        </div>
+        {#
+        {%- if post_img_src %}
+        {%- with src=post_img_src %}{% include "summary_img.html" if src  %}{%- end-with %}
+        {%- endif %}
+        #}
+    </div>
+
     <div class="post-body">
         <div class="techblog-post-header">
-            <h2>
-                <a href="{% url "showpost" with slug=post.slug, blog=post.blog.slug %}">
-                    ${post.title}
-                </a>
-                {% if not post.published %}
-                    <small><span class="label text-sm label-warning">Un-published</span></small>
-                {% endif %}
-            </h2>
-            {% include "post_info.html" %}
+            <header class="page-header">
+                <h2>
+                    <a href="{% url "showpost" with slug=post.slug, blog=post.blog.slug %}">
+                        ${post.title}
+                    </a>
+                    {% if not post.published %}
+                        <small><span class="label text-sm label-warning">Un-published</span></small>
+                    {% endif %}
+                </h2>
+            </header>
+
         </div>
         <div class="post-summary">
             <a href="{% url "showpost" with slug=post.slug, blog=post.blog.slug %}" class="photo-fan">
@@ -26,6 +46,6 @@
             {% render summary_html|'summary'(post=post) to 'html' %}
         </div>
     </div>
-
+    <div class="clearfix"/>
 </div>
 {%- end-cache %}
