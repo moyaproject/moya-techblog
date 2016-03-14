@@ -3,7 +3,7 @@ body
     overflow:auto;
 }
 
-p
+.techblog-main p:not(.lead)
 {
     font-size:16px;
 }
