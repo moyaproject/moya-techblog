@@ -9,14 +9,11 @@
 
     <div class="techblog-post-details clearfix">
         <div class="post-info">
-            <span >
+            <span>
                 <i class="fa fa-calendar"></i>
                 ${localize:post.published_date.date}
             </span>
-            <br>
-            <span>
-                in ${post.blog.title}
-            </span>
+            <br><span>in ${post.blog.title}</span>
         </div>
         {%- if post_img_src %}
         {%- with src=post_img_src %}{% include "summary_img.html" if src  %}{%- end-with %}
@@ -30,9 +27,9 @@
                     <a href="{% url "showpost" with slug=post.slug, blog=post.blog.slug %}">
                         ${post.title}
                     </a>
-                    {% if not post.published %}
+                    {%- if not post.published %}
                         <small><span class="label text-sm label-warning">Un-published</span></small>
-                    {% endif %}
+                    {% -endif %}
                 </h2>
             </header>
         </div>

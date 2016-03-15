@@ -5,13 +5,7 @@
 {% end %}
 
     <script type="text/template" class="progress-template">
-        <div class="moya-imglib-image moya-imglib-image-uploading">
-          <img src="{% media 'img/transparent.png' %}"/>
-            <div class="moya-imglib-progress">
-                <i class="glyphicon glyphicon-upload progress-remaining"></i>
-                <i class="glyphicon glyphicon-upload progress-done"></i>
-            </div>
-        </div>
+        {% include "widgets/manager/fragments/progress.html" %}
     </script>
 
     <script type="text/template" class="upload-form-template">
@@ -23,14 +17,14 @@
 
     <div class="moya-imglib-header clearfix">
         <input type="text" name="search" class="form-control" placeholder="search">
-        
+
         <div class="moya-imglib-controls">
             <button name="upload" class="btn btn-success">
                 <i class="glyphicon glyphicon-cloud-upload"></i>
                 <span class="hidden-xs">Upload</span>
             </button>
         </div>
-        
+
         <div class="moya-imglib-select">
 
             <button name="upload" class="btn btn-success">
@@ -80,6 +74,7 @@
         {%- for image in images %}
         {% include "widgets/manager/manager_image.html" %}
         {%- endfor %}
+        {# {% include "widgets/manager/fragments/progress.html" %} #}
     </div>
 
     <div class="moya-imglib-image-form row">

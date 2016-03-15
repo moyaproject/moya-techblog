@@ -13,13 +13,9 @@
                 <i class="fa fa-calendar"></i>
                 ${localize:post.published_date.date}
             </span>
-            <br>
-            <span>
-                in ${post.blog.title}
-            </span>
+            <br><span>in ${post.blog.title}</span>
         </div>
     </div>
-
     <div class="post-body">
         <div class="techblog-post-header">
             <header class="page-header">
@@ -27,12 +23,11 @@
                     <a href="{% url "showpost" with slug=post.slug, blog=post.blog.slug %}">
                         ${post.title}
                     </a>
-                    {% if not post.published %}
+                    {%- if not post.published %}
                         <small><span class="label text-sm label-warning">Un-published</span></small>
-                    {% endif %}
+                    {%- endif %}
                 </h2>
             </header>
-
         </div>
         <div class="post-summary">
             <a href="{% url "showpost" with slug=post.slug, blog=post.blog.slug %}" class="photo-fan">

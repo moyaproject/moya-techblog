@@ -12,7 +12,7 @@
         <db:get-required model="#Collection" let:uuid=".url.collection_name" dst="collection" if="not collection"/>
     </view>
 
-    <view libname="view.tests" content="#content.tests">
+    <view libname="view.tests" content="#content.tests" requires=".user">
         <db:get-or-create model="#Collection" let:slug="'test'" dst="collection"/>
     </view>
 
@@ -37,11 +37,11 @@
             </serve-json-object>
         </catch>
         <let exif="image_bitmap.exif"/>
-        <let if="exif" 
+        <let if="exif"
             taken="parsedatetime:[exif.DateTimeOriginal, '%Y:%m:%d %H:%M:%S'] or None"
             creator="exif.Artist"
             copyright="exif.Copyright"/>
-    
+
         <let copyright=".user.display_name or ''" if="not copyright"/>
         <str dst="copyright" if="copyright">© ${taken.year or .now.year} ${copyright}</str>
 
@@ -148,7 +148,7 @@
         <serve-json-object if="not check">
             <let-str state="checkfailed" msg="you have no permission to do that"/>
         </serve-json-object>
-     
+
         <let-str template="widgets/uploader/uploader_image.html"
             thumbnail="large_thumbnail"/>
         <defer to="#macro.upload"/>

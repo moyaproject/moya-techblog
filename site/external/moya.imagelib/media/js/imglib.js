@@ -485,7 +485,9 @@ function FileUploader(url, file, callbacks)
 
         function set_progress($progress, progress)
         {
-            $progress.find('.progress-remaining').css('height', (1 - progress) + 'em');
+            /* $progress.find('.progress-remaining').css('height', (1 - progress) + 'em'); */
+            $progress.find('.moya-imglib-progress').show();
+            $progress.find('.progress-bar .complete').css('width', '' + (5 + (progress * 95)) + '%');
         }
 
         function begin_upload(file)
