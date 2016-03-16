@@ -6,6 +6,13 @@
     /*overflow:hidden;*/
     box-sizing:padding-box;
 }
+.moya-imglib-error
+{
+    display:none;
+    position:absolute;
+    z-index:10;
+    margin:4px;
+}
 .moya-imglib-manager.moya-imglib-fullsize {
     max-height: 100vh !important;
 }

@@ -94,7 +94,7 @@ function FileUploader(url, file, callbacks)
 
         function set_progress(progress)
         {
-            var w = Math.ceil(100.0 * (0.95 * progress + 0.05));
+            var w = Math.ceil(100.0 * (0.90 * progress + 0.10));
             var width_percentage = '' + w + '%';
             $progress_bar.css('width', width_percentage);
         }
@@ -221,6 +221,11 @@ function FileUploader(url, file, callbacks)
         var $upload_form = $uploader;
 
         var $file_input = $uploader.find('input[type=file]');
+        var $error = $manager.find('.moya-imglib-error');
+
+        $error.find('button.close').click(function(){
+            $error.hide();
+        });
 
         function is_touch_device() {
           return !!('ontouchstart' in window);
@@ -490,6 +495,12 @@ function FileUploader(url, file, callbacks)
             $progress.find('.progress-bar .complete').css('width', '' + (5 + (progress * 95)) + '%');
         }
 
+        function set_error(msg)
+        {
+            $error.find('.error-text').text(msg);
+            $error.show();
+        }
+
         function begin_upload(file)
         {
           var $progress = $(progress_template);
@@ -536,6 +547,18 @@ function FileUploader(url, file, callbacks)
                       image.addEventListener('load', replace_thumb);
                   }
                   on_change(collection_uuid);
+              },
+              "error": function(xhr)
+              {
+                $progress.fadeOut('fast').remove();
+                if (xhr.status==413)
+                {
+                    set_error('image is too large');
+                }
+                else
+                {
+                    set_error('please try again');
+                }
               }
           });
         }

@@ -71,6 +71,11 @@
     </div>
 
     <div class="moya-imglib-image-container">
+        <div class="moya-imglib-error alert alert-danger alert-dismissable">
+            <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <b>Image upload failed</b> &mdash; <span class="error-text">Error Message</span>
+        </div>
+
         {%- for image in images %}
         {% include "widgets/manager/manager_image.html" %}
         {%- endfor %}
