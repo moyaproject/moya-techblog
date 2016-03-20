@@ -21,7 +21,7 @@ figcaption
 
 figcaption > p
 {
-    font-weight: 300;
+
 }
 
 figcaption > p.camera-icon
@@ -918,10 +918,8 @@ pre code.hljs
     min-width:100%;
     display:inline-block;
     white-space:pre;
-
     font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif;
     font-family:monospace;
-
 }
 
 pre code.hljs *
