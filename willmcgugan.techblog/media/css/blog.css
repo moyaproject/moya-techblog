@@ -16,9 +16,12 @@ article p code
 
 figcaption
 {
-    margin-top:3px;
-    font-style: italic;
-    font-size:0.9em;
+    margin-top:3px !important;
+}
+
+figcaption > p
+{
+    font-weight: 300;
 }
 
 figcaption > p.camera-icon
