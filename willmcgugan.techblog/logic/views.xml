@@ -92,7 +92,7 @@
         <forms:validate src="form">
             <forms:apply src="form" dst="blog" />
             <let blog.updated_date=".now"/>
-            <redirect name="settings" let:blog="blog.slug" query="{'success': ''}"/> <!-- in case the slug changes -->
+            <redirect name="settings" let:blog="blog.slug" query="{'success': ''}"/>
         </forms:validate>
     </view>
 
@@ -114,7 +114,6 @@
         <forms:validate src="form">
             <forms:apply src="form" dst="channel" />
             <let channel.updated_date=".now"/>
-            <!-- redirect in case the slug changes -->
             <redirect name="channel_settings" let:blog="blog.slug" query="{'success': ''}"/>
         </forms:validate>
     </view>
