@@ -14,22 +14,18 @@
             <attribute name="tags" required="no" default="None"/>
         </signature>
         <db:atomic>
-        <if test="not tags">
+            <!-- Reduce the count for tags on the post -->
             <db:update src="post.tags" let:count="#Tag.count - 1"/>
-            <db:query model="#Tag" filter="#Tag.count lte 0" action="delete"/>
-        </if>
-        <else>
-            <map src="commasplit:tags" value="[$$,slug:$$]" dst="tagslugs"/>
-            <db:update src="post.tags" let:count="#Tag.count - 1"/>
-            <for src="tagslugs" dst="name,slug">
+            <!-- Re-add tags (if supplied) -->
+            <for src="commasplit:tags" dst="name" if="tags">
                 <db:get-or-create model="#Tag" dst="tag"
-                    let:slug="slug"
+                    let:slug="slug:name"
                     initial="{'name': name}"/>
                 <append src="tag.posts" value="post"/>
                 <inc dst="tag.count"/>
             </for>
+            <!-- Delete any tags with a zero count -->
             <db:query model="#Tag" filter="#Tag.count lte 0" action="delete"/>
-        </else>
         </db:atomic>
     </tag>
 
