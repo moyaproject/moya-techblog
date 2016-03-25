@@ -11,16 +11,11 @@
         <url route="/blog/{slug:blog}/" name="blogs" mount="#mountpoint.blog"/>
         <url route="/jsonrpc/" methods="GET,POST" name="rpc" view="#jsonrpc.interface"/>
         <url route="/error/" methods="GET">
-            <!-- to test the 500 page -->
-            <echo>${1/0}</echo>
+            <echo>${1/0}</echo> <!-- to test the 500 page -->
         </url>
     </mountpoint>
 
-    <!-- mount a single blog -->
-    <!--
-    e.g.
-        <mount app="techblog" url="/blog/" let:blog="'posts'" mountpoint="single"/
-    -->
+    <!-- optional mountpoint for a single blog -->
     <mountpoint name="single">
         <url route="/channel/" mount="#mountpoint.channel" let:channel="'root'" />
         <url route="/" name="blogs" mount="#mountpoint.blog"/>
@@ -129,36 +124,38 @@
     </view>
 
     <view libname="view.blog.list" content="#content.blog.posts">
-        <doc>Blog list </doc>
+        <doc>Blog list</doc>
+        <let page="exists:.request.GET.page ? .request.GET.page : 1"/>
+        <not-found if="not validint:page or int:page lt 1"/>
         <db:get-required model="#Blog" let:slug=".url.blog" dst="blog" />
-        <not-found if="exists:.request.GET.page and not int:.request.GET.page" />
-        <let page="int:.request.GET.page or 1" pagesize=".app.settings.page_size.int"/>
         <db:query model="#Post" src="blog.display_posts" dst="posts"
             orderby="published,-published_date"/>
     </view>
 
-    <view libname="view.posts-by-month" content="#content.list-posts-by-month">
-        <doc>List of posts by month / year</doc>
-        <db:get-required model="#Blog" let:slug=".url.blog" dst="blog" />
-        <not-found if="exists:.request.GET.page and not int:.request.GET.page" />
-        <let page="int:.request.GET.page or 1" pagesize=".app.settings.page_size.int"/>
+    <macro libname="defer.month-view">
+        <doc>Some common logic for month views</doc>
+        <let page="exists:.request.GET.page ? .request.GET.page : 1"/>
+        <not-found if="not validint:page or int:page lt 1"/>
         <datetime dst="start" year="${url.year}" month="${url.month}"/>
         <catch exception="datetime.*">
             <not-found />
         </catch>
+        <!--  404 dates before epoch or more than a year in the future -->
+        <not-found if="start - .now gt 365d or start.year lt 1970"/>
+    </macro>
+
+    <view libname="view.posts-by-month" content="#content.list-posts-by-month">
+        <doc>List of posts by month / year</doc>
+        <defer to="#defer.month-view"/>
+        <db:get-required model="#Blog" let:slug=".url.blog" dst="blog" />
         <db:query model="#Post" src="blog.display_posts" dst="posts" orderby="-published_date"
             filter="#Post.published_date gte start and #Post.published_date lt start.next_month"/>
     </view>
 
     <view libname="view.channel.posts-by-month" content="#content.channel.list-posts-by-month">
         <doc>Lists of posts by month / year for a channel</doc>
+        <defer to="#defer.month-view"/>
         <db:get-required model="#Channel" let:slug=".url.channel" dst="channel" />
-        <not-found if="exists:.request.GET.page and not int:.request.GET.page" />
-        <let page="int:.request.GET.page or 1" pagesize=".app.settings.page_size.int"/>
-        <datetime dst="start" year="${url.year}" month="${url.month}"/>
-        <catch exception="datetime.*">
-            <not-found />
-        </catch>
         <db:query model="#Post" dst="posts"
             filter="#Post.blog.id in channel.blogs"
             orderby="published,-published_date" />
@@ -357,7 +354,6 @@
         <serve-xml content_type="application/rss+xml" obj="feed"/>
     </view>
 
-
     <view libname="view.feed.channel">
         <doc>Create an atom feed for the channel</doc>
         <db:get-required model="#Channel" let:slug=".url.channel" dst="channel" />
@@ -401,8 +397,8 @@
         <db:query model="#Post" src="tag.posts" dst="posts"
             filter="#Post.blog.promoted == yes"
             orderby="-published_date"/>
-        <db:query src="posts" dst="posts"
-            if="not .permssions.admin" let:published="yes"/>
+        <db:query src="posts" dst="posts" if="not .permissions.admin"
+            let:published="yes"/>
     </view>
 
 

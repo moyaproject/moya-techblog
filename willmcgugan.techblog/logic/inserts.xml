@@ -2,12 +2,27 @@
       xmlns:let="http://moyaproject.com/let"
       xmlns:db="http://moyaproject.com/db">
 
+    <!--
+
+    Moya supports a markup system that allows inserting arbitrary markup in to otherwise html.
+
+    For example, this markup mat appear with in HTML:
+
+        <p>My blog post</p>
+        <moya insert="willmcgugan.techblog#insert.image" app="techblog" data-image="salisbury-crags"/>
+
+    When the HTML is processed with the 'moya' markup, it will execite the moya-insert tag below,
+    and insert the contents.
+
+    -->
+
     <markup-insert libname="insert.image">
         <let slug="image"/>
         <db:get model="moya.imagelib#Image" dst="image"
             let:slug="slug" let:collection="post.images" />
         <return>
-            <render-template template="inserts/post_image.html" let:slug="slug" let:image="image"/>
+            <render-template template="inserts/post_image.html"
+                let:slug="slug" let:image="image"/>
         </return>
     </markup-insert>
 

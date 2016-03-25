@@ -8,6 +8,11 @@
       xmlns:techblog="http://willmcgugan.com/techblog"
       xmlns:imagelib="http://moyaproject.com/imagelib">
 
+    <!--
+        Content is a high level description of a page
+    -->
+
+    <!-- Most pages extend from this base content -->
     <content libname="content.base" template="base.html" final="yes">
         <include-css path="css/bootstrap.min.css" from="moya.twitter.bootstrap"/>
         <include-css path="css/blog.css" from="willmcgugan.techblog"/>
@@ -23,7 +28,7 @@
 
     <content libname="content.blog.base" extends="#content.base">
         <db:query model="#Blog" orderby="title" dst="list_blogs"/>
-        <section name="admin_links" merge="append">
+        <section name="admin_links" merge="append" if=".permissions.admin">
             <if test=".url.blog">
                 <w:link icon="edit" name="settings" let:blog=".url.blog">Blog Settings</w:link>
             </if>
@@ -210,7 +215,7 @@
     <content libname="content.tag" extends="#content.base" template="search.html">
         <title>Tag ${tag.name}</title>
         <section name="results">
-            <node template="tag_header.html" let:tag="tag"/>
+            <node template="tag_header.html" let:tag="tag" let:count="len:posts"/>
             <w:paginate src="posts" dst="post" auto="yes">
                 <techblog:post-summary post="post"/>
             </w:paginate>

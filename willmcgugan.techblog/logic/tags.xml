@@ -3,38 +3,39 @@
     xmlns:db="http://moyaproject.com/db"
     xmlns:soup="http://moyaproject.com/soup">
 
+    <!-- Tags add new high-level functionality -->
+
     <tag name="update-tags">
+        <doc>
+            Update tags for a given post.
+        </doc>
         <signature>
             <attribute name="post" required="yes"/>
             <attribute name="tags" required="no" default="None"/>
         </signature>
+        <db:atomic>
         <if test="not tags">
-            <for src="post.tags" dst="tag">
-                <dec dst="tag.count"/>
-            </for>
-            <db:query model="#Tag" filter="#Tag.count lte 0" action="delete" />
+            <db:update src="post.tags" let:count="#Tag.count - 1"/>
+            <db:query model="#Tag" filter="#Tag.count lte 0" action="delete"/>
         </if>
         <else>
             <map src="commasplit:tags" value="[$$,slug:$$]" dst="tagslugs"/>
-            <db:atomic>
-                <for src="post.tags" dst="tag">
-                    <dec dst="tag.count"/>
-                </for>
-                <for src="tagslugs" dst="name,slug">
-                    <db:get-or-create model="#Tag" dst="tag"
-                        let:slug="slug"
-                        initial="{'name': name}"/>
-                    <append src="tag.posts" value="post" />
-                    <inc dst="tag.count" />
-                </for>
-                <db:query model="#Tag" filter="#Tag.count lte 0" action="delete" />
-            </db:atomic>
+            <db:update src="post.tags" let:count="#Tag.count - 1"/>
+            <for src="tagslugs" dst="name,slug">
+                <db:get-or-create model="#Tag" dst="tag"
+                    let:slug="slug"
+                    initial="{'name': name}"/>
+                <append src="tag.posts" value="post"/>
+                <inc dst="tag.count"/>
+            </for>
+            <db:query model="#Tag" filter="#Tag.count lte 0" action="delete"/>
         </else>
+        </db:atomic>
     </tag>
 
     <tag name="get-related-posts">
         <doc>
-            Get's the IDs of related posts
+            Get's the IDs of related posts.
         </doc>
         <signature>
             <attribute name="post" required="yes"/>

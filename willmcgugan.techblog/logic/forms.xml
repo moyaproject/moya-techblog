@@ -1,5 +1,5 @@
 <moya xmlns="http://moyaproject.com"
-      xmlns:moya="http://moyaproject.com"
+      xmlns:m="http://moyaproject.com"
       xmlns:db="http://moyaproject.com/db"
       xmlns:let="http://moyaproject.com/let"
       xmlns:html="http://moyaproject.com/html"
@@ -17,7 +17,7 @@
 
     <form libname="form.blog.new" xmlns="http://moyaproject.com/forms" style="horizontal" legend="Create Blog">
         <input name="title" label="Title" maxlength="100" required="yes"/>
-        <input  name="slug" label="Slug" maxlength="100" required="no" placeholder="Leave blank to auto-generate" />
+        <input name="slug" label="Slug" maxlength="100" required="no" placeholder="Leave blank to auto-generate" />
         <actions>
             <submit-button visual="primary" name="action" clicked="credit" text="Create Blog"/>
         </actions>
@@ -31,14 +31,14 @@
         <input  name="slug" label="Slug" maxlength="100" required="no" placeholder="Leave blank to auto-generate" />
         <radio-group name="type" label="Type" inline="yes" choices="choices:enum:'#enum.post.type'" initial="'text'" />
 
-        <moya:get-markup-choices dst="markups" />
+        <m:get-markup-choices dst="markups" />
         <select name="markup" label="Markup" choices="markups" initial=".app.settings.default_markup"/>
         <text-area name="content" label="Content" libname="form.post.editor" rows="20"/>
         <input label="Tags" name="tagtext" maxlength="200" required="no" placeholder="comma separated tags"/>
 
         <text-area label="Tag line" name="tagline" rows="3"/>
         <adapt-field field="slug">
-            <moya:return value="slug:values.title" if="not value"/>
+            <m:return value="slug:values.title" if="not value"/>
         </adapt-field>
         <validate-field field="slug">
             <fail if="slug:value != lower:value">Slug should only contain lower-case letters, numbers and hyphens</fail>
@@ -70,7 +70,7 @@
 
     <form libname="form.post.delete" xmlns="http://moyaproject.com/forms">
         <w:dialog>
-            <moya:markdown>Are you sure you wish to delete post *${post.title}*?</moya:markdown>
+            <m:markdown>Are you sure you wish to delete post *${post.title}*?</m:markdown>
             <w:dialog-buttons>
                 <submit-button visual="primary" name="delete" text="Delete" clicked="delete" />
                 <submit-button visual="default" name="cancel" text="Cancel" clicked="cancel" />
@@ -79,10 +79,10 @@
     </form>
 
     <form libname="form.post.publish" xmlns="http://moyaproject.com/forms">
-        <moya:get-url name="showpost" let:slug="post.slug" let:blog="post.blog.slug" dst="posturl" />
+        <m:get-url name="showpost" let:slug="post.slug" let:blog="post.blog.slug" dst="posturl" />
         <w:dialog>
-            <moya:markdown>Are you sure you wish to publish post *${post.title}*?</moya:markdown>
-            <moya:markdown>The URL will be **${posturl}**</moya:markdown>
+            <m:markdown>Are you sure you wish to publish post *${post.title}*?</m:markdown>
+            <m:markdown>The URL will be **${posturl}**</m:markdown>
             <w:dialog-buttons>
                 <submit-button visual="primary" name="publish" text="Publish" clicked="publish" />
                 <submit-button visual="default" name="cancel" text="Cancel" clicked="cancel" />
@@ -91,10 +91,10 @@
     </form>
 
     <form libname="form.post.hide" xmlns="http://moyaproject.com/forms">
-        <moya:get-url name="showpost" let:slug="post.slug" let:blog="post.blog.slug" dst="posturl" />
+        <m:get-url name="showpost" let:slug="post.slug" let:blog="post.blog.slug" dst="posturl" />
         <w:dialog>
-            <moya:markdown>Are you sure you wish to hide post *${post.title}*?</moya:markdown>
-            <moya:markdown>Hidden posts will be visible to admin only</moya:markdown>
+            <m:markdown>Are you sure you wish to hide post *${post.title}*?</m:markdown>
+            <m:markdown>Hidden posts will be visible to admin only</m:markdown>
             <w:dialog-buttons>
                 <submit-button visual="primary" name="hide" text="Hide" clicked="publish" />
                 <submit-button visual="default" name="cancel" text="cancel" clicked="cancel" />
@@ -126,7 +126,7 @@
         </apply-field>
 
         <adapt-field field="slug">
-            <moya:return value="slug:values.title" if="not value"/>
+            <m:return value="slug:values.title" if="not value"/>
         </adapt-field>
     </form>
 
@@ -139,17 +139,15 @@
             <imagelib:select-image collection="channel.images" text="Select an Image" blank="yes"/>
         </field>
 
-
         <input label="Headline" name="headline" maxlength="300"/>
         <text-area label="Tagline" name="tagline" help="Shown in the Post titles" rows="4"/>
-
         <text-area label="Description" name="description" src="description" help="In text format, used in feeds" rows="4"/>
 
         <check-select name="blogs" src="" dst="blogs" label="Blogs" initial="collectids:channel.blogs">
             <db:query model="#Blog" dst="blogs"/>
-            <moya:for src="blogs" dst="blog">
+            <m:for src="blogs" dst="blog">
                 <option value="${blog.id}" selected="blog in channel.blogs">${blog.title}</option>
-            </moya:for>
+            </m:for>
         </check-select>
 
         <actions>
@@ -159,30 +157,27 @@
 
         <adapt-field field="blogs">
             <db:query model="#Blog" filter="#Blog.id in value" collect="list" dst="blogs"/>
-            <moya:return value="blogs"/>
+            <m:return value="blogs"/>
         </adapt-field>
 
         <apply-field field="image">
-            <moya:if test="value==''">
-                <moya:let object.image="None"/>
-                <moya:return/>
-            </moya:if>
+            <m:if test="value==''">
+                <m:let object.image="None"/>
+                <m:return/>
+            </m:if>
             <db:get model="moya.imagelib#Image" let:id="value" dst="object.image"/>
         </apply-field>
 
         <adapt-field field="slug">
-            <moya:return value="slug:values.title" if="not value"/>
+            <m:return value="slug:values.title" if="not value"/>
         </adapt-field>
 
     </form>
     <form libname="form.blog.delete" legend="Delete Blog" style="basic" xmlns="http://moyaproject.com/forms">
         <w:warning>
-            <moya:markdown>**Deleting a blog will permanently remote all associated posts / images**</moya:markdown>
+            <m:markdown>**Deleting a blog will permanently remote all associated posts / images**</m:markdown>
         </w:warning>
-
-        <moya:markdown>
-            Deleting blog '${blog.title}' will remove **${len:blog.posts}** posts
-        </moya:markdown>
+        <m:markdown>Deleting blog '${blog.title}' will remove **${len:blog.posts}** posts</m:markdown>
 
         <checkbox name="confirm" required="yes" text="I understand"/>
         <actions>

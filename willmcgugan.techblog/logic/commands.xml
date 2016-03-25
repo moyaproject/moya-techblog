@@ -2,6 +2,16 @@
       xmlns:db="http://moyaproject.com/db"
       xmlns:let="http://moyaproject.com/let">
 
+    <!--
+
+    Commands are accessed viae the terminal.
+
+    For example:
+
+        moya techblog#cmd.import.techblog
+
+    -->
+
     <command libname="cmd.import.techblog" synopsis="import from django techblog">
         <doc>
             Import a blog exported from Django Techblog
@@ -126,6 +136,7 @@
     </command>
 
     <command libname="cmd.build.tags" synopsis="build tag database">
+        <doc>Rebuild the tags</doc>
         <db:query model="#Tag" action="delete" />
         <db:query model="#Post" filter="#Post.blog.promoted==yes" dst="posts" />
         <progress src="posts" dst="post" msg="building tags...">
@@ -142,6 +153,7 @@
     </command>
 
     <command libname="cmd.init" synopsis="Initialise Blog(s)" init="yes">
+        <doc>Initialize a basic blog</doc>
         <signature>
             <option name="force" action="store_true"
                 help="do not ask permission"/>

@@ -5,8 +5,6 @@
       xmlns:forms="http://moyaproject.com/forms"
       xmlns:tn="http://moyaproject.com/thumbnail">
 
-    <!-- Here's an example JSONRPC interface to get you started. -->
-
     <!-- Use an enumeration so you can refer to error codes by a label -->
     <enum libname="enum.jsonrpc.errors">
         <value id="1" name="no_collection">No such image collection</value>
@@ -24,7 +22,8 @@
             <db:get model="moya.imagelib#Collection" let:uuid="collection_uuid" dst="collection"/>
             <rpc:error code="no_collection" if="not collection"/>
 
-            <db:query model="moya.imagelib#Image" let:collection="collection" filter="moya.imagelib#Image.uuid in images" dst="images"/>
+            <db:query model="moya.imagelib#Image" dst="images"
+                let:collection="collection" filter="moya.imagelib#Image.uuid in images"/>
             <return-dict>
                 <render-template template="rpc/images.html" let:images="images" dst="html"/>
             </return-dict>
@@ -70,6 +69,5 @@
         </rpc:method>
 
     </rpc:interface>
-
 
 </moya>

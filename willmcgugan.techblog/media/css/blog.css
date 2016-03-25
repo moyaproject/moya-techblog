@@ -3,6 +3,12 @@ body
     overflow:auto;
 }
 
+.techblog-main .pagination
+{
+    margin:32px auto;
+    display:table;
+}
+
 .techblog-main p:not(.lead)
 {
     font-size:16px;

@@ -3,6 +3,12 @@
       xmlns:db="http://moyaproject.com/db"
       xmlns:preflight="http://moyaproject.com/preflight">
 
+    <!--
+
+    Preflight checks run when the development server starts up, or with 'moya preflight'
+
+    -->
+
     <preflight:check>
         <db:query model="#Blog" action="count" dst="count"/>
         <preflight:warning if="not count">
