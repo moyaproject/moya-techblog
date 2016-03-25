@@ -10,14 +10,14 @@
             Update tags for a given post.
         </doc>
         <signature>
-            <attribute name="post" required="yes"/>
-            <attribute name="tags" required="no" default="None"/>
+            <attribute name="post" required="yes">Post object</attribute>
+            <attribute name="tags" required="no" default="None">Comma separated tags</attribute>
         </signature>
         <db:atomic>
             <!-- Reduce the count for tags on the post -->
             <db:update src="post.tags" let:count="#Tag.count - 1"/>
             <!-- Re-add tags (if supplied) -->
-            <for src="commasplit:tags" dst="name" if="tags">
+            <for src="stripall:commasplit:tags" dst="name" if="tags">
                 <db:get-or-create model="#Tag" dst="tag"
                     let:slug="slug:name"
                     initial="{'name': name}"/>
