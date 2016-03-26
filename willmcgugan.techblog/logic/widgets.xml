@@ -2,10 +2,9 @@
 This file defines widgets (self contained HTML compaonents) used in content.
 -->
 <moya xmlns="http://moyaproject.com"
-      xmlns:moya="http://moyaproject.com"
-      xmlns:db="http://moyaproject.com/db"
-      xmlns:let="http://moyaproject.com/let"
-      xmlns:techblog="http://willmcgugan.com/techblog">
+    xmlns:db="http://moyaproject.com/db"
+    xmlns:let="http://moyaproject.com/let"
+    xmlns:techblog="http://willmcgugan.com/techblog">
 
     <widget name="post" template="widgets/post.html" undocumented="yes">
         <doc>Render a blog post</doc>
