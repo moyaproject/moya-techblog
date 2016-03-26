@@ -1,12 +1,9 @@
+<!--
+Signals are called in response to verious runtime events.
+-->
 <moya xmlns="http://moyaproject.com"
     xmlns:let="http://moyaproject.com/let"
     xmlns:db="http://moyaproject.com/db">
-
-    <!--
-
-    Signals are called in response to verious runtime events.
-
-    -->
 
     <handle signal="db.post-create" sender="#Blog,#Channel">
         <!-- Auto create an image collection for blogs and channels -->

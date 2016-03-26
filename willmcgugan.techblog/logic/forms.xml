@@ -1,9 +1,11 @@
+<!--
+This file defines the forms used in the Tech Blog.
+-->
+
 <moya xmlns="http://moyaproject.com"
       xmlns:m="http://moyaproject.com"
       xmlns:db="http://moyaproject.com/db"
       xmlns:let="http://moyaproject.com/let"
-      xmlns:html="http://moyaproject.com/html"
-      xmlns:wysihtml5="http://moyaproject.com/wysihtml5"
       xmlns:w="http://moyaproject.com/widgets"
       xmlns:imagelib="http://moyaproject.com/imagelib">
 

@@ -1,9 +1,10 @@
+<!--
+This file defines additional tags. Moya typically uses tags to define a public interface.
+-->
 <moya xmlns="http://moyaproject.com"
     xmlns:let="http://moyaproject.com/let"
     xmlns:db="http://moyaproject.com/db"
     xmlns:soup="http://moyaproject.com/soup">
-
-    <!-- Tags add new high-level functionality -->
 
     <tag name="update-tags">
         <doc>

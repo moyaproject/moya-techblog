@@ -1,3 +1,7 @@
+<!--
+This file adds tables to the auto-generated admin site.
+-->
+
 <moya xmlns="http://moyaproject.com"
       xmlns:moya="http://moyaproject.com"
       xmlns:let="http://moyaproject.com/let"
@@ -7,14 +11,12 @@
 
     <admin:module xmlns="http://moyaproject.com/admin"
         slug="willmcgugan-techblog" title="Tech Blog" description="Manage your Tech Blog">
-
         <link to="#admintable.blogs"/>
         <link to="#admintable.channels" />
         <link to="#admintable.posts"/>
         <link to="#admintable.drafts"/>
         <link to="#admintable.tags"/>
         <link to="#admintable.userlinks"/>
-
     </admin:module>
 
     <table xmlns="http://moyaproject.com/admin" libname="admintable.channels"

@@ -1,3 +1,6 @@
+<!--
+This file defines widgets (self contained HTML compaonents) used in content.
+-->
 <moya xmlns="http://moyaproject.com"
       xmlns:moya="http://moyaproject.com"
       xmlns:db="http://moyaproject.com/db"

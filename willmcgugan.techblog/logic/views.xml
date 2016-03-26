@@ -1,3 +1,6 @@
+<!--
+This file defines the URLs and views for the blog.
+-->
 <moya xmlns="http://moyaproject.com"
       xmlns:let="http://moyaproject.com/let"
       xmlns:db="http://moyaproject.com/db"

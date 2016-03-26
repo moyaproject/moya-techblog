@@ -1,4 +1,6 @@
-
+<!--
+This file defines the image processors used in the blog.
+-->
 <moya xmlns="http://moyaproject.com"
     xmlns:tn="http://moyaproject.com/thumbnail"
     xmlns:image="http://moyaproject.com/image">

@@ -1,3 +1,7 @@
+<!--
+Create a JSONRPC interface which you can see on /jsonrpc/
+-->
+
 <moya xmlns="http://moyaproject.com"
       xmlns:rpc="http://moyaproject.com/jsonrpc"
       xmlns:let="http://moyaproject.com/let"

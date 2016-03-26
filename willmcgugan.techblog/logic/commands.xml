@@ -1,16 +1,13 @@
+<!--
+Defines commands that may be accessed via the terminal.
+
+For example:
+
+    moya techblog#cmd.import.techblog
+-->
 <moya xmlns="http://moyaproject.com"
       xmlns:db="http://moyaproject.com/db"
       xmlns:let="http://moyaproject.com/let">
-
-    <!--
-
-    Commands are accessed viae the terminal.
-
-    For example:
-
-        moya techblog#cmd.import.techblog
-
-    -->
 
     <command libname="cmd.import.techblog" synopsis="import from django techblog">
         <doc>
