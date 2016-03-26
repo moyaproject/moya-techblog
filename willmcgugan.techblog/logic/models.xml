@@ -1,7 +1,6 @@
 <!--
 This file defines all the tables in the database.
 -->
-
 <moya xmlns="http://moyaproject.com"
     xmlns:m="http://moyaproject.com"
     xmlns:let="http://moyaproject.com/let">

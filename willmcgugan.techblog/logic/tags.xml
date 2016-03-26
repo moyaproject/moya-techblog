@@ -80,8 +80,6 @@ This file defines additional tags. Moya typically uses tags to define a public i
             <argument name="chars" default="800" required="yes"/>
         </signature>
         <soup:extract-list src="html" select="p" dst="paragraphs"/>
-
-        <!-- <echo>${1/0}</echo> -->
         <return-str if="not paragraphs"/>
         <pop src="paragraphs" dst="p" key="0"/>
         <let length="len:strip:striptags:p" summary_paragraphs="[p]"/>
