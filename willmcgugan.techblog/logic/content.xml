@@ -1,5 +1,4 @@
 <moya xmlns="http://moyaproject.com"
-      xmlns:moya="http://moyaproject.com"
       xmlns:let="http://moyaproject.com/let"
       xmlns:html="http://moyaproject.com/html"
       xmlns:comments="http://moyaproject.com/comments"
@@ -28,6 +27,8 @@
 
     <content libname="content.blog.base" extends="#content.base">
         <db:query model="#Blog" orderby="title" dst="list_blogs"/>
+        <!-- Sections are top-level content areas -->
+        <!-- This section adds links for admin users -->
         <section name="admin_links" merge="append" if=".permissions.admin">
             <if test=".url.blog">
                 <w:link icon="edit" name="settings" let:blog=".url.blog">Blog Settings</w:link>
@@ -53,7 +54,6 @@
     <content libname="content.list-posts" extends="#content.blog.base" template="list.html">
         <title>${channel.title}</title>
         <section name="content">
-
             <w:paginate src="posts" pagesize=".app.settings.page_size.int" auto="no">
                 <let posts="list:pagination.objects"/>
                 <map src="posts" value="sub:'post-${id}'" dst="comment_objects" />
@@ -62,7 +62,6 @@
                     <techblog:post-summary post="post" numcomments="comment_counts[sub:'post-${post.id}']"/>
                 </for>
             </w:paginate>
-
             <html:div if="not posts" class="alert">No posts yet!</html:div>
         </section>
     </content>
@@ -127,7 +126,7 @@
         <title>Edit Post</title>
         <include-js path="js/editpost.js"/>
         <section name="body">
-            <moya:node template="editor/draft.html" />
+            <node template="editor/draft.html" />
             <w:tab-panel active="edit" id="postedit">
                 <w:tab title="Edit Post" id="edit">
                     <render src="form"/>
@@ -276,7 +275,6 @@
 
     <content libname="content.drafts" extends="#content.base.settings">
         <title>Drafts</title>
-
         <section name="links">
             <w:link name="list" let:blog="blog.slug">${blog.title}</w:link>
         </section>
