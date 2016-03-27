@@ -6,7 +6,7 @@ This file defines all the tables in the database.
     xmlns:let="http://moyaproject.com/let">
 
     <model xmlns="http://moyaproject.com/db" name="Blog" libname="Blog" repr="blog '${slug}'">
-        <foreign-key model="auth#User" name="owner" null="yes" />
+        <foreign-key model="auth#User" name="owner" null="yes" picker="auth#admintable.users"/>
         <string name="title" length="100" null="no" />
         <string name="slug" length="100" null="no" unique="yes"/>
         <datetime label="Created Date" name="created_date" null="no" auto="yes" />
@@ -17,9 +17,9 @@ This file defines all the tables in the database.
         <string name="markup" length="20" default="markdown" />
         <text name="tagline" null="no" default="" help="Displayed in title pages" />
 
-        <text name="props" null="yes"/>
-        <one-to-one name="images" model="moya.imagelib#Collection" null="yes" blank="yes" owner="yes"/>
-        <foreign-key name="image" model="moya.imagelib#Image" null="yes" blank="yes" />
+        <text name="props" null="yes" label="Properties (JSON)"/>
+        <one-to-one name="images" model="moya.imagelib#Collection" null="yes" blank="yes" owner="yes" picker="moya.imagelib#admintable.collections"/>
+        <foreign-key name="image" model="moya.imagelib#Image" null="yes" blank="yes" picker="moya.imagelib#admintable.images"/>
 
         <property name="userlinks" expression="collectmap:[owner.userlinks, 'name']" />
 
@@ -59,15 +59,14 @@ This file defines all the tables in the database.
         <text name="content" null="no" default="" />
         <text name="tagtext" null="no" default="" />
         <text name="props" null="yes"/>
-
     </model>
 
     <model xmlns="http://moyaproject.com/db" libname="Post" extends="#PostFields" repr="post '${title or '#' + str:id}'">
         <unique-together>
-            <foreign-key model="#Blog" name="blog" null="no" owned="yes" backref="posts" />
+            <foreign-key model="#Blog" name="blog" null="no" owned="yes" backref="posts" picker="#admintable.blogs"/>
             <string name="slug" length="100" null="no" blank="no"/>
         </unique-together>
-        <one-to-one name="images" model="moya.imagelib#Collection" null="yes" owner="yes" blank="yes"/>
+        <one-to-one name="images" model="moya.imagelib#Collection" null="yes" owner="yes" blank="yes" picker="moya.imagelib#admintable.collections"/>
         <text name="content_text" label="Content as text" null="yes" />
         <boolean name="published" default="no" />
         <datetime name="published_date" null="yes" />
