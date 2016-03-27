@@ -1,3 +1,8 @@
+function quote(t)
+{
+    return "'" + t + "'";
+}
+
 function FileUploader(url, file, callbacks)
 {
     callbacks['progress'] = callbacks.progress || function(progress) {};
@@ -157,11 +162,11 @@ function FileUploader(url, file, callbacks)
                     set_progress(0);
                     if (xhr.status==413)
                     {
-                        set_error('image is too large');
+                        set_error(quote(file.name) + ' is too large');
                     }
                     else
                     {
-                        set_error('please try again');
+                        set_error(quote(file.name) + ' was not uploaded');
                     }
                 }
             });
@@ -553,11 +558,11 @@ function FileUploader(url, file, callbacks)
                 $progress.fadeOut('fast').remove();
                 if (xhr.status==413)
                 {
-                    set_error('image is too large');
+                    set_error(quote(file.name) + ' is too large');
                 }
                 else
                 {
-                    set_error('please try again');
+                    set_error(quote(file.name) + ' was not uploaded');
                 }
               }
           });

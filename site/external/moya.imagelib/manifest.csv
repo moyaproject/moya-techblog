@@ -2,7 +2,7 @@
 "/__init__.py",e54925e1ed3818adfd6c00bffa62f89d,07f2dead3bac69c65db162b2f4aba71c
 "/docs/index.txt",2926e71550f30306db43f40a43ceb630,3e6a1c51300e932fa2a9f4a19027c6aa
 "/docs/introduction.txt",8e48d5aefc2650742816b7a2076dc6d4,bb782cca5c7a095fea2e040ad905a458
-"/lib.ini",6b490b6e1b1f5c17d24d45ff4a87f761,b80d8334cca887341edf69416f2dd481
+"/lib.ini",160b00b9742577eff6e26cfb67923884,3d4dbd2bd704a489524ab261da547842
 "/locale/readme.txt",06c4fce01453459edb43d2857ebcc873,c44a09c4f28517782589988dd758c62e
 "/logic/admin.xml",cbc6f9850de8d872d14607057d296816,34170083bced7e7152a56f97de053638
 "/logic/content.xml",6ef26b442acb53f57fe5cc5cde1f5a9d,8c858aa2de8d07cb140e0e04d6127755
@@ -20,7 +20,7 @@
 "/media/css/imglib.css",e8048e0a76ba4ff42213ee5cbe4c3c28,4790244af08aa5dddca15b1d4360d1ad
 "/media/img/shade.png",1438aecffe8e9e6293165a3449332b71,68d9390d8aaade540b7ca482b0ab2290
 "/media/img/transparent.png",b94fff9f5d1e04324e3a735acfbe055e,640daccbafb6ab6434d18cebf7875b74
-"/media/js/imglib.js",b00b150b9efccedebd5d6703a6bc6d2a,bfa51294ebe2ad5872953ca95db10272
+"/media/js/imglib.js",0283519248221360625456e1fa85beeb,c05732ed4423bfa6675bcc2173aaf893
 "/media/readme.txt",ca958e537f29bc260e179537ce151dba,77e93fe2d9cd8aa606d603a8dbe35e93
 "/templates/moya.imagelib/base.html",2a1af9c87fffe8bc2ebf710dfc14f133,574401a6d0c7ac8f895eaa32dd6fbfdc
 "/templates/moya.imagelib/emptyoption.html",1357827c4a575bbed3baf5ac4bbcf445,89b2bcf992c9a61f125229c1148495e9
