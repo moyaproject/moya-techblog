@@ -30,10 +30,10 @@
             slug="slug or slug:trim:[first:rpartition:[filename,'.'],100]"/>
 
         <img:read file="file" dst="image_bitmap" filename="filename"/>
-        <catch exception="image.*">
-            <log-warn>Unable to read image</log-warn>
+        <catch exception="image.*" dst="error">
+            <log-warn>Unable to open image '${file.filename}', ${error.msg}</log-warn>
             <serve-json-object>
-                <let-str state="readfail" msg="unable to read image"/>
+                <let-str state="readfail" msg="unable to open '${file.filename}'"/>
             </serve-json-object>
         </catch>
         <let exif="image_bitmap.exif"/>

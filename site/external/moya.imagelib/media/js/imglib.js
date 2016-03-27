@@ -529,6 +529,7 @@ function FileUploader(url, file, callbacks)
                   if (json_result.state != 'ok')
                   {
                       /* TODO: Report message */
+                      set_error(json_result.msg);
                       $progress.remove();
                       return;
                   }
