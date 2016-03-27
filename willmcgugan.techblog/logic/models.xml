@@ -18,7 +18,7 @@ This file defines all the tables in the database.
         <text name="tagline" null="no" default="" help="Displayed in title pages" />
 
         <text name="props" null="yes"/>
-        <one-to-one name="images" model="imagelib#Collection" null="yes" blank="yes" owner="yes"/>
+        <one-to-one name="images" model="moya.imagelib#Collection" null="yes" blank="yes" owner="yes"/>
         <foreign-key name="image" model="moya.imagelib#Image" null="yes" blank="yes" />
 
         <property name="userlinks" expression="collectmap:[owner.userlinks, 'name']" />
@@ -67,7 +67,7 @@ This file defines all the tables in the database.
             <foreign-key model="#Blog" name="blog" null="no" owned="yes" backref="posts" />
             <string name="slug" length="100" null="no" blank="no"/>
         </unique-together>
-        <one-to-one name="images" model="imagelib#Collection" null="yes" owner="yes" blank="yes"/>
+        <one-to-one name="images" model="moya.imagelib#Collection" null="yes" owner="yes" blank="yes"/>
         <text name="content_text" label="Content as text" null="yes" />
         <boolean name="published" default="no" />
         <datetime name="published_date" null="yes" />
@@ -79,7 +79,7 @@ This file defines all the tables in the database.
 
     <model xmlns="http://moyaproject.com/db" libname="Draft" extends="#PostFields" repr="draft '${title or '#' + str:id}'">
         <one-to-one model="#Post" name="post" backref="draft" null="no" owned="yes" picker="#admintable.posts"/>
-        <one-to-one name="images" model="imagelib#Collection" null="yes" owner="yes" blank="yes"/>
+        <one-to-one name="images" model="moya.imagelib#Collection" null="yes" owner="yes" blank="yes"/>
     </model>
 
     <model xmlns="http://moyaproject.com/db" libname="Tag" repr="${name}">

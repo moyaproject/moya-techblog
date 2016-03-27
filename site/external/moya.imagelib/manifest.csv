@@ -2,7 +2,7 @@
 "/__init__.py",e54925e1ed3818adfd6c00bffa62f89d,07f2dead3bac69c65db162b2f4aba71c
 "/docs/index.txt",2926e71550f30306db43f40a43ceb630,3e6a1c51300e932fa2a9f4a19027c6aa
 "/docs/introduction.txt",8e48d5aefc2650742816b7a2076dc6d4,bb782cca5c7a095fea2e040ad905a458
-"/lib.ini",dfa21a0c866f8a3e7299d86a9089840f,748ed18545f70c8bb017dead6a288f7e
+"/lib.ini",6b490b6e1b1f5c17d24d45ff4a87f761,b80d8334cca887341edf69416f2dd481
 "/locale/readme.txt",06c4fce01453459edb43d2857ebcc873,c44a09c4f28517782589988dd758c62e
 "/logic/admin.xml",cbc6f9850de8d872d14607057d296816,34170083bced7e7152a56f97de053638
 "/logic/content.xml",6ef26b442acb53f57fe5cc5cde1f5a9d,8c858aa2de8d07cb140e0e04d6127755
@@ -15,9 +15,9 @@
 "/logic/signals.xml",b6fff350b0ceec108a11816c9e86ed64,ece7ba627fc95e33795cdfb1f795971c
 "/logic/tags.xml",1c9ee51cf107d6d9e691fbe08c215757,9813084b4864bf0daa03d4c445df3f91
 "/logic/thumbs.xml",3ee6909f72be4c4ff3407c79eb4934d5,15f432893e055100fba94d4fb2c2e0de
-"/logic/views.xml",ba1bd7e83c10f21175bff9efee0606ec,bda41a433cfbad8f62fb01170de4be39
+"/logic/views.xml",26eae8f5a78772c000c7c4d5783e706c,09a2c5cdf5697c1c0f5f130a57426f9c
 "/logic/widgets.xml",57d62e0a35f47bb85e616f7e1e7ddd4a,627490b6f73c990953336924cbff9933
-"/media/css/imglib.css",ccfe10ec5ebac87c8ea453ba1d5eaa99,75b14c4e3d7885c993d0768c46189d81
+"/media/css/imglib.css",e8048e0a76ba4ff42213ee5cbe4c3c28,4790244af08aa5dddca15b1d4360d1ad
 "/media/img/shade.png",1438aecffe8e9e6293165a3449332b71,68d9390d8aaade540b7ca482b0ab2290
 "/media/img/transparent.png",b94fff9f5d1e04324e3a735acfbe055e,640daccbafb6ab6434d18cebf7875b74
 "/media/js/imglib.js",b00b150b9efccedebd5d6703a6bc6d2a,bfa51294ebe2ad5872953ca95db10272

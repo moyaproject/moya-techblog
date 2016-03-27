@@ -38,7 +38,7 @@
         </catch>
         <let exif="image_bitmap.exif"/>
         <let if="exif"
-            taken="parsedatetime:[exif.DateTimeOriginal, '%Y:%m:%d %H:%M:%S'] or None"
+            taken="exit.DataTimeOriginal ? parsedatetime:[exif.DateTimeOriginal, '%Y:%m:%d %H:%M:%S'] : None"
             creator="exif.Artist"
             copyright="exif.Copyright"/>
 

@@ -121,19 +121,10 @@
 }
 .moya-imglib-image {
     transform: scale(1.0);
-    /* transition: transform .5s, box-shadow .5s; *
-  /*box-shadow: 0px 0px 0px #666;*/
 }
 .moya-imglib-image:hover {
     cursor: pointer;
 }
-
-/*
-.moya-imglib-image-container:hover  .moya-imglib-image:not(:hover):not(.selected) img
-{
-    opacity:0.5;
-}
-*/
 
 .moya-imglib-image
 {
