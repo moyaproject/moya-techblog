@@ -75,7 +75,7 @@
                 <logins:get-available-providers dst="providers" />
                 <field if="providers">
                     <m:for src="providers" dst="provider">
-                        <logins:login-button provider="${provider}" forward="${.request.GET.fwd or '/'}" class="btn-block"/>
+                        <logins:login-button provider="${provider}" forward="${fwd or .request.GET.fwd or '/'}" class="btn-block"/>
                     </m:for>
                 </field>
             </html:div>
