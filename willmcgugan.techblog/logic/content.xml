@@ -14,7 +14,7 @@ Content is a high level description of a page
     <content libname="content.base" template="base.html" final="yes">
         <include-css path="css/bootstrap.min.css" from="moya.twitter.bootstrap"/>
         <include-css path="css/blog.css" from="willmcgugan.techblog"/>
-        <include-css path="highlight/styles/agate.css" />
+        <include-css path="highlight/styles/github-gist.css" />
 
         <include-js path="js/bootstrap.js" from="moya.twitter.bootstrap"/>
         <include-js path="highlight/highlight.pack.js" />
