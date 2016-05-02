@@ -1,6 +1,7 @@
 {%- def "comment" %}
 <a id="comment${comment.id}" style="margin-top:-50px;position:absolute;"></a>
 <div class="moya-comment clearfix level-${comment.level}{% if comment.level > 0 %} reply{% endif %}">
+
     <div class="moya-comment-body{% if comment.user %} user{% endif %} moya-comment-${comment.id}">
         <a href="#comment${comment.id}">
             <img class="gravatar" alt="gravatar" src="//www.gravatar.com/avatar/${md5:lower:(comment.user.email or comment.commenter_email)}?s=36&amp;d=identicon"/>
@@ -16,18 +17,22 @@
                 <span class="time"> &mdash; <moya insert="willmcgugan.techblog#insert.comment.time" app="techblog" data-timestamp="${comment.time.epoch}"></moya></span>
             </div>
 
-                {% include "widgets/comment_markup.html" %}
-                {%- if commentobject.allow_new %}
-                <div class="moya-comment-actions">
-                    <a href="#" data-commentid="${comment.id}" class="reply">
-                        <i class="fa fa-comments"></i>
-                        {% trans %}Reply to ${comment.user.display_name or comment.commenter_name}{% end %}
-                    </a>
-                </div>
-                {%- endif %}
+            {%- cache for 1d key [commentobject.id, commentobject.updates, comment.id] %}
+            {% include "widgets/comment_markup.html" %}
+            {%- end-cache %}
+
+            {%- if commentobject.allow_new %}
+            <div class="moya-comment-actions">
+                <a href="#" data-commentid="${comment.id}" class="reply">
+                    <i class="fa fa-comments"></i>
+                    {% trans %}Reply to ${comment.user.display_name or comment.commenter_name}{% end %}
+                </a>
+            </div>
+            {%- endif %}
 
         </div>
     </div>
+
     {%- if commentobject.allow_new %}
     {% include "widgets/comment_form_reply.html" %}
     {%- endif %}
@@ -99,13 +104,11 @@
 
 {%- if comments %}
 {% markup-block as 'moya' %}
-{% cache for 1d key [commentobject.id, commentobject.updates, bool:.user] %}
 <div class="moya-comments root">
 {%- for comment in commentgraph.root %}
 {%- call "comment"  %}
 {%- endfor %}
 </div>
-{% endcache %}
 {% end-markup-block %}
 {%- endif %}
 
