@@ -26,8 +26,8 @@
             default_ext="'jpeg'"
             dst_filename="sub:'${path:image_uuid}.${lower:ext:filename or default_ext}'"
             extension="ext:filename"
-            title="trim:[filename, 100]"
-            slug="slug or slug:trim:[first:rpartition:[filename,'.'],100]"/>
+            title="filename[:100]"
+            slug="slug or slug:first:rpartition:[filename,'.'][:100]"/>
 
         <img:read file="file" dst="image_bitmap" filename="filename"/>
         <catch exception="image.*" dst="error">

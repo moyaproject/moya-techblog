@@ -4,18 +4,13 @@
     <mountpoint name="main">
         <url route="/img/{image}" methods="GET" view="#view.image.serve" name="serve_image"/>
         <url route="/collection/{collection}/{filename}" methods="GET" view="#view.collection.image.serve" name="serve_collection_image"/>
-
         <url route="/" mount="#mountpoint.edit" name="edit"/>
-
     </mountpoint>
 
     <mountpoint libname="mountpoint.edit">
-
         <url route="/manage/{collection_name}/" methods="GET,POST" view="#view.collection.manage" name="manage" />
-
         <url route="/picker-upload/{collection}/" methods="POST" view="#view.picker.upload" name="picker_upload" />
         <url route="/uploader-upload/{collection}/{slug}/" methods="POST" view="#view.uploader.upload" name="uploader_upload"/>
-
         <url route="/jsonrpc/" view="#jsonrpc.interface" name="jsonrpc"/>
     </mountpoint>
 

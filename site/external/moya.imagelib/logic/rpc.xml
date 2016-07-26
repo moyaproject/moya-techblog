@@ -47,6 +47,7 @@
             <rpc:parameter name="collection" type="string" required="yes">UUID of collection</rpc:parameter>
             <rpc:parameter name="image" type="string" required="yes">Image UUID</rpc:parameter>
             <rpc:parameter name="bind" type="object" default="None">Form data to submit</rpc:parameter>
+            <rpc:parameter name="edit" type="bool" default="no">Editable image</rpc:parameter>
 
             <db:get model="#Collection" let:uuid="collection" dst="collection"/>
             <rpc:error code="unknown_collection" if="not collection">
@@ -71,6 +72,7 @@
                 let:form="form"/>
 
             <render-template template="widgets/manager/manager_image.html" dst="result.tile_html"
+                let:edit="edit"
                 let:image="image" />
 
             <let result.replace="image.uuid"/>

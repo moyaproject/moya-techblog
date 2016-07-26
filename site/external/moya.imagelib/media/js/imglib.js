@@ -388,7 +388,8 @@ function FileUploader(url, file, callbacks)
             var params = {
                 "collection": collection_uuid,
                 "image": image,
-                "bind": form_data
+                "bind": form_data,
+                "edit": edit
             }
             rpc.call(
                 'image.manager_form',
