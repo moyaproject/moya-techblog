@@ -10,9 +10,8 @@ This file defines the image processors used in the blog.
 
         <tn:processor name="title.blur" version="14" quality="70">
             <image:resize-to-fit height="1080"/>
-           <!-- <image:gaussian-blur radius="16"/> -->
+            <image:gaussian-blur radius="16"/>
         </tn:processor>
-
 
         <tn:processor name="title.sm" quality="80" version="7">
             <image:resize-to-fit height="600"/>
