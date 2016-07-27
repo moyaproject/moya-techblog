@@ -41,11 +41,13 @@ This file defines additional tags. Moya typically uses tags to define a public i
             <attribute name="count" default="5" />
         </signature>
 
-        <cache-return keydata="[3,post.id, post.slug, post.updated_time, count]" for="1d">
+        <cache-return keydata="[4,post.id, post.slug, post.updated_time, count, bool:.permissions.admin]" for="1d">
             <let this_post="post" />
 
             <db:query model="#Post" dst="posts"
-                filter="#Post.blog == post.blog and #Post.published == yes" />
+                filter="#Post.blog == post.blog" />
+
+            <db:query src="posts" let:published="yes" if="not .permissions.admin"/>
 
             <db:query src="posts" filter="#Post.blog in blogs" if="blogs"/>
             <db:query src="posts" filter="#Post.blog == blog" if="blog"/>

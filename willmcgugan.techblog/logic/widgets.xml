@@ -48,7 +48,7 @@ This file defines widgets (self contained HTML compaonents) used in content.
     </widget>
 
     <widget name="related-posts" template="widgets/related_posts.html" synopsis="displays a list of related posts"
-        cachekey="${blog.id}.${collectids:blogs}.${count}.${post.id}" cachefor="1h">
+        cachekey="${blog.id}.${collectids:blogs}.${count}.${post.id}.${.permissions.admin}" cachefor="1h">
         <doc>List related posts (by tag matches)</doc>
         <signature>
             <attribute name="post" required="yes"/>
