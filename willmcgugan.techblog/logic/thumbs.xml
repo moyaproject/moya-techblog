@@ -10,7 +10,7 @@ This file defines the image processors used in the blog.
 
         <tn:processor name="title.blur" version="14" quality="70">
             <image:resize-to-fit height="1080"/>
-            <image:gaussian-blur radius="16"/>
+           <!-- <image:gaussian-blur radius="16"/> -->
         </tn:processor>
 
 
@@ -47,7 +47,7 @@ This file defines the image processors used in the blog.
 
         <!-- a background for expanded images -->
         <tn:processor name="blur" version="6" quality="70">
-            <!-- low quality resample, since we are just going to blut it anyway -->
+            <!-- low quality resample, since we are just going to blur it anyway -->
             <image:resize-to-fit width="800" height="800" resample="nearest"/>
             <image:gaussian-blur radius="6"/>
         </tn:processor>
