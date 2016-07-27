@@ -57,7 +57,7 @@ This file defines widgets (self contained HTML compaonents) used in content.
             <attribute name="blogs" default="None"/>
         </signature>
         <techblog:get-related-posts post="post" blog="blog" blogs="blogs" count="count" dst="post_ids" />
-        <db:query model="#Post" filter="#Post.id in post_ids" orderby="-published_date" dst="posts"/>
+        <db:query model="#Post" filter="#Post.id in post_ids" dst="posts"/>
     </widget>
 
     <widget name="popular-tags" template="widgets/popular_tags.html" synopsis="tags sorted by popularity">
@@ -76,7 +76,7 @@ This file defines widgets (self contained HTML compaonents) used in content.
 
     <widget name="posts-by-month" template="widgets/posts_by_month.html"
         cachekey="${blog.id}.${blog.updated_date}.${year}.${urlname}.${.url}.${.permissions.admin}" cachefor="1h">
-        <doc>A list of posts categorised by published date</doc>
+        <doc>A list of posts categorized by published date</doc>
         <signature>
             <attribute name="blog" required="yes"/>
             <attribute name="year" required="no" type="expression" default=".now.year"/>
