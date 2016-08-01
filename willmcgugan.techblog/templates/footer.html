@@ -5,17 +5,14 @@
             <div class="col-xs-12">
             <p>
                 &copy; ${.app.settings.copyright}
-
                 <a href="{% url 'channel_feed' with channel='root' from 'techblog' %}" class="pull-right footer-link">
                     <i class="fa fa-rss"></i>
                 </a>
-
                 {% if not .user %}
                 <a class="pull-right footer-link" href="{% url 'login' from 'auth' query fwd=.request.url %}" rel="nofollow">Sign In</a>
                 {% else %}
                 <a class="pull-right footer-link" href="{% url 'logout' from 'auth' %}" rel="nofollow">Sign Out</a>
                 {% endif %}
-
                 <a class="pull-right text-warning" href="https://github.com/moyaproject/moya-techblog">A Moya Techblog</a>
             </p>
         </div>
