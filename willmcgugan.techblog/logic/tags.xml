@@ -58,10 +58,10 @@ This file defines additional tags. Moya typically uses tags to define a public i
             <map src="commasplit:post.tagtext" value="slug:$$" dst="tags"/>
             <let common_count="len:(posttags bitand set:tags)"/>
             <append src="matches" if="common_count gt 0"
-                value="[-common_count, (post.published_date or .now), post]"/>
+                value="[common_count, (post.published_date or .now), post]"/>
         </for>
         <list dst="results"/>
-        <for src="sorted:matches" dst="_count,time,post">
+        <for src="reversesorted:matches" dst="_count,time,post">
             <append src="results" value="post"/>
             <break if="len:results gte count" />
         </for>
