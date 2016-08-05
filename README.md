@@ -30,6 +30,6 @@ Navigate to http://127.0.0.1:8000 to see your blog.
 
 ## Deploy with Heroku
 
-Deploy directly to Heroku by clicking the following button (see [this blog post](https://www.willmcgugan.com/blog/tech/post/moya-tech-blog/) for more information).
+Deploy directly to Heroku by clicking the following button (see [this blog post](https://www.willmcgugan.com/blog/tech/post/deploy-moya-tech-blog-with-heroku/) for more information).
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/moyaproject/moya-techblog)
