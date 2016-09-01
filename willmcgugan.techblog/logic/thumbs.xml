@@ -81,4 +81,12 @@ This file defines the image processors used in the blog.
 
     </tn:thumbnails>
 
+
+    <tn:thumbnails libname="thumbnails.og" name="og_images">
+        <tn:processor name="og.preview" quality="80">
+            <image:zoom-to-fit width="1200" height="1200"/>
+        </tn:processor>
+
+    </tn:thumbnails>
+
 </moya>
