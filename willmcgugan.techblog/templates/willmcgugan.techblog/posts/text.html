@@ -7,7 +7,14 @@
 <meta property="og:type" content="article">
 <meta property="og:url" content="{% url 'showpost' base .site.url with blog=post.blog.slug, slug=post.slug %}">
 {%- if post.images.images.0 %}
-<meta property="og:image" content="${post.images.images.0.file|'thumbnail'(processor='og.preview')}">
+{%- extract as "summary_html" replace '' %}
+{% markup-block as 'moya' set post=post %}{% markup post.content as post.markup %}{% end-markup-block %}
+{%- end-extract %}
+{%- let post_img_src=(summary_html|'imgdata').og_preview or summary_html|'imgsrc' %}
+{%- endif %}
+
+{% if post_img_src %}
+<meta property="og:image" content="${post_img_src}">
 <meta property="og:image:width" content="1200"/>
 <meta property="og:image:height" content="1200"/>
 {%- endif %}
