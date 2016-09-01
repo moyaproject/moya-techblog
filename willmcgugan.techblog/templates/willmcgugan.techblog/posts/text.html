@@ -8,6 +8,8 @@
 <meta property="og:url" content="{% url 'showpost' base .site.url with blog=post.blog.slug, slug=post.slug %}">
 {%- if post.images.images.0 %}
 <meta property="og:image" content="${post.images.images.0.file|'thumbnail'(processor='og.preview')}">
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="1200"/>
 {%- endif %}
 <meta property="og:site_name" content="${.settings.project_title} ${post.blog.title}">
 {%- if post.tagline %}
