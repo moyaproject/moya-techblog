@@ -3,12 +3,11 @@
 
 {% block "head" append %}
 <link rel="canonical" href="{% url 'showpost' base .site.url with blog=post.blog.slug, slug=post.slug %}" >
-
 <meta property="og:title" content="${post.title}">
 <meta property="og:type" content="article">
 <meta property="og:url" content="{% url 'showpost' base .site.url with blog=post.blog.slug, slug=post.slug %}">
 {%- if post.images.images.0 %}
-<meta property="og:image" content="${.site.url}${post.images.images.0.file|'thumbnail'(processor='og.preview')}">
+<meta property="og:image" content="${post.images.images.0.file|'thumbnail'(processor='og.preview')}">
 {%- endif %}
 <meta property="og:site_name" content="${.settings.project_title} ${post.blog.title}">
 {%- if post.tagline %}
@@ -16,7 +15,6 @@
 {%- else %}
 <meta property="og:description" content="{% summarize chars 300 %}{% markup post.content as post.markup %}{% end %}">
 {%- endif %}
-
 {% end-block %}
 
 {% block "titles" %}
