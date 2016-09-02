@@ -42,7 +42,7 @@
     src="${image.file|'thumbnail'(processor='lg')}">
 {% end-compact %}
 {%- end-spaceless %}
-{%- if strip:image.description %}
+{%- if strip:(image.description or '') %}
 <figcaption class="techblog-image-caption text-muted">{% if image.type_name == 'photo' %}<p class="pull-left camera-icon"><i class="fa fa-camera"></i></p>{% endif %}{% markup image.description as 'markdown' %}</figcaption>
 {% endif %}
 </figure>

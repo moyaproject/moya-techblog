@@ -3,27 +3,34 @@
 
 {% block "head" append %}
 <link rel="canonical" href="{% url 'showpost' base .site.url with blog=post.blog.slug, slug=post.slug %}" >
-<meta property="og:title" content="${post.title}">
-<meta property="og:type" content="article">
-<meta property="og:url" content="{% url 'showpost' base .site.url with blog=post.blog.slug, slug=post.slug %}">
-{%- if post.images.images.0 %}
-{%- extract as "summary_html" replace '' %}
-{% markup-block as 'moya' set post=post %}{% markup post.content as post.markup %}{% end-markup-block %}
-{%- end-extract %}
-{%- let post_img_src=(summary_html|'imgdata').og_preview or summary_html|'imgsrc' %}
-{%- endif %}
+{% endblock %}
 
-{% if post_img_src %}
-<meta property="og:image" content="${post_img_src}">
-<meta property="og:image:width" content="1200"/>
-<meta property="og:image:height" content="1200"/>
-{%- endif %}
-<meta property="og:site_name" content="${.settings.project_title} ${post.blog.title}">
-{%- if post.tagline %}
-<meta property="og:description" content="{% markup post.tagline as post.markup %}">
-{%- else %}
-<meta property="og:description" content="{% summarize chars 300 %}{% markup post.content as post.markup %}{% end %}">
-{%- endif %}
+{% block "og" %}
+{%- cache for 1d key [post.published_date, post.updated_date, post.published] %}
+
+        <meta property="og:title" content="${post.title}">
+        <meta property="og:type" content="article">
+        <meta property="og:url" content="{% url 'showpost' base .site.url with blog=post.blog.slug, slug=post.slug %}">
+        <meta property="og:site_name" content="${.settings.project_title} ${post.blog.title}">
+        {%- if post.tagline %}
+        <meta property="og:description" content="{% markup post.tagline as post.markup %}">
+        {%- else %}
+        <meta property="og:description" content="{% summarize chars 300 %}{% markup post.content as post.markup %}{% end %}">
+        {%- endif %}
+
+        {%- extract as "summary_html" replace '' %}
+        {% markup-block as 'moya' set post=post %}{% markup post.content as post.markup %}{% end-markup-block %}
+        {%- end-extract %}
+
+        {%- for data in (summary_html|'allimgdata') if data.og_preview %}
+        <meta property="og:image" content="${data.og_preview}">
+        {%- empty %}
+        {%- with img_src=summary_html|'imgsrc' %}
+        {%- if img_src %}<meta property="og:image" content="${img_src}">{% endif %}
+        {%- endwith %}
+        {%- end-for %}
+
+{%- end-cache %}
 {% end-block %}
 
 {% block "titles" %}
