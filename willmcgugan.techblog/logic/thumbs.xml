@@ -5,8 +5,8 @@ This file defines the image processors used in the blog.
     xmlns:tn="http://moyaproject.com/thumbnail"
     xmlns:image="http://moyaproject.com/image">
 
+    <!-- Images shown in the titles -->
     <tn:thumbnails libname="thumbnails.blog.titles" name="title_images">
-        <!-- Images shown in the titles -->
 
         <tn:processor name="title.blur" version="14" quality="70">
             <image:resize-to-fit height="1080"/>
@@ -25,7 +25,6 @@ This file defines the image processors used in the blog.
             <image:resize-to-fit height="1080"/>
         </tn:processor>
 
-
         <!-- High DPI versions of the above -->
         <tn:processor name="title.sm2x" quality="80" version="8">
             <image:resize-to-fit height="1200"/>
@@ -41,8 +40,8 @@ This file defines the image processors used in the blog.
 
     </tn:thumbnails>
 
+    <!-- Images shown in posts -->
     <tn:thumbnails libname="thumbnails.blog.content" name="post_images">
-        <!-- Images shown in posts -->
 
         <!-- a background for expanded images -->
         <tn:processor name="blur" version="6" quality="70">
@@ -78,15 +77,13 @@ This file defines the image processors used in the blog.
         <tn:processor name="xlg2x" quality="75" version="2">
             <image:resize-to-fit width="3840" height="2160"/>
         </tn:processor>
-
     </tn:thumbnails>
 
-
+    <!-- Open Graph preview image (as used by Facebook) -->
     <tn:thumbnails libname="thumbnails.og" name="og_images">
         <tn:processor name="og.preview" quality="80" version="2">
             <image:resize-to-fit width="1200" height="1200"/>
         </tn:processor>
-
     </tn:thumbnails>
 
 </moya>
