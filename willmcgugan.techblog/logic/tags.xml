@@ -61,7 +61,7 @@ This file defines additional tags. Moya typically uses tags to define a public i
                 value="[common_count, (post.published_date or .now), post]"/>
         </for>
         <list dst="results"/>
-        <for src="reversesorted:matches" dst="_count,time,post">
+        <for src="rsorted:matches" dst="_count,time,post">
             <append src="results" value="post"/>
             <break if="len:results gte count" />
         </for>
