@@ -57,7 +57,7 @@ $("#${managerid}").imgmanager({
             <w:option value="''">
                 <node template="emptyoption.html" let:text="text"/>
             </w:option>
-            <for src="sortedkey:[collection.images, 'title']" dst="image">
+            <for src="sortedby:[collection.images, `title`]" dst="image">
                 <w:option value="image[key]">
                     <node template="option.html" let:img="image"/>
                 </w:option>
