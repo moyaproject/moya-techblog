@@ -815,14 +815,20 @@ ul.techblog-post-paginator li a
 }
 
 
-.techblog-image-caption
+figure .techblog-image-caption
 {
     color:#666;
-    font-size:12px;
+    font-weight:bold;
+
     padding-bottom:0.5em;
     padding-top:0.5em;
     margin-bottom:2em;
     border-bottom:1px dotted #ccc;
+}
+
+figure .techblog-image-caption > p
+{
+    font-size: 13.5px !important;
 }
 
 .techblog-image-caption .copyright
