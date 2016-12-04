@@ -43,7 +43,7 @@ figcaption > p.camera-icon
 
 figcaption i.fa
 {
-    margin-right:4px;
+    margin-right:8px;
 }
 
 .btn-social>:first-child
@@ -777,6 +777,13 @@ ul.techblog-post-paginator li a
         margin:0 !important;
     }
 
+    img.techblog-image
+    {
+        margin-left:-15px;
+        width:calc(100% + 30px);
+        max-width:calc(100% + 30px);
+    }
+
 }
 
 
@@ -810,7 +817,21 @@ ul.techblog-post-paginator li a
 
 .techblog-image-caption
 {
-    color:#333;
+    color:#666;
+    font-size:12px;
+    padding-bottom:0.5em;
+    padding-top:0.5em;
+    margin-bottom:2em;
+    border-bottom:1px dotted #ccc;
+}
+
+.techblog-image-caption .copyright
+{
+    font-size:12px;
+    /* margin-top:-2px; */
+    margin-bottom:8px;
+    font-weight:normal;
+    color:#777;
 }
 
 .techblog-post-info
