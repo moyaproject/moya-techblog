@@ -71,7 +71,7 @@
                         {%- endfor %}
                     </p>
                     {%- if post.tagline %}
-                    <div class="lead tagline">{% markup post.tagline as post.markup %}</div>
+                    <div class="lead tagline hidden-xs">{% markup post.tagline as post.markup %}</div>
                     {%- else %}
                     <p class="lead tagline summary hidden-xs">
                         {%- summarize chars 300 %}
