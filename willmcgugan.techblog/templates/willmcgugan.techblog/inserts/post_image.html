@@ -32,7 +32,7 @@
 <img
     width="${1140}" height="${int:round:(1140 / image.aspect)}"
     {% attrib name=image.slug, class=['img-responsive', 'techblog-image', 'techblog-image-type-' + image.type_name], title=image.title %}
-    {% data-attrib width=image.width, height=image.height, slug=image.slug, og_preview=og_preview, square=square, blur=blur, sm=sm, md=md, lg=lg, xlg=xlg, xlg2x=xlg2x, details=(details or ' '), oauthor=sub:'${image.copyright}<br>${image.license}', toggle="tooltip" %}
+    {% data-attrib width=image.width, height=image.height, slug=image.slug, og_preview=og_preview, square=square, blur=blur, sm=sm, md=md, lg=lg, xlg=xlg, xlg2x=xlg2x, details=(details or ' '), author=sub:'${image.copyright}<br>${image.license}', toggle="tooltip" %}
     sizes="(min-width: 1200px) 1170px,
            (min-width: 992px) 970px,
            (min-width: 768px) 750px"
