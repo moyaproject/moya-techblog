@@ -10,8 +10,8 @@
 
         {%- if post.userlinks.twitter %}
         <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:site" content="@${post.userlinks.twitter.label}">
-        <meta name="twitter:creator" content="@${post.userlinks.twitter.label}">
+        <meta name="twitter:site" content="${post.userlinks.twitter.label}">
+        <meta name="twitter:creator" content="${post.userlinks.twitter.label}">
         {%- endif %}
         <meta property="og:title" content="${post.title}">
         <meta property="og:type" content="article">
