@@ -6,8 +6,13 @@
 {% endblock %}
 
 {% block "og" %}
-{%- cache for 1d key [post.published_date, post.updated_date, post.published] %}
+{%- cache for 1d key [post.published_date, post.updated_date, post.published, 2] %}
 
+        {%- if post.userlinks.twitter %}
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@${post.userlinks.twitter.label}">
+        <meta name="twitter:creator" content="@${post.userlinks.twitter.label}">
+        {%- endif %}
         <meta property="og:title" content="${post.title}">
         <meta property="og:type" content="article">
         <meta property="og:url" content="{% url 'showpost' base .site.url with blog=post.blog.slug, slug=post.slug %}">
