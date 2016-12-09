@@ -16,9 +16,6 @@
     <div class="form-group inline">
         <input type="submit" class="btn btn-sm btn-primary" value="Comment" />
         <a class="btn btn-default btn-sm cancel" data-commentid="${comment.id}">{% trans %}Cancel{% end %}</a>
-        <label class="moya-comment-replies checkbox-inline">
-            <input type="checkbox" name="subscribe" checked="checked">
-            {% trans %}Email me about replies{% end %}
-        </label>
+        <input type="hidden" name="subscribe" value="on" />
     </div>
 </form>
