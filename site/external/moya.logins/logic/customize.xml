@@ -8,6 +8,7 @@
 
     <content libname="moya.comments#content.anoncomment" template="base.html">
         <title>New Comment </title>
+        <get-url from="moya.comments" name="pendingcomment" dst="comment_url"/>
         <section name="body">
             <node template="login_container.html" from="moya.auth">
                 <w:warning>
@@ -15,7 +16,7 @@
                 </w:warning>
                 <w:tab-panel active="login">
                     <w:tab id="login" title="Sign-In">
-                        <forms:get form="moya.auth#form.login" dst="login_form" legend="" let:fwd=".appurls.pendingcomment"/>
+                        <forms:get form="moya.auth#form.login" dst="login_form" legend="" let:fwd="comment_url"/>
                         <render src="login_form"/>
                     </w:tab>
                     <w:tab id="details" title="Post without Signing In">

@@ -60,10 +60,11 @@
         "scope": ["email", "public_profile"],
 
         "resources": {
-            "profile": "https://graph.facebook.com/me?"
+            "profile": "https://graph.facebook.com/me?&fields=name,email,first_name,last_name"
         },
 
         "profile": {
+            "username": "slug:(profile.first_name or profile.name)",
             "first_name": "profile.first_name or ''",
             "last_name": "profile.last_name or ''",
             "email": "profile.email",
