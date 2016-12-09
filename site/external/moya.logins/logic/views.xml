@@ -84,9 +84,12 @@
 
             <if test="not user and .app.settings.pick_username.bool">
                 <var dst=".session.oauth_profile" value="oauth_profile"/>
+                <let profile="oauth_profile.profile"
+                    username="profile.username or ''"
+                    email="profile.email or ''"/>
                 <redirect name="pick_username"
                     let:provider=".url.provider"
-                    query="username=oauth_profile.profile.username or ''" />
+                    query="username=username,email=email" />
             </if>
 
             <call macro="#new_user" if="not user"
@@ -129,9 +132,11 @@
 
             <if test="not user and .app.settings.pick_username.bool">
                 <var dst=".session.oauth_profile" value="oauth_profile"/>
+                <let username="oauth_profile.profile.username or ''"
+                    email="oauth_profile.profile.email or ''"/>
                 <redirect name="pick_username"
                     let:provider=".url.provider"
-                    query="username=oauth_profile.profile.username or ''" />
+                    query="username=username,email=email" />
             </if>
 
             <call macro="#new_user" if="not user"
@@ -141,7 +146,7 @@
                 dst="user"/>
         </try>
         <catch exception="moya.logins.insecure-transport" dst="e">
-            <log-warn>OAuth2 login failed (${e.msg})</log-warn>
+            <log-warn>Login failed (${e.msg})</log-warn>
             <log-warn>OAuth2 requires HTTPS</log-warn>
             <log-warn>During development do 'export OAUTHLIB_INSECURE_TRANSPORT=1'</log-warn>
         </catch>
@@ -171,28 +176,22 @@
 
     <view libname="view.pick_username" content="#content.pick_username">
         <not-found if="not .session.oauth_profile" />
-        <forms:get form="#form.pick_username" dst="form" let:username=".request.GET.username"/>
+        <forms:get form="#form.pick_username" dst="form"
+            let:username=".request.GET.username"
+            let:email=".request.GET.email"/>
         <forms:validate src="form">
-            <db:get model="moya.auth#User" let:username="form.data.username" dst="user" />
-            <if test="user">
-                <forms:error>Sorry, that username is taken. Please pick another.</forms:error>
-                <done/>
-            </if>
-
+            <db:get model="moya.auth#User" let:username="form.data.email" dst="user" />
             <call macro="#new_user"
                 let:profile=".session.oauth_profile.profile"
                 let:info=".session.oauth_profile.info"
                 let:provider=".url.provider"
                 let:username="form.data.username"
+                let:email="form.data.email"
                 dst="user"/>
-            <redirect name="login" from="moya.auth"
-                query="fwd=.session.login_fwd or '/',error='nouser',provider=.url.provider" if="not user"/>
+            <redirect name="login" from="moya.auth" if="not user"
+                query="fwd=.session.login_fwd or '/',error='nouser',provider=.url.provider"/>
             <redirect-to url="${.session.login_fwd or '/'}"/>
         </forms:validate>
-    </view>
-
-    <view libname="view.login2">
-
     </view>
 
 </moya>

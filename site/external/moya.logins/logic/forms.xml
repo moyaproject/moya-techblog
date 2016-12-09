@@ -4,7 +4,8 @@
     xmlns:m="http://moyaproject.com"
     xmlns:logins="http://moyaproject.com/logins"
     xmlns:let="http://moyaproject.com/let"
-    xmlns:w="http://moyaproject.com/widgets">
+    xmlns:w="http://moyaproject.com/widgets"
+    xmlns:db="http://moyaproject.com/db">
 
     <form xmlns="http://moyaproject.com/forms"
         libname="form.provider.credentials" style="horizontal">
@@ -87,6 +88,8 @@
     <form libname="form.pick_username" xmlns="http://moyaproject.com/forms" style="horizontal" class="moya-logins-pick-username well">
         <m:include-css path="css/logins.css"/>
         <input label="Username" name="username" initial="username" required="yes" adapt="strip:value"/>
+        <input label="Email" name="email" initial="email" required="yes" adapt="strip:value"/>
+
         <submit-button text="Create Account" visual="success" block="yes"/>
 
         <validate-field field="username">
@@ -97,6 +100,18 @@
             <fail if="value in data:['moya.auth', 'reserved_usernames.json']">
                 Sorry, this username is reserved
             </fail>
+            <db:if-exists model="moya.auth#User" let:username="value">
+                <fail>Sorry, that username is taken. Please pick another.</fail>
+            </db:if-exists>
+        </validate-field>
+
+        <validate-field field="email">
+            <fail if="not isemail:value">
+                Please enter a valid email address
+            </fail>
+            <db:if-exists model="moya.auth#User" let:email="value">
+                <fail>Sorry, that email address already has an account.</fail>
+            </db:if-exists>
         </validate-field>
     </form>
 

@@ -55,6 +55,7 @@
             <argument name="profile"/>
             <argument name="info"/>
             <argument name="username"/>
+            <argument name="email" required="no"/>
         </signature>
         <db:get-or-create model="#ProviderCounter" let:provider="provider" dst="provider_counter"/>
         <!-- No user, auto-create one... -->
@@ -65,15 +66,13 @@
         <repeat times="auto_user ? 100 : 1">
             <auth:new-user
                 username="username"
-                email="profile.email"
+                email="email or profile.email"
                 email_validated="yes"
                 first_name="profile.first_name or None"
                 last_name="profile.last_name or None"
                 password="None"
                 dst="user" />
             <catch exception="moya.auth.duplicate-user" dst="error">
-                <echo obj="error"/>
-                <log-debug>duplicate username ${username}</log-debug>
                 <inc dst="provider_counter.count" />
                 <str dst="username">${provider}user${provider_counter.count::"02n"}</str>
                 <continue/>
