@@ -6,6 +6,7 @@ This file defines the URLs and views for the blog.
       xmlns:db="http://moyaproject.com/db"
       xmlns:forms="http://moyaproject.com/forms"
       xmlns:techblog="http://willmcgugan.com/techblog"
+      xmlns:comments="http://moyaproject.com/comments"
       xmlns:imglib="http://moyaproject.com/imagelib">
 
     <mountpoint name="main">
@@ -293,6 +294,7 @@ This file defines the URLs and views for the blog.
     <view libname="view.publish.post" requires="permission:'admin'">
         <db:get-required model="#Post" dst="post" let:id="url.id" />
         <let post.published="yes" post.published_date=".now" if="not .request.POST.cancel"/>
+        <comments:subscribe user=".user"  namespace="app-${.app.name}" topic="post-${post.id}" />
         <redirect name="showpost" let:blog="post.blog.slug" let:slug="post.slug" />
     </view>
 
