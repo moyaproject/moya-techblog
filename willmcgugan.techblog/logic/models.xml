@@ -3,7 +3,8 @@ This file defines all the tables in the database.
 -->
 <moya xmlns="http://moyaproject.com"
     xmlns:m="http://moyaproject.com"
-    xmlns:let="http://moyaproject.com/let">
+    xmlns:let="http://moyaproject.com/let"
+    xmlns:db="http://moyaproject.com/db">
 
     <model xmlns="http://moyaproject.com/db" name="Blog" libname="Blog" repr="blog '${slug}'">
         <foreign-key model="auth#User" name="owner" null="yes" picker="auth#admintable.users"/>
@@ -74,6 +75,12 @@ This file defines all the tables in the database.
         <integer name="update" null="no" default="0" />
         <foreign-key model="auth#User" name="owner" null="yes" picker="moya.auth#admintable.users" />
         <property name="userlinks" expression="collectmap:[owner.userlinks, 'name']" />
+        <property name="title_image" cache="yes">
+            <db:get model="moya.imagelib#Image" dst="image"
+                src="object.images.images" let:slug="'title'"/>
+            <m:return value="image or object.blog.image"/>
+        </property>
+
     </model>
 
     <model xmlns="http://moyaproject.com/db" libname="Draft" extends="#PostFields" repr="draft '${title or '#' + str:id}'">
