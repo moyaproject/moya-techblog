@@ -29,6 +29,7 @@ Content is a high level description of a page
         <!-- Sections are top-level content areas -->
         <!-- This section adds links for admin users -->
         <section name="admin_links" merge="append" if=".permissions.admin">
+
             <if test=".url.blog">
                 <w:link icon="edit" name="settings" let:blog=".url.blog">Blog Settings</w:link>
             </if>
@@ -40,6 +41,7 @@ Content is a high level description of a page
             <for src="list_blogs" dst="b">
                 <w:link icon="${.url.blog==b.slug ? 'star' : 'star-empty'}" name="list" let:blog="b.slug">${b.title}</w:link>
             </for>
+
         </section>
     </content>
 
