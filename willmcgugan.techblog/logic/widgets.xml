@@ -74,7 +74,7 @@ This file defines widgets (self contained HTML compaonents) used in content.
     </widget>
 
     <widget name="posts-by-month" template="widgets/posts_by_month.html"
-        cachekey="${blog.id}.${blog.updated_date}.${year}.${urlname}.${.url}.${.permissions.admin}" cachefor="1h">
+        cachekey="${blog.id}.${blog.updated_date}.${year}.${urlname}.${.request.path}.${.permissions.admin}" cachefor="1h">
         <doc>A list of posts categorized by published date</doc>
         <signature>
             <attribute name="blog" required="yes"/>
