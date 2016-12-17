@@ -67,7 +67,8 @@ This file defines all the tables in the database.
             <foreign-key model="#Blog" name="blog" null="no" owned="yes" backref="posts" picker="#admintable.blogs"/>
             <string name="slug" length="100" null="no" blank="no"/>
         </unique-together>
-        <one-to-one name="images" model="moya.imagelib#Collection" null="yes" owner="yes" blank="yes" picker="moya.imagelib#admintable.collections"/>
+        <one-to-one name="images" model="moya.imagelib#Collection" null="yes" owner="yes" blank="yes"
+            picker="moya.imagelib#admintable.collections"/>
         <text name="content_text" label="Content as text" null="yes" />
         <boolean name="published" default="no" />
         <datetime name="published_date" null="yes" />
@@ -77,12 +78,12 @@ This file defines all the tables in the database.
         <property name="userlinks" expression="collectmap:[owner.userlinks, 'name']" />
         <property name="title_image" cache="yes">
 
-            <m:let image="(collectmap:[object.images.images, 'slug'])['title']"/>
+            <m:let imagex="object.images.images[`slug=='title'`]"/>
 
-            <!--
             <db:get model="moya.imagelib#Image" dst="image"
                 src="object.images.images" let:slug="'title'"/>
-            -->
+
+            <m:log-debug>${imagex.id} - ${image.id}</m:log-debug>
 
             <m:return value="image or object.blog.image or None"/>
         </property>
