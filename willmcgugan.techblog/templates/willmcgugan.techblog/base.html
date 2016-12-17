@@ -82,9 +82,9 @@
 
         </style>
 
-        {% let title_image = post.title_image or blog.image %}
+        {% let title_image = post.title_image %}
         {% if title_image %}
-        {% cache for 1d key [blog.id, post.id, post.updated_date, title_image.updated_time, title_image.id] %}
+        {% cache for 1d key [title_image.updated_time, title_image.id] %}
         <style>
         .techblog-post-image-preview
         {

@@ -76,9 +76,10 @@ This file defines all the tables in the database.
         <foreign-key model="auth#User" name="owner" null="yes" picker="moya.auth#admintable.users" />
         <property name="userlinks" expression="collectmap:[owner.userlinks, 'name']" />
         <property name="title_image" cache="yes">
+            <!-- <m:breakpoint /> -->
             <db:get model="moya.imagelib#Image" dst="image"
                 src="object.images.images" let:slug="'title'"/>
-            <m:return value="image or object.blog.image"/>
+            <m:return value="image or object.blog.image or None"/>
         </property>
 
     </model>
