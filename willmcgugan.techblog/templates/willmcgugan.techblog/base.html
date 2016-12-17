@@ -82,7 +82,7 @@
 
         </style>
 
-        {% let title_image = post.title_image %}
+        {% let title_image = post.title_image or blog.image %}
         {% if title_image %}
         {% cache for 1d key [title_image.updated_time, title_image.id] %}
         <style>
