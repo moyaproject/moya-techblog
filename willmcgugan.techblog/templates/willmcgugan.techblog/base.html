@@ -84,9 +84,8 @@
 
         {% let title_image = post.title_image or blog.image %}
         {% if title_image %}
-        {% cache for 1d key [blog.id, post.id, title_image.updated_time, title_image.id] %}
+        {% cache for 1d key [blog.id, post.id, post.updated_date, title_image.updated_time, title_image.id] %}
         <style>
-
         .techblog-post-image-preview
         {
             background-image:url("${title_image.file|'thumbnail'(processor="title.blur")}");
@@ -164,7 +163,7 @@
 
     </head>
 
-    <body {% if blog.image %}data-title_image_preview="${blog.image.file|'thumbnail'(processor="title.blur")}"{% endif %}>
+    <body {% if title_image %}{% cache for 1d key [title_image.id] %}data-title_image_preview="${title_image.file|'thumbnail'(processor="title.blur")}"{% end-cache %}{% endif %}>
         <input type="hidden" name="techblog_rpc" value="{% url 'rpc' from 'willmcgugan.techblog' %}" />
         {% include "/navbar.html" %}
 
