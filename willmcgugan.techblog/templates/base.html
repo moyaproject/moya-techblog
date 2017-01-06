@@ -125,11 +125,11 @@
 
     {% include "/ga.html" %}
 
-    <script src="{% media 'js/jquery.js' from 'moya.twitter.bootstrap' %}"></script>
-    <script src="{% media 'js/bootstrap.js' from 'moya.twitter.bootstrap' %}"></script>
+    <script src="{% media 'js/jquery.js' from 'moya.twitter.bootstrap' %}" defer></script>
+    <script src="{% media 'js/bootstrap.js' from 'moya.twitter.bootstrap' %}" defer></script>
 
-    <script src="{% media "js/techblog.js" from "willmcgugan.techblog" %}"></script>
-    <script src="{% media "js/jsonrpc.js" from "moya.jsonrpc" %}"></script>
+    <script src="{% media "js/techblog.js" from "willmcgugan.techblog" %}" defer></script>
+    <script src="{% media "js/jsonrpc.js" from "moya.jsonrpc" %}" defer></script>
 
     {% block "includejs" %}{% render include.js %}{% endblock %}
     {% block "js" %}{% render sections.js unique %}{% endblock %}

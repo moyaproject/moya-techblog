@@ -16,10 +16,10 @@ Content is a high level description of a page
         <include-css path="css/blog.css" from="willmcgugan.techblog"/>
         <include-css path="highlight/styles/github-gist.css" />
 
-        <include-js path="js/bootstrap.js" from="moya.twitter.bootstrap"/>
-        <include-js path="highlight/highlight.pack.js" />
-        <include-js path="js/techblog.js"/>
-        <include-js path="js/jsonrpc.js" from="moya.jsonrpc" />
+        <include-js path="js/bootstrap.js" from="moya.twitter.bootstrap" defer="yes"/>
+        <include-js path="highlight/highlight.pack.js" async="yes"/>
+        <include-js path="js/techblog.js" defer="yes"/>
+        <include-js path="js/jsonrpc.js" from="moya.jsonrpc" defer="yes"/>
 
         <db:query model="#Blog" let:promoted="yes" orderby="title" dst="promoted_blogs" />
     </content>
