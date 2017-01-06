@@ -17,7 +17,7 @@ Content is a high level description of a page
         <include-css path="highlight/styles/github-gist.css" />
 
         <include-js path="js/bootstrap.js" from="moya.twitter.bootstrap" defer="yes"/>
-        <include-js path="highlight/highlight.pack.js" async="yes"/>
+        <include-js path="highlight/highlight.pack.js" defer="yes"/>
         <include-js path="js/techblog.js" defer="yes"/>
         <include-js path="js/jsonrpc.js" from="moya.jsonrpc" defer="yes"/>
 
