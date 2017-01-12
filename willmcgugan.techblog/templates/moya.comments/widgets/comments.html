@@ -15,12 +15,8 @@
                 {%- else %}
                 <span class="name">${comment.user.display_name or comment.commenter_name}</span>
                 {%- endif %}
-
-                <span class="time"> &mdash;
                 {%- let age = .now.utc - epoch:comment.time.epoch %}
-                <span>{% if age.seconds lt 60 %}just now{% else %}${localize:age} ago{% end-if %}</span>
-
-                </span>
+                <span class="time">&mdash;{% if age.seconds lt 60 %}just now{% else %}${localize:age} ago{% end-if %}</span>
             </div>
 
             {%- cache for 1d key [commentobject.id, commentobject.updates, comment.id] %}
