@@ -14,7 +14,7 @@
                 <a href="${comment.commenter_url}" class="name">${comment.user.display_name or comment.commenter_name}</a>
                 {%- else %}
                 <span class="name">${comment.user.display_name or comment.commenter_name}</span>
-                {%- endif %}a
+                {%- endif %}
                 <span class="time"> &mdash; {% if age.seconds lt 60 %}just now{% else %}${localize:age} ago{% end-if %}</span>
             </div>
 
@@ -34,9 +34,7 @@
         </div>
     </div>
 
-    {%- if commentobject.allow_new %}
-    {% include "widgets/comment_form_reply.html" %}
-    {%- endif %}
+    {%- include "widgets/comment_form_reply.html" if commentobject.allow_new %}
     {%- if commentgraph[comment.id] %}
     <div class="moya-comments">
         {%- for comment in commentgraph[comment.id] %}
@@ -90,9 +88,7 @@
 </div>
 {%- endif %}
 
-{%- if commentobject.allow_new and not commentobject.hide %}
-{% include "widgets/comment_form_new.html" %}
-{%- endif %}
+{%- include "widgets/comment_form_new.html" if commentobject.allow_new and not commentobject.hide %}
 
 {%- if not commentobject.hide %}
 {%- with numcomments=len:comments %}
