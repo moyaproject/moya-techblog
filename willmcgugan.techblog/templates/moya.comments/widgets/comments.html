@@ -1,9 +1,9 @@
 {% let comment_csrf=csrf:'moya.comments#form.comment' %}
 {%- def "comment" %}
+{%- let age = .now.utc - epoch:comment.time.epoch %}
 <a id="comment${comment.id}" style="margin-top:-50px;position:absolute;"></a>
 <div class="moya-comment clearfix level-${comment.level}{% if comment.level > 0 %} reply{% endif %}">
 
-    {%- cache for 60s key [commentobject.id, commentobject.updates, commentobject.allow_new, comment.id] %}
     <div class="moya-comment-body{% if comment.user %} user{% endif %} moya-comment-${comment.id}">
         <a href="#comment${comment.id}">
             <img class="gravatar" alt="gravatar" src="//www.gravatar.com/avatar/${md5:lower:(comment.user.email or comment.commenter_email)}?s=36&amp;d=identicon"/>
@@ -14,8 +14,7 @@
                 <a href="${comment.commenter_url}" class="name">${comment.user.display_name or comment.commenter_name}</a>
                 {%- else %}
                 <span class="name">${comment.user.display_name or comment.commenter_name}</span>
-                {%- endif %}
-                {%- let age = .now.utc - epoch:comment.time.epoch %}
+                {%- endif %}a
                 <span class="time"> &mdash; {% if age.seconds lt 60 %}just now{% else %}${localize:age} ago{% end-if %}</span>
             </div>
 
@@ -34,7 +33,6 @@
 
         </div>
     </div>
-     {%- end-cache %}
 
     {%- if commentobject.allow_new %}
     {% include "widgets/comment_form_reply.html" %}
