@@ -1,7 +1,9 @@
+{% let comment_csrf=csrf:'moya.comments#form.comment' %}
 {%- def "comment" %}
 <a id="comment${comment.id}" style="margin-top:-50px;position:absolute;"></a>
 <div class="moya-comment clearfix level-${comment.level}{% if comment.level > 0 %} reply{% endif %}">
 
+    {%- cache for 60s key [commentobject.id, commentobject.updates, commentobject.allow_new, comment.id] %}
     <div class="moya-comment-body{% if comment.user %} user{% endif %} moya-comment-${comment.id}">
         <a href="#comment${comment.id}">
             <img class="gravatar" alt="gravatar" src="//www.gravatar.com/avatar/${md5:lower:(comment.user.email or comment.commenter_email)}?s=36&amp;d=identicon"/>
@@ -14,7 +16,11 @@
                 <span class="name">${comment.user.display_name or comment.commenter_name}</span>
                 {%- endif %}
 
-                <span class="time"> &mdash; <moya insert="willmcgugan.techblog#insert.comment.time" app="techblog" data-timestamp="${comment.time.epoch}"></moya></span>
+                <span class="time"> &mdash;
+                {%- let age = .now.utc - epoch:comment.time.epoch %}
+                <span>{% if age.seconds lt 60 %}just now{% else %}${localize:age} ago{% end-if %}</span>
+
+                </span>
             </div>
 
             {%- cache for 1d key [commentobject.id, commentobject.updates, comment.id] %}
@@ -32,6 +38,7 @@
 
         </div>
     </div>
+     {%- end-cache %}
 
     {%- if commentobject.allow_new %}
     {% include "widgets/comment_form_reply.html" %}
@@ -103,13 +110,11 @@
 {%- endwith %}
 
 {%- if comments %}
-{% markup-block as 'moya' %}
 <div class="moya-comments root">
 {%- for comment in commentgraph.root %}
 {%- call "comment"  %}
 {%- endfor %}
 </div>
-{% end-markup-block %}
 {%- endif %}
 
 {%- endif %}

@@ -1,5 +1,5 @@
 <form style="display:none" name="${comment.id}" class="moya-comment-reply-form" method="POST" action="{% url "newcomment" %}">
-    <input type="hidden" name="_moya_csrf" value="${csrf:'moya.comments#form.comment'}"/>
+    <input type="hidden" name="_moya_csrf" value="${comment_csrf}"/>
     <input type="hidden" name="namespace" value="${namespace}" />
     <input type="hidden" name="object" value="${topic}" />
     <input type="hidden" name="object_url" value="${.request.path}" />
