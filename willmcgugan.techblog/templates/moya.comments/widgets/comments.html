@@ -1,9 +1,55 @@
+<script type="text/javascript">
+function timesince(epoch)
+{
+    /* Slightly naive summary of time delta. */
+    var d = new Date();
+    var age = (d.getTime() / 1000) - epoch;
+    var units = [
+        ["year", "years", 60 * 60 * 24 * 365],
+        ["month", "months", 60 * 60 * 34 * 30],
+        ["day", "days",  60 * 60 * 24],
+        ["hour", "hours", 60 * 60],
+        ["minute", "minutes", 60],
+        ["second", "seconds", 1]
+    ];
+    var text = [];
+    for (var i=0; i<units.length; i++)
+    {
+        var name = units[i][0];
+        var plural = units[i][1];
+        var divisable = units[i][2];
+        var unit = Math.floor(age / divisable);
+        if (unit){
+            if (unit == 1)
+            {
+                text.push(unit + ' ' + name);
+                break;
+            } else
+            {
+                text.push(unit + ' ' + plural);
+                break;
+            }
+        }
+        age -= (unit * divisable);
+    }
+    if (text.length)
+    {
+        document.write(text.join(', ') + ' ago');
+    }
+    else
+    {
+        document.write("just now");
+    }
+}
+</script>
+
 {% let comment_csrf=csrf:'moya.comments#form.comment' %}
 {%- def "comment" %}
-{%- let age = .now.utc - epoch:comment.time.epoch %}
+
 <a id="comment${comment.id}" style="margin-top:-50px;position:absolute;"></a>
 <div class="moya-comment clearfix level-${comment.level}{% if comment.level > 0 %} reply{% endif %}">
 
+    {%- cache for 7d key [commentobject.id, commentobject.updates, comment.id] %}
     <div class="moya-comment-body{% if comment.user %} user{% endif %} moya-comment-${comment.id}">
         <a href="#comment${comment.id}">
             <img class="gravatar" alt="gravatar" src="//www.gravatar.com/avatar/${md5:lower:(comment.user.email or comment.commenter_email)}?s=36&amp;d=identicon"/>
@@ -15,12 +61,10 @@
                 {%- else %}
                 <span class="name">${comment.user.display_name or comment.commenter_name}</span>
                 {%- endif %}
-                <span class="time"> &mdash; {% if age.seconds lt 60 %}just now{% else %}${localize:age} ago{% end-if %}</span>
+                <span class="time"> &mdash; <script>timesince(${comment.time.epoch});</script></span>
             </div>
 
-            {%- cache for 1d key [commentobject.id, commentobject.updates, comment.id] %}
             {% include "widgets/comment_markup.html" %}
-            {%- end-cache %}
 
             {%- if commentobject.allow_new %}
             <div class="moya-comment-actions">
@@ -33,8 +77,10 @@
 
         </div>
     </div>
+    {%- end-cache %}
 
     {%- include "widgets/comment_form_reply.html" if commentobject.allow_new %}
+
     {%- if commentgraph[comment.id] %}
     <div class="moya-comments">
         {%- for comment in commentgraph[comment.id] %}
