@@ -6,7 +6,8 @@ function timesince(epoch)
     var age = (d.getTime() / 1000) - epoch;
     var units = [
         ["year", "years", 60 * 60 * 24 * 365],
-        ["month", "months", 60 * 60 * 34 * 30],
+        ["month", "months", 60 * 60 * 24 * 30],
+        ["week", "weeks", 60 * 60 * 24 * 7],
         ["day", "days",  60 * 60 * 24],
         ["hour", "hours", 60 * 60],
         ["minute", "minutes", 60],
