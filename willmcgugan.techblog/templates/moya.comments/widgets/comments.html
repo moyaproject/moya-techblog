@@ -1,3 +1,4 @@
+
 <script type="text/javascript">
 function timesince(epoch)
 {
@@ -42,15 +43,19 @@ function timesince(epoch)
         document.write("just now");
     }
 }
+$(function(){
+    var csrf = $('#csrf').val();
+    $('input[name=_moya_csrf]').val(csrf);
+});
 </script>
 
-{% let comment_csrf=csrf:'moya.comments#form.comment' %}
+<input id="csrf" name="csrf" value="${csrf:'moya.comments#form.comment'}">
+
 {%- def "comment" %}
 
 <a id="comment${comment.id}" style="margin-top:-50px;position:absolute;"></a>
 <div class="moya-comment clearfix level-${comment.level}{% if comment.level > 0 %} reply{% endif %}">
 
-    {%- cache for 7d key [commentobject.id, commentobject.updates, comment.id] %}
     <div class="moya-comment-body{% if comment.user %} user{% endif %} moya-comment-${comment.id}">
         <a href="#comment${comment.id}">
             <img class="gravatar" alt="gravatar" src="//www.gravatar.com/avatar/${md5:lower:(comment.user.email or comment.commenter_email)}?s=36&amp;d=identicon"/>
@@ -78,7 +83,6 @@ function timesince(epoch)
 
         </div>
     </div>
-    {%- end-cache %}
 
     {%- include "widgets/comment_form_reply.html" if commentobject.allow_new %}
 
@@ -147,11 +151,13 @@ function timesince(epoch)
 {%- endwith %}
 
 {%- if comments %}
+{%- cache for 7d key [commentobject.id, commentobject.updates, comment.id, len:commentgraph] %}
 <div class="moya-comments root">
 {%- for comment in commentgraph.root %}
 {%- call "comment"  %}
 {%- endfor %}
 </div>
+{%- end-cache %}
 {%- endif %}
 
 {%- endif %}
