@@ -364,7 +364,7 @@ function FileUploader(url, file, callbacks)
             return false;
         });
 
-        $form.on('submit', function(e){
+        $form.on('click', 'button[type=submit]', function(e){
             e.preventDefault();
             var form_data = {};
             $form.find('input,textarea,select').each(function(){
@@ -534,6 +534,7 @@ function FileUploader(url, file, callbacks)
                       $progress.remove();
                       return;
                   }
+                  $progress.addClass('processing');
 
                   var replace_thumb = function(){
                       var $image = $(json_result.image_html);
