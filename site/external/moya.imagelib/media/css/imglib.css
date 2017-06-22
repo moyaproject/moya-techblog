@@ -6,6 +6,9 @@
     /*overflow:hidden;*/
     box-sizing:padding-box;
 }
+.moya-imglib-manager .form-actions {
+    margin-bottom:0px;
+}
 .moya-imglib-error
 {
     display:none;
@@ -454,7 +457,7 @@ background-position: 0 0, 16px 16px;
 }
 
 
-.moya-imglib-image-uploading.processing .progress-bar div {
+.moya-imglib-progress.processing .progress-bar div, .moya-imglib-image-uploading.processing .progress-bar div {
     background-size: 30px 30px;
     background-image: linear-gradient(135deg, rgba(0, 0, 0, .1) 25%, transparent 25%,
                         transparent 50%, rgba(0, 0, 0, .1) 50%, rgba(0, 0, 0, .1) 75%,
