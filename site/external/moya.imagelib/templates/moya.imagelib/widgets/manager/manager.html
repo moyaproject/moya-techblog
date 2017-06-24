@@ -23,29 +23,35 @@
                 <i class="glyphicon glyphicon-cloud-upload"></i>
                 <span class="hidden-xs">Upload</span>
             </button>
+            {%- if picker %}
+            <button disabled="disabled" type="button" title="${picker_text}" class="btn btn-primary moya-imglib-action moya-imglib-action-pick" data-action="pick">
+                <i class="glyphicon glyphicon-flag"></i>
+                <span class="hidden-xs">${picker_text}</span>
+            </button>
+            {%- endif %}
         </div>
 
         <div class="moya-imglib-select">
 
-            <button name="upload" class="btn btn-success">
+            <button name="upload" title="Upload" class="btn btn-success">
                 <i class="glyphicon glyphicon-cloud-upload"></i>
                 <span class="hidden-xs">Upload</span>
             </button>
 
             {%- if picker %}
-            <button type="button" title="${picker_text}" class="btn btn-success moya-imglib-action moya-imglib-action-pick" data-action="pick">
+            <button type="button" title="${picker_text}" class="btn btn-primary moya-imglib-action moya-imglib-action-pick" data-action="pick">
                 <i class="glyphicon glyphicon-flag"></i>
                 <span class="hidden-xs">${picker_text}</span>
             </button>
             {%- endif %}
 
             <div class="btn-group" role="group">
-                <button type="button" title="Clear selection" class="btn btn-default moya-imglib-action" data-action="select-clear">
+                <button title="Clear selection" type="button" title="Clear selection" class="btn btn-default moya-imglib-action" data-action="select-clear">
                     <i class="glyphicon glyphicon-remove-circle"></i>
                     <span class="hidden-xs">Clear</span>
                 </button>
                 {% if not single %}
-                <button type="button" title="Select all" class="btn btn-default moya-imglib-action" data-action="select-all">
+                <button title="Select all" type="button" title="Select all" class="btn btn-default moya-imglib-action" data-action="select-all">
                     <i class="glyphicon glyphicon-ok-circle"></i>
                     <span class="hidden-xs">All</span>
                 </button>
