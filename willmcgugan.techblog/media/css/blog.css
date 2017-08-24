@@ -927,12 +927,12 @@ a.techblog-post-super:hover, a.techblog-user:hover
 
 pre
 {
-    background: #f8f8f8 !important;
+    background: #fafafa !important;
     overflow-x:auto;
-    border:none;
-    padding:2px;
-    margin-top:0px;
-    margin-bottom:16px;
+    border:1px solid #f6f6f6;
+    padding:1em;
+    margin-top:2em;
+    margin-bottom:2em;
     font-size:13px;
     box-sizing: border-box;
     font-family:monospace;
@@ -942,13 +942,12 @@ pre
 
 pre code.hljs
 {
-    background: #f8f8f8 !important;
+    background: #fafafa !important;
     float:left;
     min-width:100%;
     display:inline-block;
     white-space:pre;
     font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif;
-    font-family:monospace;
 }
 
 pre code.hljs *
