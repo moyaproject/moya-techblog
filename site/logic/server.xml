@@ -3,10 +3,12 @@
     <!-- Initialize a server -->
     <server docname="main">
 
-<!--added by moya-pm--><import location="external/moya.logins" priority="2"/>
-<!--added by moya-pm--><import location="external/moya.fontawesome"/>
-<!--added by moya-pm--><import location="external/moya.widgets.extra"/>
-<!--added by moya-pm--><import location="external/moya.imagelib"/>
+<!--added by moya-pm--><import lib="moya.widgets.extra"/>
+<!--added by moya-pm--><import lib="moya.thumbnail"/>
+<!--added by moya-pm--><import lib="moya.imagelib"/>
+<!--added by moya-pm--><import lib="moya.logins" priority="2"/>
+<!--added by moya-pm--><import lib="moya.fontawesome"/>
+
 <!-- Import libraries for use in your project -->
         <import py="moya.libs.debug" if=".debug"/>
         <import py="moya.libs.diagnostics" if="not .debug"/>
@@ -26,7 +28,6 @@
         <import py="moya.libs.jsonrpc"/>
         <import py="moya.libs.wysihtml5"/>
         <import py="moya.libs.recaptcha"/>
-        <import py="moya.libs.thumbnail"/>
         <import location="../willmcgugan.techblog" priority="3"/>
 
         <!-- The 'site' library, for non reusable content -->

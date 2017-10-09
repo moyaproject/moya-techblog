@@ -7,7 +7,8 @@ This file defines the forms used in the Tech Blog.
       xmlns:db="http://moyaproject.com/db"
       xmlns:let="http://moyaproject.com/let"
       xmlns:w="http://moyaproject.com/widgets"
-      xmlns:imagelib="http://moyaproject.com/imagelib">
+      xmlns:imagelib="http://moyaproject.com/imagelib"
+      xmlns:html="http://moyaproject.com/html">
 
     <enum libname="enum.post.type">
         <value name="text">Text</value>
@@ -24,7 +25,7 @@ This file defines the forms used in the Tech Blog.
             <submit-button visual="primary" name="action" clicked="credit" text="Create Blog"/>
         </actions>
         <validate-field field="slug">
-            <fail if="slug:value != lower:value">Slug should only contian lower-case letter, numbers and hyphens</fail>
+            <fail if="slug:value != lower:value">Slug should only contain lower-case letter, numbers and hyphens</fail>
         </validate-field>
     </form>
 
@@ -47,12 +48,58 @@ This file defines the forms used in the Tech Blog.
         </validate-field>
     </form>
 
+    <!--
     <form id="edit-post" extends="#form.post" class="saved-draft" libname="form.post.edit"  xmlns="http://moyaproject.com/forms">
         <hidden-input name="post_id" initial="post.id"/>
         <actions>
             <submit-button visual="primary" name="action" clicked="edit" text="Update Post"/>
             <submit-button visual="default" name="action" clicked="cancel" text="Discard Draft"/>
         </actions>
+    </form>
+-->
+
+    <form id="edit-post" class="saved-draft" libname="form.post.edit"  xmlns="http://moyaproject.com/forms">
+        <field>
+            <html:div class="techblog-editor">
+                <w:tab-panel active="edit" id="postedit">
+                    <w:tab title="Edit" id="edit">
+                        <group style="horizontal">
+                            <input name="title" label="Post Title" maxlength="100" required="yes"/>
+                            <input  name="slug" label="Slug" maxlength="100" required="no" placeholder="Leave blank to auto-generate" />
+                            <text-area label="Tagline" name="tagline" placeholder="Optional summary text" rows="4"/>
+                            <radio-group name="type" label="Type" inline="yes" choices="choices:enum:'#enum.post.type'" initial="'text'" />
+                            <m:get-markup-choices dst="markups" />
+                            <select name="markup" label="Markup" choices="markups" initial=".app.settings.default_markup"/>
+                            <input label="Tags" name="tagtext" maxlength="200" required="no" placeholder="comma separated tags"/>
+                            <adapt-field field="slug">
+                                <m:return value="slug:values.title" if="not value"/>
+                            </adapt-field>
+                            <validate-field field="slug">
+                                <fail if="slug:value != lower:value">Slug should only contain lower-case letters, numbers and hyphens</fail>
+                            </validate-field>
+                        </group>
+                    </w:tab>
+                    <w:tab title="Content" id="content">
+                        <text-area name="content" label="Content" libname="form.post.editor" rows="20"/>
+                    </w:tab>
+                    <w:tab title="Images" id="images" if="draft.images">
+                        <imagelib:manager collection="draft.images" picker="yes" picker_text="insert"
+                            on_pick="on_pick_post_images"
+                            on_selection="on_images_change"/>
+                    </w:tab>
+                    <w:tab title="Preview" id="preview">
+                        <html:div id="post-preview"/>
+                    </w:tab>
+                </w:tab-panel>
+            </html:div>
+        </field>
+        <hidden-input name="post_id" initial="post.id"/>
+        <group style="horizontal">
+            <actions>
+                <submit-button visual="primary" name="action" clicked="edit" text="Update Post"/>
+                <submit-button visual="default" name="action" clicked="cancel" text="Discard Draft"/>
+            </actions>
+        </group>
     </form>
 
     <form libname="form.post.new" style="horizontal" legend="New Post" xmlns="http://moyaproject.com/forms">

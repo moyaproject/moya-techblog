@@ -1,0 +1,93 @@
+{% singleline %}
+<div id="${managerid}"
+{% attrib class=['moya-imglib-manager', 'clearfix', fullsize ? 'moya-imglib-fullsize': None] %}
+{% data-attrib collection=collection.uuid, upload_url=upload_url, rpc_url=.appurls.edit.jsonrpc, single=json:single, edit=json:edit %}>
+{% end %}
+
+    <script type="text/template" class="progress-template">
+        {% include "widgets/manager/fragments/progress.html" %}
+    </script>
+
+    <script type="text/template" class="upload-form-template">
+        <form enctype="multipart/form-data" class="upload invisible">
+            <input type="hidden" name="edit" value="${edit ? 'yes' : 'no'}"/>
+            <input type="file" name="file" accept="image/*" multiple/>
+        </form>
+    </script>
+
+    <div class="moya-imglib-header clearfix"  style="background-image:url({% media 'img/transparent.png' %})";>
+        <input type="text" name="search" class="form-control" placeholder="search">
+
+        <div class="moya-imglib-controls">
+            <button name="upload" class="btn btn-success">
+                <i class="glyphicon glyphicon-cloud-upload"></i>
+                <span class="hidden-xs">Upload</span>
+            </button>
+            {%- if picker %}
+            <button disabled="disabled" type="button" title="${picker_text}" class="btn btn-primary moya-imglib-action moya-imglib-action-pick" data-action="pick">
+                <i class="glyphicon glyphicon-flag"></i>
+                <span class="hidden-xs">${picker_text}</span>
+            </button>
+            {%- endif %}
+        </div>
+
+        <div class="moya-imglib-select">
+
+            <button name="upload" title="Upload" class="btn btn-success">
+                <i class="glyphicon glyphicon-cloud-upload"></i>
+                <span class="hidden-xs">Upload</span>
+            </button>
+
+            {%- if picker %}
+            <button type="button" title="${picker_text}" class="btn btn-primary moya-imglib-action moya-imglib-action-pick" data-action="pick">
+                <i class="glyphicon glyphicon-flag"></i>
+                <span class="hidden-xs">${picker_text}</span>
+            </button>
+            {%- endif %}
+
+            <div class="btn-group" role="group">
+                <button title="Clear selection" type="button" title="Clear selection" class="btn btn-default moya-imglib-action" data-action="select-clear">
+                    <i class="glyphicon glyphicon-remove-circle"></i>
+                    <span class="hidden-xs">Clear</span>
+                </button>
+                {% if not single %}
+                <button title="Select all" type="button" title="Select all" class="btn btn-default moya-imglib-action" data-action="select-all">
+                    <i class="glyphicon glyphicon-ok-circle"></i>
+                    <span class="hidden-xs">All</span>
+                </button>
+                {% endif %}
+            </div>
+
+            <button type="button" title="Delete selected image(s)" class="btn btn-danger moya-imglib-action" data-action="delete">
+                <i class="glyphicon glyphicon-remove"></i>
+                <span class="hidden-xs">Delete</span>
+            </button>
+        </div>
+        <div class="moya-imglib-confirm">
+            <span>Are you sure?&nbsp;</span>
+            <button type="button" title="Confirm delete" class="btn btn-warning moya-imglib-action" data-action="confirm-delete">
+                <i class="glyphicon glyphicon-ok"></i>
+                Delete
+            </button>
+            <button type="button" title="Cancel delete" class="btn btn-primary moya-imglib-action" data-action="cancel-delete">
+                <i class="glyphicon glyphicon-cancel"></i>
+                Cancel
+            </button>
+        </div>
+    </div>
+
+    <div class="moya-imglib-image-container">
+        <div class="moya-imglib-error alert alert-danger alert-dismissable">
+            <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <b>Image upload failed</b> &mdash; <span class="error-text">Error Message</span>
+        </div>
+
+        {%- for image in images %}
+        {% include "widgets/manager/manager_image.html" %}
+        {%- endfor %}
+    </div>
+
+    <div class="moya-imglib-image-form row">
+
+    </div>
+</div>

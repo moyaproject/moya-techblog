@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<moya xmlns="http://moyaproject.com"
+    xmlns:let="http://moyaproject.com/let"
+    xmlns:tn="http://moyaproject.com/thumbnail"
+    xmlns:image="http://moyaproject.com/image">
+
+    <tn:thumbnails libname="thumbnails.manager" name="admin">
+
+        <tn:processor name="admin" version="3">
+            <image:resize-to-fit width="120" height="120" />
+        </tn:processor>
+
+        <tn:processor name="manager_tile" quality="70" version="6">
+            <image:square/>
+            <image:resize-to-fit width="200" height="200"/>
+        </tn:processor>
+
+        <tn:processor name="large_thumbnail" version="2">
+            <image:resize-to-fit width="320" height="240"/>
+        </tn:processor>
+
+        <tn:processor name="option" version="5" quality="70">
+            <image:resize-to-fit width="128" height="96"/>
+            <image:resize-canvas width="128" height="96" color="black"/>
+        </tn:processor>
+
+    </tn:thumbnails>
+
+</moya>

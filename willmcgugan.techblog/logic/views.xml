@@ -206,7 +206,7 @@ This file defines the URLs and views for the blog.
         </db:get-or-create>
 
         <forms:get form="#form.post.edit" src="draft" dst="form"
-            let:post="post" let:blog="post.blog" />
+            let:post="post" let:draft="draft" let:blog="post.blog" />
 
         <forms:validate-post src="form">
             <if test="form.data.action == 'cancel'">

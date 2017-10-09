@@ -1,0 +1,10 @@
+{% if image.file %}
+{% spaceless %}
+<div {% attrib class=["moya-imglib-image", image.uuid in select ? 'selected': ''] %} title="${image.data.title}" {% attrib name=image.uuid %} {% data-attrib image.data %} data-toggle="tooltip" data-placement="right">
+    {%- if edit %}
+    <div title="click to edit" class="moya-imglib-control moya-imglib-edit" data-image="${image.uuid}">✎</div>
+    {%- endif %}
+    <img src="${image.file|'thumbnail'(processor='manager_tile')}"/>
+</div>
+{% end %}
+{% endif %}

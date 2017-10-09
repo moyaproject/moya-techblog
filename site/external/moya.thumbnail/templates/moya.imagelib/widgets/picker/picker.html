@@ -1,0 +1,25 @@
+<h2>Picker</h2>
+<div class="moya-imglib-picker">
+
+    <div class="moya-imglib-picker-current">
+
+        {% with img=current %}
+        <img src="${img.file|'thumbnail'(processor='picker')}">
+        <div class="moya-imglib-picker-details">
+            ${img.title}
+        </div>
+        {% end-with %}
+    </div>
+
+    <div class="moya-imglib-picker-list">
+        {% for img in images %}
+        <div class="moya-imglib-picker-option clearfix">
+            <img src="${img.file|'thumbnail'(processor='picker')}">
+            <div class="moya-imglib-picker-details">
+                ${img.title}
+            </div>
+        </div>
+        {% end-for %}
+    </div>
+
+</div>

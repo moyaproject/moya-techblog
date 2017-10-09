@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<moya xmlns="http://moyaproject.com"
+      xmlns:let="http://moyaproject.com/let"
+      xmlns:db="http://moyaproject.com/db"
+      xmlns:w="http://moyaproject.com/widgets">
+    <!-- define your widgets here -->
+
+    <widget name="manager" template="widgets/manager/manager.html">
+        <signature>
+            <attribute name="collection" type="expression">Collection object to manage</attribute>
+            <attribute name="fullsize" type="boolean" default="no">Add a expand to fullsize link</attribute>
+            <attribute name="picker" type="boolean" default="no">Add a 'pick' button</attribute>
+            <attribute name="picker_text" type="text" default="Pick">Text on the 'pick' button</attribute>
+            <attribute name="on_pick" type="text" default="">Javascript method to call when images are 'picked'</attribute>
+            <attribute name="on_selection" type="text" default="">Javascript method to call when selection changes</attribute>
+            <attribute name="edit" type="boolean" default="yes">Enable editing of images?</attribute>
+            <attribute name="single" type="boolean" default="no">Enable single image pick mode?</attribute>
+            <attribute name="select" type="expression" default="[]">List of images to select</attribute>
+        </signature>
+
+        <include-css path="css/imglib.css"/>
+        <include-js path="js/jsonrpc.js" from="moya.jsonrpc" />
+        <include-js path="js/imglib.js"/>
+
+        <css>
+            .moya-imglib-image.selected:after
+            {
+                color:${.theme.colors.selected.fg};
+                background-color:${.theme.colors.selected.bg};
+            }
+        </css>
+        <let managerid=".content.id" />
+        <js>
+$("#${managerid}").imgmanager({
+    on_pick: ${on_pick or 'null'},
+    on_selection: ${on_selection or 'null'}
+});
+        </js>
+        <get-url name="picker_upload" dst="upload_url" let:collection="collection.uuid" />
+        <db:query src="collection.images" model="#Image" orderby="-uploaded_time" dst="images" />
+    </widget>
+
+    <widget name="select-image">
+        <signature>
+            <attribute name="collection" type="expression"/>
+            <attribute name="blank" type="boolean" default=""/>
+            <attribute name="text" type="text" default=""/>
+            <attribute name="field" type="expression" default="field"/>
+            <attribute name="key" type="text" default="id">The key on the Image object to write in the input</attribute>
+        </signature>
+
+        <include-css path="css/imglib.css"/>
+        <include-js path="js/jsonrpc.js" from="moya.jsonrpc" />
+        <include-js path="js/imglib.js"/>
+
+        <w:select field="field">
+            <w:option value="''">
+                <node template="emptyoption.html" let:text="text"/>
+            </w:option>
+            <for src="sortedby:[collection.images, `title`]" dst="image">
+                <w:option value="image[key]">
+                    <node template="option.html" let:img="image"/>
+                </w:option>
+            </for>
+        </w:select>
+    </widget>
+
+
+    <widget name="uploader" template="widgets/uploader/uploader.html">
+        <signature>
+            <attribute name="collection" type="expression"/>
+            <attribute name="slug" type="text"/>
+            <attribute name="on_change" default="" type="text"/>
+        </signature>
+
+        <include-css path="css/imglib.css"/>
+        <include-js path="js/imglib.js"/>
+
+        <let uploaderid=".content.id" />
+
+        <db:get model="#Image" dst="image"
+            let:collection="collection" let:slug="slug" />
+        <js>
+$("#${uploaderid}").imguploader({
+    on_change: ${on_change or 'null'}
+});
+        </js>
+        <get-url name="uploader_upload" dst="upload_url"
+            let:collection="collection.uuid" let:slug="slug"/>
+    </widget>
+
+</moya>

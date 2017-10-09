@@ -205,7 +205,9 @@
                 {% endblock %}
 
             </div>
+            {% block "footer" %}
             {% include "/footer.html" %}
+            {% endblock %}
         </div>
 <!-- <script src="{% media 'js/jquery.js' from 'moya.twitter.bootstrap' %}"></script> -->
 {% block "includejs" %}{% render include.js %}{% endblock %}

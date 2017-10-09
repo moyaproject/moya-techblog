@@ -123,11 +123,13 @@ Content is a high level description of a page
         </section>
     </content>
 
-    <content libname="content.edit-post" extends="#content.base">
+    <content libname="content.edit-post" extends="#content.base" template="editor_base.html">
         <title>Edit Post</title>
         <include-js path="js/editpost.js"/>
         <section name="body">
             <node template="editor/draft.html" />
+            <render src="form"/>
+            <!--
             <w:tab-panel active="edit" id="postedit">
                 <w:tab title="Edit Post" id="edit">
                     <render src="form"/>
@@ -141,6 +143,7 @@ Content is a high level description of a page
                     <html:div id="post-preview"/>
                 </w:tab>
             </w:tab-panel>
+        -->
         </section>
     </content>
 

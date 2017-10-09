@@ -1,0 +1,7 @@
+[title Moya Image Lib]
+
+Welcome to Moya Image Lib Documentation.
+
+[index]
+    introduction
+[/index]

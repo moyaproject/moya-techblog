@@ -1,0 +1,9 @@
+<div class="moya-imglib-option clearfix">
+{% if img.file %}
+    <img src="${img.file|'thumbnail'(processor='option')}"/>
+{% endif %}
+    <div class="moya-imglib-details">
+        ${img.title}<br/>
+        ${img.width} x ${img.height} pixels
+    </div>
+</div>

@@ -1013,6 +1013,35 @@ footer.techblog-footer a:hover
     text-decoration: none;
 }
 
+form#edit-post .form-actions
+{
+    margin-bottom:20px;
+}
+
+.techblog-editor
+{
+
+}
+
+.techblog-editor .tab-content
+{
+    min-height:calc(100vh - 190px);
+    padding-bottom:20px;
+}
+
+.techblog-editor textarea[name=content]
+{
+     height:calc(100vh - 234px);
+     padding-bottom:20px;
+}
+
+
+.moya-imglib-image-manager
+{
+    max-height:calc(100vh - 400px);
+}
+
+
 
 .code .c { color: #008800; font-style: italic } /* Comment */
 .code .err { border: 1px solid #FF0000 } /* Error */
